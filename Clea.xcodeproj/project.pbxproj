@@ -1,0 +1,606 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2DA7F6872100D72300B7A295 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F6862100D72300B7A295 /* AppDelegate.swift */; };
+		2DA7F6892100D72300B7A295 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F6882100D72300B7A295 /* ViewController.swift */; };
+		2DA7F68C2100D72300B7A295 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DA7F68A2100D72300B7A295 /* Main.storyboard */; };
+		2DA7F68F2100D72300B7A295 /* Clea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F68D2100D72300B7A295 /* Clea.xcdatamodeld */; };
+		2DA7F6912100D72500B7A295 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DA7F6902100D72500B7A295 /* Assets.xcassets */; };
+		2DA7F6942100D72500B7A295 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DA7F6922100D72500B7A295 /* LaunchScreen.storyboard */; };
+		2DA7F69F2100D72600B7A295 /* CleaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F69E2100D72600B7A295 /* CleaTests.swift */; };
+		2DA7F6AA2100D72600B7A295 /* CleaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F6A92100D72600B7A295 /* CleaUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2DA7F69B2100D72600B7A295 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2DA7F67B2100D72300B7A295 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2DA7F6822100D72300B7A295;
+			remoteInfo = Clea;
+		};
+		2DA7F6A62100D72600B7A295 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2DA7F67B2100D72300B7A295 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2DA7F6822100D72300B7A295;
+			remoteInfo = Clea;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2DA7F6832100D72300B7A295 /* Clea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clea.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2DA7F6862100D72300B7A295 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2DA7F6882100D72300B7A295 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2DA7F68B2100D72300B7A295 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2DA7F68E2100D72300B7A295 /* Clea.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Clea.xcdatamodel; sourceTree = "<group>"; };
+		2DA7F6902100D72500B7A295 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2DA7F6932100D72500B7A295 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2DA7F6952100D72500B7A295 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2DA7F69A2100D72600B7A295 /* CleaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CleaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2DA7F69E2100D72600B7A295 /* CleaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleaTests.swift; sourceTree = "<group>"; };
+		2DA7F6A02100D72600B7A295 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2DA7F6A52100D72600B7A295 /* CleaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CleaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2DA7F6A92100D72600B7A295 /* CleaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleaUITests.swift; sourceTree = "<group>"; };
+		2DA7F6AB2100D72600B7A295 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2DA7F6802100D72300B7A295 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2DA7F6972100D72600B7A295 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2DA7F6A22100D72600B7A295 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2DA7F67A2100D72300B7A295 = {
+			isa = PBXGroup;
+			children = (
+				2DA7F6852100D72300B7A295 /* Clea */,
+				2DA7F69D2100D72600B7A295 /* CleaTests */,
+				2DA7F6A82100D72600B7A295 /* CleaUITests */,
+				2DA7F6842100D72300B7A295 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2DA7F6842100D72300B7A295 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2DA7F6832100D72300B7A295 /* Clea.app */,
+				2DA7F69A2100D72600B7A295 /* CleaTests.xctest */,
+				2DA7F6A52100D72600B7A295 /* CleaUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2DA7F6852100D72300B7A295 /* Clea */ = {
+			isa = PBXGroup;
+			children = (
+				2DA7F6862100D72300B7A295 /* AppDelegate.swift */,
+				2DA7F6882100D72300B7A295 /* ViewController.swift */,
+				2DA7F68A2100D72300B7A295 /* Main.storyboard */,
+				2DA7F6902100D72500B7A295 /* Assets.xcassets */,
+				2DA7F6922100D72500B7A295 /* LaunchScreen.storyboard */,
+				2DA7F6952100D72500B7A295 /* Info.plist */,
+				2DA7F68D2100D72300B7A295 /* Clea.xcdatamodeld */,
+			);
+			path = Clea;
+			sourceTree = "<group>";
+		};
+		2DA7F69D2100D72600B7A295 /* CleaTests */ = {
+			isa = PBXGroup;
+			children = (
+				2DA7F69E2100D72600B7A295 /* CleaTests.swift */,
+				2DA7F6A02100D72600B7A295 /* Info.plist */,
+			);
+			path = CleaTests;
+			sourceTree = "<group>";
+		};
+		2DA7F6A82100D72600B7A295 /* CleaUITests */ = {
+			isa = PBXGroup;
+			children = (
+				2DA7F6A92100D72600B7A295 /* CleaUITests.swift */,
+				2DA7F6AB2100D72600B7A295 /* Info.plist */,
+			);
+			path = CleaUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2DA7F6822100D72300B7A295 /* Clea */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2DA7F6AE2100D72600B7A295 /* Build configuration list for PBXNativeTarget "Clea" */;
+			buildPhases = (
+				2DA7F67F2100D72300B7A295 /* Sources */,
+				2DA7F6802100D72300B7A295 /* Frameworks */,
+				2DA7F6812100D72300B7A295 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Clea;
+			productName = Clea;
+			productReference = 2DA7F6832100D72300B7A295 /* Clea.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2DA7F6992100D72600B7A295 /* CleaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2DA7F6B12100D72600B7A295 /* Build configuration list for PBXNativeTarget "CleaTests" */;
+			buildPhases = (
+				2DA7F6962100D72600B7A295 /* Sources */,
+				2DA7F6972100D72600B7A295 /* Frameworks */,
+				2DA7F6982100D72600B7A295 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2DA7F69C2100D72600B7A295 /* PBXTargetDependency */,
+			);
+			name = CleaTests;
+			productName = CleaTests;
+			productReference = 2DA7F69A2100D72600B7A295 /* CleaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		2DA7F6A42100D72600B7A295 /* CleaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2DA7F6B42100D72600B7A295 /* Build configuration list for PBXNativeTarget "CleaUITests" */;
+			buildPhases = (
+				2DA7F6A12100D72600B7A295 /* Sources */,
+				2DA7F6A22100D72600B7A295 /* Frameworks */,
+				2DA7F6A32100D72600B7A295 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2DA7F6A72100D72600B7A295 /* PBXTargetDependency */,
+			);
+			name = CleaUITests;
+			productName = CleaUITests;
+			productReference = 2DA7F6A52100D72600B7A295 /* CleaUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2DA7F67B2100D72300B7A295 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Damian Elsen";
+				TargetAttributes = {
+					2DA7F6822100D72300B7A295 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					2DA7F6992100D72600B7A295 = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = 2DA7F6822100D72300B7A295;
+					};
+					2DA7F6A42100D72600B7A295 = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = 2DA7F6822100D72300B7A295;
+					};
+				};
+			};
+			buildConfigurationList = 2DA7F67E2100D72300B7A295 /* Build configuration list for PBXProject "Clea" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2DA7F67A2100D72300B7A295;
+			productRefGroup = 2DA7F6842100D72300B7A295 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2DA7F6822100D72300B7A295 /* Clea */,
+				2DA7F6992100D72600B7A295 /* CleaTests */,
+				2DA7F6A42100D72600B7A295 /* CleaUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2DA7F6812100D72300B7A295 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DA7F6942100D72500B7A295 /* LaunchScreen.storyboard in Resources */,
+				2DA7F6912100D72500B7A295 /* Assets.xcassets in Resources */,
+				2DA7F68C2100D72300B7A295 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2DA7F6982100D72600B7A295 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2DA7F6A32100D72600B7A295 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2DA7F67F2100D72300B7A295 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DA7F6892100D72300B7A295 /* ViewController.swift in Sources */,
+				2DA7F68F2100D72300B7A295 /* Clea.xcdatamodeld in Sources */,
+				2DA7F6872100D72300B7A295 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2DA7F6962100D72600B7A295 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DA7F69F2100D72600B7A295 /* CleaTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2DA7F6A12100D72600B7A295 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DA7F6AA2100D72600B7A295 /* CleaUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2DA7F69C2100D72600B7A295 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2DA7F6822100D72300B7A295 /* Clea */;
+			targetProxy = 2DA7F69B2100D72600B7A295 /* PBXContainerItemProxy */;
+		};
+		2DA7F6A72100D72600B7A295 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2DA7F6822100D72300B7A295 /* Clea */;
+			targetProxy = 2DA7F6A62100D72600B7A295 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2DA7F68A2100D72300B7A295 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2DA7F68B2100D72300B7A295 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2DA7F6922100D72500B7A295 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2DA7F6932100D72500B7A295 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2DA7F6AC2100D72600B7A295 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2DA7F6AD2100D72600B7A295 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2DA7F6AF2100D72600B7A295 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R29X5U89C7;
+				INFOPLIST_FILE = Clea/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.damianelsen.Clea;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2DA7F6B02100D72600B7A295 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R29X5U89C7;
+				INFOPLIST_FILE = Clea/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.damianelsen.Clea;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2DA7F6B22100D72600B7A295 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R29X5U89C7;
+				INFOPLIST_FILE = CleaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.damianelsen.CleaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Clea.app/Clea";
+			};
+			name = Debug;
+		};
+		2DA7F6B32100D72600B7A295 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R29X5U89C7;
+				INFOPLIST_FILE = CleaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.damianelsen.CleaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Clea.app/Clea";
+			};
+			name = Release;
+		};
+		2DA7F6B52100D72600B7A295 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R29X5U89C7;
+				INFOPLIST_FILE = CleaUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.damianelsen.CleaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Clea;
+			};
+			name = Debug;
+		};
+		2DA7F6B62100D72600B7A295 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R29X5U89C7;
+				INFOPLIST_FILE = CleaUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.damianelsen.CleaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Clea;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2DA7F67E2100D72300B7A295 /* Build configuration list for PBXProject "Clea" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DA7F6AC2100D72600B7A295 /* Debug */,
+				2DA7F6AD2100D72600B7A295 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2DA7F6AE2100D72600B7A295 /* Build configuration list for PBXNativeTarget "Clea" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DA7F6AF2100D72600B7A295 /* Debug */,
+				2DA7F6B02100D72600B7A295 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2DA7F6B12100D72600B7A295 /* Build configuration list for PBXNativeTarget "CleaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DA7F6B22100D72600B7A295 /* Debug */,
+				2DA7F6B32100D72600B7A295 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2DA7F6B42100D72600B7A295 /* Build configuration list for PBXNativeTarget "CleaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DA7F6B52100D72600B7A295 /* Debug */,
+				2DA7F6B62100D72600B7A295 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		2DA7F68D2100D72300B7A295 /* Clea.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				2DA7F68E2100D72300B7A295 /* Clea.xcdatamodel */,
+			);
+			currentVersion = 2DA7F68E2100D72300B7A295 /* Clea.xcdatamodel */;
+			path = Clea.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 2DA7F67B2100D72300B7A295 /* Project object */;
+}
