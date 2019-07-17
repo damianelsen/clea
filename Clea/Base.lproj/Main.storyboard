@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Rooms-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="RoomsViewController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -35,7 +35,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="bif-Cc-H0C">
+                    <navigationItem key="navigationItem" title="Rooms" id="bif-Cc-H0C">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Jdq-wv-JJI">
                             <connections>
                                 <action selector="addRoom:" destination="BYZ-38-t0r" id="eBf-7f-beY"/>
@@ -50,11 +50,11 @@
             </objects>
             <point key="canvasLocation" x="2804" y="-234"/>
         </scene>
-        <!--Item-->
+        <!--Tasks-->
         <scene sceneID="Q4l-C2-b50">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HxR-uy-lxw" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="8nP-I4-qEW"/>
+                    <tabBarItem key="tabBarItem" title="Tasks" image="file-list-tick" id="8nP-I4-qEW"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="4Dm-jd-bhL">
                         <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -67,26 +67,41 @@
             </objects>
             <point key="canvasLocation" x="1780" y="501"/>
         </scene>
-        <!--View Controller-->
+        <!--Tasks-->
         <scene sceneID="88p-zx-1k9">
             <objects>
-                <viewController id="ciD-gn-rZh" sceneMemberID="viewController">
+                <viewController id="ciD-gn-rZh" customClass="TasksViewController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Eso-3D-Cvm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="JBb-ou-UZe">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="JBb-ou-UZe">
                                 <rect key="frame" x="0.0" y="116" width="375" height="502"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="ciD-gn-rZh" id="ygM-FS-6lB"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="JBb-ou-UZe" secondAttribute="trailing" id="0cI-LV-z02"/>
+                            <constraint firstItem="JBb-ou-UZe" firstAttribute="leading" secondItem="Eso-3D-Cvm" secondAttribute="leading" id="QEj-a1-NOA"/>
+                            <constraint firstItem="JBb-ou-UZe" firstAttribute="top" secondItem="3Eb-2L-jRb" secondAttribute="top" id="UJZ-7T-Ynn"/>
+                            <constraint firstItem="JBb-ou-UZe" firstAttribute="bottom" secondItem="3Eb-2L-jRb" secondAttribute="bottom" id="hf5-9Q-xLT"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="3Eb-2L-jRb"/>
                     </view>
-                    <navigationItem key="navigationItem" id="gkC-i5-ifq">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="pOr-Is-cPu"/>
+                    <navigationItem key="navigationItem" title="Tasks" id="gkC-i5-ifq">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="pOr-Is-cPu">
+                            <connections>
+                                <action selector="addTask:" destination="ciD-gn-rZh" id="xgQ-hC-bzt"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="JBb-ou-UZe" id="vnd-i4-Rkw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bAO-7c-8cS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -110,12 +125,11 @@
             </objects>
             <point key="canvasLocation" x="826" y="170"/>
         </scene>
-        <!--Item-->
+        <!--Rooms-->
         <scene sceneID="NW8-j1-Jhx">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="80U-R0-2wx" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Hxj-Jm-91T" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="YBP-kb-IHc"/>
+                    <tabBarItem key="tabBarItem" title="Rooms" image="home" id="YBP-kb-IHc"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Apx-YK-ZE5">
                         <rect key="frame" x="0.0" y="20" width="375" height="96"/>
@@ -126,8 +140,13 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="QZW-pG-hhO"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="80U-R0-2wx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1780" y="-234"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="file-list-tick" width="30" height="30"/>
+        <image name="home" width="30" height="30"/>
+    </resources>
 </document>
