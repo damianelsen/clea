@@ -15,9 +15,7 @@ class TasksViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         title = "Tasks"
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,7 +82,7 @@ extension TasksViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let task = tasks[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
         cell.textLabel?.text = task.value(forKeyPath: "name") as? String
         return cell
     }

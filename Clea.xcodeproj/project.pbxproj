@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2DA6837122E94124000BC7A1 /* Clea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DA6836D22E94124000BC7A1 /* Clea.xcdatamodeld */; };
+		2DA6837222E94124000BC7A1 /* RoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA6836F22E94124000BC7A1 /* RoomsViewController.swift */; };
+		2DA6837322E94124000BC7A1 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA6837022E94124000BC7A1 /* TasksViewController.swift */; };
 		2DA7F6872100D72300B7A295 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F6862100D72300B7A295 /* AppDelegate.swift */; };
-		2DA7F6892100D72300B7A295 /* RoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F6882100D72300B7A295 /* RoomsViewController.swift */; };
 		2DA7F68C2100D72300B7A295 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DA7F68A2100D72300B7A295 /* Main.storyboard */; };
-		2DA7F68F2100D72300B7A295 /* Clea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F68D2100D72300B7A295 /* Clea.xcdatamodeld */; };
 		2DA7F6912100D72500B7A295 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DA7F6902100D72500B7A295 /* Assets.xcassets */; };
 		2DA7F6942100D72500B7A295 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DA7F6922100D72500B7A295 /* LaunchScreen.storyboard */; };
 		2DA7F69F2100D72600B7A295 /* CleaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F69E2100D72600B7A295 /* CleaTests.swift */; };
 		2DA7F6AA2100D72600B7A295 /* CleaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F6A92100D72600B7A295 /* CleaUITests.swift */; };
-		2DDBA72C22DC10BE00534696 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DDBA72B22DC10BE00534696 /* TasksViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,11 +36,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2DA6836E22E94124000BC7A1 /* Clea.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Clea.xcdatamodel; sourceTree = "<group>"; };
+		2DA6836F22E94124000BC7A1 /* RoomsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomsViewController.swift; sourceTree = "<group>"; };
+		2DA6837022E94124000BC7A1 /* TasksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
 		2DA7F6832100D72300B7A295 /* Clea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA7F6862100D72300B7A295 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2DA7F6882100D72300B7A295 /* RoomsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsViewController.swift; sourceTree = "<group>"; };
 		2DA7F68B2100D72300B7A295 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		2DA7F68E2100D72300B7A295 /* Clea.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Clea.xcdatamodel; sourceTree = "<group>"; };
 		2DA7F6902100D72500B7A295 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2DA7F6932100D72500B7A295 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2DA7F6952100D72500B7A295 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -50,7 +51,6 @@
 		2DA7F6A52100D72600B7A295 /* CleaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CleaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA7F6A92100D72600B7A295 /* CleaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleaUITests.swift; sourceTree = "<group>"; };
 		2DA7F6AB2100D72600B7A295 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2DDBA72B22DC10BE00534696 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,14 +101,14 @@
 		2DA7F6852100D72300B7A295 /* Clea */ = {
 			isa = PBXGroup;
 			children = (
-				2DA7F6862100D72300B7A295 /* AppDelegate.swift */,
-				2DA7F6882100D72300B7A295 /* RoomsViewController.swift */,
-				2DDBA72B22DC10BE00534696 /* TasksViewController.swift */,
-				2DA7F68A2100D72300B7A295 /* Main.storyboard */,
 				2DA7F6902100D72500B7A295 /* Assets.xcassets */,
-				2DA7F6922100D72500B7A295 /* LaunchScreen.storyboard */,
 				2DA7F6952100D72500B7A295 /* Info.plist */,
-				2DA7F68D2100D72300B7A295 /* Clea.xcdatamodeld */,
+				2DA7F6862100D72300B7A295 /* AppDelegate.swift */,
+				2DA6836D22E94124000BC7A1 /* Clea.xcdatamodeld */,
+				2DA7F6922100D72500B7A295 /* LaunchScreen.storyboard */,
+				2DA7F68A2100D72300B7A295 /* Main.storyboard */,
+				2DA6836F22E94124000BC7A1 /* RoomsViewController.swift */,
+				2DA6837022E94124000BC7A1 /* TasksViewController.swift */,
 			);
 			path = Clea;
 			sourceTree = "<group>";
@@ -265,9 +265,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DA7F6892100D72300B7A295 /* RoomsViewController.swift in Sources */,
-				2DDBA72C22DC10BE00534696 /* TasksViewController.swift in Sources */,
-				2DA7F68F2100D72300B7A295 /* Clea.xcdatamodeld in Sources */,
+				2DA6837122E94124000BC7A1 /* Clea.xcdatamodeld in Sources */,
+				2DA6837322E94124000BC7A1 /* TasksViewController.swift in Sources */,
+				2DA6837222E94124000BC7A1 /* RoomsViewController.swift in Sources */,
 				2DA7F6872100D72300B7A295 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,7 +374,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -428,7 +428,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -444,6 +444,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R29X5U89C7;
 				INFOPLIST_FILE = Clea/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -462,6 +463,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R29X5U89C7;
 				INFOPLIST_FILE = Clea/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -597,12 +599,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		2DA7F68D2100D72300B7A295 /* Clea.xcdatamodeld */ = {
+		2DA6836D22E94124000BC7A1 /* Clea.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				2DA7F68E2100D72300B7A295 /* Clea.xcdatamodel */,
+				2DA6836E22E94124000BC7A1 /* Clea.xcdatamodel */,
 			);
-			currentVersion = 2DA7F68E2100D72300B7A295 /* Clea.xcdatamodel */;
+			currentVersion = 2DA6836E22E94124000BC7A1 /* Clea.xcdatamodel */;
 			path = Clea.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
