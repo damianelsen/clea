@@ -15,6 +15,7 @@ class RoomsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         title = "Rooms"
     }
 
@@ -92,6 +93,11 @@ extension RoomsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let room = rooms[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "RoomCell", for: indexPath)
+        cell.selectedBackgroundView = {
+            let bgView = UIView(frame: CGRect.zero)
+            bgView.backgroundColor = UIColor.darkGray
+            return bgView
+        }()
         cell.textLabel?.text = room.value(forKeyPath: "name") as? String
         cell.detailTextLabel?.text = room.value(forKeyPath: "type") as? String
         return cell

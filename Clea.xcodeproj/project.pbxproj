@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D5DF87222EE8E0E0018E985 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DF87122EE8E0E0018E985 /* MainTabBarController.swift */; };
 		2DA6837122E94124000BC7A1 /* Clea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DA6836D22E94124000BC7A1 /* Clea.xcdatamodeld */; };
 		2DA6837222E94124000BC7A1 /* RoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA6836F22E94124000BC7A1 /* RoomsViewController.swift */; };
 		2DA6837322E94124000BC7A1 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA6837022E94124000BC7A1 /* TasksViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D5DF87122EE8E0E0018E985 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		2DA6836E22E94124000BC7A1 /* Clea.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Clea.xcdatamodel; sourceTree = "<group>"; };
 		2DA6836F22E94124000BC7A1 /* RoomsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomsViewController.swift; sourceTree = "<group>"; };
 		2DA6837022E94124000BC7A1 /* TasksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				2DA6836D22E94124000BC7A1 /* Clea.xcdatamodeld */,
 				2DA7F6922100D72500B7A295 /* LaunchScreen.storyboard */,
 				2DA7F68A2100D72300B7A295 /* Main.storyboard */,
+				2D5DF87122EE8E0E0018E985 /* MainTabBarController.swift */,
 				2DA6836F22E94124000BC7A1 /* RoomsViewController.swift */,
 				2DA6837022E94124000BC7A1 /* TasksViewController.swift */,
 			);
@@ -267,6 +270,7 @@
 			files = (
 				2DA6837122E94124000BC7A1 /* Clea.xcdatamodeld in Sources */,
 				2DA6837322E94124000BC7A1 /* TasksViewController.swift in Sources */,
+				2D5DF87222EE8E0E0018E985 /* MainTabBarController.swift in Sources */,
 				2DA6837222E94124000BC7A1 /* RoomsViewController.swift in Sources */,
 				2DA7F6872100D72300B7A295 /* AppDelegate.swift in Sources */,
 			);
