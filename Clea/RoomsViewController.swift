@@ -26,6 +26,7 @@ class RoomsViewController: UIViewController {
         }
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Room")
+        
         do {
             rooms = try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
@@ -47,6 +48,7 @@ class RoomsViewController: UIViewController {
             self.tableView.reloadData()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
+        
         alert.addTextField(configurationHandler: {
             textField in textField.placeholder = "What is the name of the new room?"
         })
@@ -65,8 +67,11 @@ class RoomsViewController: UIViewController {
         let managedContext = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "Room", in: managedContext)!
         let room = NSManagedObject(entity: entity, insertInto: managedContext)
+        
         room.setValue(roomName, forKeyPath: "name")
         room.setValue(roomType, forKeyPath: "type")
+        room.setValue(NSDate(), forKeyPath: "dateCreated")
+        
         do {
             try managedContext.save()
             rooms.append(room)
@@ -77,7 +82,6 @@ class RoomsViewController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     @IBOutlet weak var tableView: UITableView!
@@ -93,6 +97,7 @@ extension RoomsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let room = rooms[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "RoomCell", for: indexPath)
+        
         cell.selectedBackgroundView = {
             let bgView = UIView(frame: CGRect.zero)
             bgView.backgroundColor = UIColor.darkGray
@@ -100,6 +105,29 @@ extension RoomsViewController: UITableViewDataSource {
         }()
         cell.textLabel?.text = room.value(forKeyPath: "name") as? String
         cell.detailTextLabel?.text = room.value(forKeyPath: "type") as? String
+        
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCell.EditingStyle.delete {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return
+            }
+            let managedContext = appDelegate.persistentContainer.viewContext
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Room")
+            let room = rooms[indexPath.row]
+            fetchRequest.predicate = NSPredicate(format: "name = %@", room.value(forKey: "name") as! CVarArg)
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            
+            do {
+                try managedContext.execute(deleteRequest)
+            } catch let error as NSError {
+                print("Could not delete room. \(error), \(error.userInfo)")
+            }
+            rooms.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+        }
+    }
+    
 }
