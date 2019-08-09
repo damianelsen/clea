@@ -11,7 +11,7 @@ import CoreData
 
 class TasksViewController: UIViewController {
 
-    var tasks: [NSManagedObject] = []
+    var tasks: [Task] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +24,11 @@ class TasksViewController: UIViewController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Task")
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Task>(entityName: "Task")
         
         do {
-            tasks = try managedContext.fetch(fetchRequest)
+            tasks = try managedObjectContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("Could not load tasks. \(error), \(error.userInfo)")
         }
@@ -53,7 +53,7 @@ class TasksViewController: UIViewController {
             textField in textField.placeholder = "What is the name of the new task?"
         })
         alert.addTextField(configurationHandler: {
-            textField in textField.placeholder = "What room does this task happen in?"
+            textField in textField.placeholder = "In what room does this task happen?"
         })
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
@@ -64,16 +64,27 @@ class TasksViewController: UIViewController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Task", in: managedContext)!
-        let task = NSManagedObject(entity: entity, insertInto: managedContext)
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        let task = Task(context: managedObjectContext)
         
-        task.setValue(taskName, forKeyPath: "name")
-        task.setValue(NSDate(), forKeyPath: "dateCreated")
-        task.setValue(NSDate.distantPast, forKeyPath: "lastCompleted")
-        
+        task.name = taskName
+        task.dateCreated = NSDate() as Date
+        task.lastCompleted = NSDate.distantPast
+        task.interval = 7
+
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Room")
+        fetchRequest.predicate = NSPredicate(format: "name = %@", roomName)
+        var fetchResults: [NSManagedObject] = []
         do {
-            try managedContext.save()
+            fetchResults = try managedObjectContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("Could not load room. \(error), \(error.userInfo)")
+        }
+        let room = fetchResults[0]  as! Room
+        task.ofRoom = room
+
+        do {
+            try managedObjectContext.save()
             tasks.append(task)
         } catch let error as NSError {
             print("Could not add new task. \(error), \(error.userInfo)")
@@ -103,8 +114,8 @@ extension TasksViewController: UITableViewDataSource {
             bgView.backgroundColor = UIColor.darkGray
             return bgView
         }()
-        cell.textLabel?.text = task.value(forKeyPath: "name") as? String
-        cell.detailTextLabel?.text = "room" //task.value(forKeyPath: "room") as? String
+        cell.textLabel?.text = task.name
+        cell.detailTextLabel?.text = task.ofRoom?.name
 
         return cell
     }
@@ -114,19 +125,16 @@ extension TasksViewController: UITableViewDataSource {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                 return
             }
-            let managedContext = appDelegate.persistentContainer.viewContext
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Task")
-            let task = tasks[indexPath.row]
-            fetchRequest.predicate = NSPredicate(format: "name = %@", task.value(forKey: "name") as! CVarArg)
-            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-            
+            let managedObjectContext = appDelegate.persistentContainer.viewContext
+            managedObjectContext.delete(tasks[indexPath.row] as NSManagedObject)
+
             do {
-                try managedContext.execute(deleteRequest)
+                try managedObjectContext.save()
+                tasks.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
             } catch let error as NSError {
                 print("Could not delete task. \(error), \(error.userInfo)")
             }
-            tasks.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
         }
     }
     

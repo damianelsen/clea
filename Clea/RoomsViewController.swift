@@ -11,7 +11,7 @@ import CoreData
 
 class RoomsViewController: UIViewController {
 
-    var rooms: [NSManagedObject] = []
+    var rooms: [Room] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +24,11 @@ class RoomsViewController: UIViewController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Room")
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Room>(entityName: "Room")
         
         do {
-            rooms = try managedContext.fetch(fetchRequest)
+            rooms = try managedObjectContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("Could not load rooms. \(error), \(error.userInfo)")
         }
@@ -64,16 +64,15 @@ class RoomsViewController: UIViewController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Room", in: managedContext)!
-        let room = NSManagedObject(entity: entity, insertInto: managedContext)
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        let room = Room(context: managedObjectContext)
         
-        room.setValue(roomName, forKeyPath: "name")
-        room.setValue(roomType, forKeyPath: "type")
-        room.setValue(NSDate(), forKeyPath: "dateCreated")
+        room.name = roomName
+        room.type = roomType
+        room.dateCreated = NSDate() as Date
         
         do {
-            try managedContext.save()
+            try managedObjectContext.save()
             rooms.append(room)
         } catch let error as NSError {
             print("Could not add new room. \(error), \(error.userInfo)")
@@ -103,30 +102,45 @@ extension RoomsViewController: UITableViewDataSource {
             bgView.backgroundColor = UIColor.darkGray
             return bgView
         }()
-        cell.textLabel?.text = room.value(forKeyPath: "name") as? String
-        cell.detailTextLabel?.text = room.value(forKeyPath: "type") as? String
+        cell.textLabel?.text = room.name
+        cell.detailTextLabel?.text = room.type
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCell.EditingStyle.delete {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return
-            }
-            let managedContext = appDelegate.persistentContainer.viewContext
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Room")
-            let room = rooms[indexPath.row]
-            fetchRequest.predicate = NSPredicate(format: "name = %@", room.value(forKey: "name") as! CVarArg)
-            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
             
-            do {
-                try managedContext.execute(deleteRequest)
-            } catch let error as NSError {
-                print("Could not delete room. \(error), \(error.userInfo)")
-            }
-            rooms.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+            let title = "Delete Room?"
+            let message = "Deleting this room will also delete all of its tasks. Are you sure?"
+            let dialogMessage = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            
+            let yes = UIAlertAction(title: "Yes", style: .default, handler: { (action) -> Void in
+                self.deleteRoom(room: self.rooms[indexPath.row], index: indexPath)
+            })
+            let no = UIAlertAction(title: "No", style: .cancel, handler: nil)
+            
+            dialogMessage.addAction(yes)
+            dialogMessage.addAction(no)
+            
+            self.present(dialogMessage, animated: true, completion: nil)
+        }
+    }
+
+    func deleteRoom(room: Room, index: IndexPath) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        managedObjectContext.delete(room as NSManagedObject)
+        
+        do {
+            try managedObjectContext.save()
+            rooms.remove(at: index.row)
+            tableView.deleteRows(at: [index], with: UITableView.RowAnimation.fade)
+            // TODO: force update of task list to reflect deleted tasks
+        } catch let error as NSError {
+            print("Could not delete room. \(error), \(error.userInfo)")
         }
     }
     
