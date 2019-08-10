@@ -49,10 +49,10 @@ class RoomsViewController: UIViewController {
         let alert = UIAlertController(title: "New Room", message: nil, preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Add", style: .default) {
             [unowned self] action in
-            guard let nameTextField = alert.textFields?.first, let name = nameTextField.text else {
+            guard let nameTextField = alert.textFields?[0], let name = nameTextField.text else {
                 return
             }
-            guard let typeTextField = alert.textFields?.last, let type = typeTextField.text else {
+            guard let typeTextField = alert.textFields?[1], let type = typeTextField.text else {
                 return
             }
             self.save(roomName: name, roomType: type)
@@ -81,7 +81,7 @@ class RoomsViewController: UIViewController {
         
         room.name = roomName
         room.type = roomType
-        room.dateCreated = NSDate() as Date
+        room.dateCreated = Date()
         
         do {
             try managedObjectContext.save()

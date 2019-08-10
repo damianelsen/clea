@@ -56,13 +56,16 @@ class TasksViewController: UIViewController {
         let alert = UIAlertController(title: "Add Task", message: nil, preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Save", style: .default) {
             [unowned self] action in
-            guard let textField = alert.textFields?.first, let taskToSave = textField.text else {
+            guard let taskTextField = alert.textFields?[0], let taskToSave = taskTextField.text else {
                 return
             }
-            guard let roomTextField = alert.textFields?.last, let roomToSave = roomTextField.text else {
+            guard let roomTextField = alert.textFields?[1], let roomToSave = roomTextField.text else {
                 return
             }
-            self.save(taskName: taskToSave, roomName: roomToSave)
+            guard let intervalTextField = alert.textFields?[2], let intervalToSave = intervalTextField.text else {
+                return
+            }
+            self.save(taskName: taskToSave, roomName: roomToSave, interval: Int(intervalToSave) ?? 0)
             self.tableView.reloadData()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
@@ -73,13 +76,16 @@ class TasksViewController: UIViewController {
         alert.addTextField(configurationHandler: {
             textField in textField.placeholder = "In what room does this task happen?"
         })
+        alert.addTextField(configurationHandler: {
+            textField in textField.placeholder = "Interval (in weeks)?"
+        })
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
         
         present(alert, animated: true)
     }
     
-    func save(taskName: String, roomName: String) {
+    func save(taskName: String, roomName: String, interval: Int) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -87,9 +93,9 @@ class TasksViewController: UIViewController {
         let task = Task(context: managedObjectContext)
         
         task.name = taskName
-        task.dateCreated = NSDate() as Date
-        task.lastCompleted = NSDate.distantPast
-        task.interval = 7
+        task.dateCreated = Date()
+        task.lastCompleted = Date.distantPast
+        task.interval = Int16(interval)
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Room")
         fetchRequest.predicate = NSPredicate(format: "name = %@", roomName)
@@ -121,13 +127,17 @@ extension TasksViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let task = tasks[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
-        
+        let dueDate = Calendar.current.date(byAdding: .weekOfMonth, value: Int(task.interval), to: task.lastCompleted!)!
+
         cell.selectedBackgroundView = {
             let bgView = UIView(frame: CGRect.zero)
             bgView.backgroundColor = UIColor.darkGray
             return bgView
         }()
         cell.textLabel?.text = task.name
+        if (dueDate < Date()) {
+            cell.textLabel?.textColor = UIColor.red
+        }
         cell.detailTextLabel?.text = task.ofRoom?.name
         
         return cell
