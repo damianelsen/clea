@@ -10,17 +10,35 @@ import UIKit
 import CoreData
 
 class TasksViewController: UIViewController {
-
+    
     var tasks: [Task] = []
+    
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Tasks"
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: Notification.Name(rawValue: "reloadTable"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.load()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    @objc func refreshTableView() {
+        self.load()
+        self.tableView.reloadData()
+    }
+    
+    func load() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -57,6 +75,7 @@ class TasksViewController: UIViewController {
         })
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
+        
         present(alert, animated: true)
     }
     
@@ -71,7 +90,7 @@ class TasksViewController: UIViewController {
         task.dateCreated = NSDate() as Date
         task.lastCompleted = NSDate.distantPast
         task.interval = 7
-
+        
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Room")
         fetchRequest.predicate = NSPredicate(format: "name = %@", roomName)
         var fetchResults: [NSManagedObject] = []
@@ -82,7 +101,7 @@ class TasksViewController: UIViewController {
         }
         let room = fetchResults[0]  as! Room
         task.ofRoom = room
-
+        
         do {
             try managedObjectContext.save()
             tasks.append(task)
@@ -90,12 +109,6 @@ class TasksViewController: UIViewController {
             print("Could not add new task. \(error), \(error.userInfo)")
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    @IBOutlet weak var tableView: UITableView!
     
 }
 
@@ -108,7 +121,7 @@ extension TasksViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let task = tasks[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
-
+        
         cell.selectedBackgroundView = {
             let bgView = UIView(frame: CGRect.zero)
             bgView.backgroundColor = UIColor.darkGray
@@ -116,25 +129,29 @@ extension TasksViewController: UITableViewDataSource {
         }()
         cell.textLabel?.text = task.name
         cell.detailTextLabel?.text = task.ofRoom?.name
-
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCell.EditingStyle.delete {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return
-            }
-            let managedObjectContext = appDelegate.persistentContainer.viewContext
-            managedObjectContext.delete(tasks[indexPath.row] as NSManagedObject)
-
-            do {
-                try managedObjectContext.save()
-                tasks.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
-            } catch let error as NSError {
-                print("Could not delete task. \(error), \(error.userInfo)")
-            }
+            self.deleteTask(task: self.tasks[indexPath.row], index: indexPath)
+        }
+    }
+    
+    func deleteTask(task: Task, index: IndexPath) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        managedObjectContext.delete(task as NSManagedObject)
+        
+        do {
+            try managedObjectContext.save()
+            tasks.remove(at: index.row)
+            tableView.deleteRows(at: [index], with: UITableView.RowAnimation.fade)
+        } catch let error as NSError {
+            print("Could not delete task. \(error), \(error.userInfo)")
         }
     }
     

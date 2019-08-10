@@ -10,8 +10,10 @@ import UIKit
 import CoreData
 
 class RoomsViewController: UIViewController {
-
+    
     var rooms: [Room] = []
+    
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +23,15 @@ class RoomsViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.load()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    func load() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -33,7 +44,7 @@ class RoomsViewController: UIViewController {
             print("Could not load rooms. \(error), \(error.userInfo)")
         }
     }
-
+    
     @IBAction func addRoom(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "New Room", message: nil, preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Add", style: .default) {
@@ -57,6 +68,7 @@ class RoomsViewController: UIViewController {
         })
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
+        
         present(alert, animated: true)
     }
     
@@ -78,12 +90,6 @@ class RoomsViewController: UIViewController {
             print("Could not add new room. \(error), \(error.userInfo)")
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
-    @IBOutlet weak var tableView: UITableView!
     
 }
 
@@ -126,7 +132,7 @@ extension RoomsViewController: UITableViewDataSource {
             self.present(dialogMessage, animated: true, completion: nil)
         }
     }
-
+    
     func deleteRoom(room: Room, index: IndexPath) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -138,7 +144,7 @@ extension RoomsViewController: UITableViewDataSource {
             try managedObjectContext.save()
             rooms.remove(at: index.row)
             tableView.deleteRows(at: [index], with: UITableView.RowAnimation.fade)
-            // TODO: force update of task list to reflect deleted tasks
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadTable"), object: nil)
         } catch let error as NSError {
             print("Could not delete room. \(error), \(error.userInfo)")
         }
