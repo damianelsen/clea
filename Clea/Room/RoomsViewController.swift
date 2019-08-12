@@ -134,7 +134,7 @@ extension RoomsViewController: UITableViewDataSource {
             let title = "Delete Room?"
             let message = "Deleting this room will also delete all of its tasks. Are you sure?"
             let deleteAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            let yes = UIAlertAction(title: "Yes", style: .default, handler: { (action) -> Void in
+            let yes = UIAlertAction(title: "Yes", style: .destructive, handler: { (action) -> Void in
                 self.deleteRoom(room: self.rooms[indexPath.row], index: indexPath)
             })
             let no = UIAlertAction(title: "No", style: .cancel, handler: nil)

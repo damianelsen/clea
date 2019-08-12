@@ -21,6 +21,9 @@ class TasksViewController: UIViewController {
         title = "Tasks"
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: Notification.Name(rawValue: "reloadTaskTable"), object: nil)
+        
+        let taskTableViewCell = UINib(nibName: "TaskTableViewCell", bundle: nil)
+        self.tableView.register(taskTableViewCell, forCellReuseIdentifier: "TaskTableViewCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -127,19 +130,15 @@ extension TasksViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let task = tasks[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TaskTableViewCell", for: indexPath) as! TaskTableViewCell
         let dueDate = Calendar.current.date(byAdding: .weekOfMonth, value: Int(task.interval), to: task.lastCompleted!)!
+        let dueDays = Int(dueDate.timeIntervalSince(Date()) / 86400)
+        var taskDue = "Due in " + dueDays.description + " day" + (dueDays == 1 ? "" : "s")
+        taskDue = dueDays < 0 ? "Overdue" : taskDue
 
-        cell.selectedBackgroundView = {
-            let bgView = UIView(frame: .zero)
-            bgView.backgroundColor = .darkGray
-            return bgView
-        }()
-        cell.textLabel?.text = task.name
-        if (dueDate < Date()) {
-            cell.textLabel?.textColor = .red
-        }
-        cell.detailTextLabel?.text = task.ofRoom?.name
+        cell.name.text = task.name
+        cell.room.text = task.ofRoom?.name
+        cell.taskDue.text = taskDue
         
         return cell
     }
