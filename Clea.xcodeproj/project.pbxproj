@@ -17,6 +17,8 @@
 		2DA7F6942100D72500B7A295 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DA7F6922100D72500B7A295 /* LaunchScreen.storyboard */; };
 		2DA7F69F2100D72600B7A295 /* CleaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F69E2100D72600B7A295 /* CleaTests.swift */; };
 		2DA7F6AA2100D72600B7A295 /* CleaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F6A92100D72600B7A295 /* CleaUITests.swift */; };
+		2DF7C2F1230113C000F39D57 /* RoomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DF7C2EF230113C000F39D57 /* RoomTableViewCell.xib */; };
+		2DF7C2F2230113C000F39D57 /* RoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF7C2F0230113C000F39D57 /* RoomTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		2DA7F6A52100D72600B7A295 /* CleaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CleaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA7F6A92100D72600B7A295 /* CleaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleaUITests.swift; sourceTree = "<group>"; };
 		2DA7F6AB2100D72600B7A295 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2DF7C2EF230113C000F39D57 /* RoomTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoomTableViewCell.xib; sourceTree = "<group>"; };
+		2DF7C2F0230113C000F39D57 /* RoomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +96,8 @@
 		2D7102DF230112A600E7B091 /* Room */ = {
 			isa = PBXGroup;
 			children = (
+				2DF7C2F0230113C000F39D57 /* RoomTableViewCell.swift */,
+				2DF7C2EF230113C000F39D57 /* RoomTableViewCell.xib */,
 				2DA6836F22E94124000BC7A1 /* RoomsViewController.swift */,
 			);
 			name = Room;
@@ -261,6 +267,7 @@
 			files = (
 				2DA7F6942100D72500B7A295 /* LaunchScreen.storyboard in Resources */,
 				2DA7F6912100D72500B7A295 /* Assets.xcassets in Resources */,
+				2DF7C2F1230113C000F39D57 /* RoomTableViewCell.xib in Resources */,
 				2DA7F68C2100D72300B7A295 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DF7C2F2230113C000F39D57 /* RoomTableViewCell.swift in Sources */,
 				2DA6837122E94124000BC7A1 /* Clea.xcdatamodeld in Sources */,
 				2DA6837322E94124000BC7A1 /* TasksViewController.swift in Sources */,
 				2D5DF87222EE8E0E0018E985 /* MainTabBarController.swift in Sources */,

@@ -19,6 +19,11 @@ class RoomsViewController: UIViewController {
         super.viewDidLoad()
         
         title = "Rooms"
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: Notification.Name(rawValue: "reloadRoomTable"), object: nil)
+
+        let roomTableViewCell = UINib(nibName: "RoomTableViewCell", bundle: nil)
+        self.tableView.register(roomTableViewCell, forCellReuseIdentifier: "RoomTableViewCell")
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -31,28 +36,33 @@ class RoomsViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    @objc func refreshTableView() {
+        self.load()
+        self.tableView.reloadData()
+    }
+    
     func load() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<Room>(entityName: "Room")
+        let roomRequest = NSFetchRequest<Room>(entityName: "Room")
         
         do {
-            rooms = try managedObjectContext.fetch(fetchRequest)
+            rooms = try managedObjectContext.fetch(roomRequest)
         } catch let error as NSError {
             print("Could not load rooms. \(error), \(error.userInfo)")
         }
     }
     
     @IBAction func addRoom(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "New Room", message: nil, preferredStyle: .alert)
+        let addAlert = UIAlertController(title: "New Room", message: nil, preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Add", style: .default) {
             [unowned self] action in
-            guard let nameTextField = alert.textFields?[0], let name = nameTextField.text else {
+            guard let nameTextField = addAlert.textFields?[0], let name = nameTextField.text else {
                 return
             }
-            guard let typeTextField = alert.textFields?[1], let type = typeTextField.text else {
+            guard let typeTextField = addAlert.textFields?[1], let type = typeTextField.text else {
                 return
             }
             self.save(roomName: name, roomType: type)
@@ -60,16 +70,16 @@ class RoomsViewController: UIViewController {
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
         
-        alert.addTextField(configurationHandler: {
+        addAlert.addTextField(configurationHandler: {
             textField in textField.placeholder = "What is the name of the new room?"
         })
-        alert.addTextField(configurationHandler: {
+        addAlert.addTextField(configurationHandler: {
             textField in textField.placeholder = "What is the type of the new room?"
         })
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
+        addAlert.addAction(saveAction)
+        addAlert.addAction(cancelAction)
         
-        present(alert, animated: true)
+        present(addAlert, animated: true)
     }
     
     func save(roomName: String, roomType: String) {
@@ -101,35 +111,38 @@ extension RoomsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let room = rooms[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "RoomCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RoomTableViewCell", for: indexPath) as! RoomTableViewCell
+        let overdueTasks = room.tasks?.filtered(using: NSPredicate(format: "CAST(CAST(lastCompleted, 'NSNumber') + (interval * 604800), 'NSDate') < %@", Date() as CVarArg))
+        var totalTaskMessage = (room.tasks?.count == 0 ? "No" : (room.tasks?.count.description)!) + " task"
+        totalTaskMessage = totalTaskMessage + (room.tasks?.count != 1 ? "s" : "")
+        var overdueTaskMessage = ""
+        if (overdueTasks!.count > 0) {
+            overdueTaskMessage = (overdueTasks?.count.description)! + " task" + (overdueTasks!.count > 1 ? "s" : "") + " overdue"
+        }
         
-        cell.selectedBackgroundView = {
-            let bgView = UIView(frame: CGRect.zero)
-            bgView.backgroundColor = UIColor.darkGray
-            return bgView
-        }()
-        cell.textLabel?.text = room.name
-        cell.detailTextLabel?.text = room.type
+        cell.name?.text = room.name
+        cell.type?.text = room.type
+        cell.taskCount?.text = totalTaskMessage
+        cell.tasksOverdue?.text = overdueTaskMessage
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == UITableViewCell.EditingStyle.delete {
+        if editingStyle == .delete {
             
             let title = "Delete Room?"
             let message = "Deleting this room will also delete all of its tasks. Are you sure?"
-            let dialogMessage = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            
+            let deleteAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             let yes = UIAlertAction(title: "Yes", style: .default, handler: { (action) -> Void in
                 self.deleteRoom(room: self.rooms[indexPath.row], index: indexPath)
             })
             let no = UIAlertAction(title: "No", style: .cancel, handler: nil)
             
-            dialogMessage.addAction(yes)
-            dialogMessage.addAction(no)
+            deleteAlert.addAction(yes)
+            deleteAlert.addAction(no)
             
-            self.present(dialogMessage, animated: true, completion: nil)
+            self.present(deleteAlert, animated: true, completion: nil)
         }
     }
     
@@ -143,8 +156,8 @@ extension RoomsViewController: UITableViewDataSource {
         do {
             try managedObjectContext.save()
             rooms.remove(at: index.row)
-            tableView.deleteRows(at: [index], with: UITableView.RowAnimation.fade)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadTable"), object: nil)
+            tableView.deleteRows(at: [index], with: .fade)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadTaskTable"), object: nil)
         } catch let error as NSError {
             print("Could not delete room. \(error), \(error.userInfo)")
         }

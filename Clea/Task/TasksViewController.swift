@@ -20,7 +20,7 @@ class TasksViewController: UIViewController {
         
         title = "Tasks"
         
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: Notification.Name(rawValue: "reloadTable"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: Notification.Name(rawValue: "reloadTaskTable"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,26 +43,26 @@ class TasksViewController: UIViewController {
             return
         }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<Task>(entityName: "Task")
+        let taskRequest = NSFetchRequest<Task>(entityName: "Task")
         
         do {
-            tasks = try managedObjectContext.fetch(fetchRequest)
+            tasks = try managedObjectContext.fetch(taskRequest)
         } catch let error as NSError {
             print("Could not load tasks. \(error), \(error.userInfo)")
         }
     }
     
     @IBAction func addTask(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "Add Task", message: nil, preferredStyle: .alert)
+        let addAlert = UIAlertController(title: "Add Task", message: nil, preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Save", style: .default) {
             [unowned self] action in
-            guard let taskTextField = alert.textFields?[0], let taskToSave = taskTextField.text else {
+            guard let nameTextField = addAlert.textFields?[0], let taskToSave = nameTextField.text else {
                 return
             }
-            guard let roomTextField = alert.textFields?[1], let roomToSave = roomTextField.text else {
+            guard let roomTextField = addAlert.textFields?[1], let roomToSave = roomTextField.text else {
                 return
             }
-            guard let intervalTextField = alert.textFields?[2], let intervalToSave = intervalTextField.text else {
+            guard let intervalTextField = addAlert.textFields?[2], let intervalToSave = intervalTextField.text else {
                 return
             }
             self.save(taskName: taskToSave, roomName: roomToSave, interval: Int(intervalToSave) ?? 0)
@@ -70,19 +70,19 @@ class TasksViewController: UIViewController {
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
         
-        alert.addTextField(configurationHandler: {
+        addAlert.addTextField(configurationHandler: {
             textField in textField.placeholder = "What is the name of the new task?"
         })
-        alert.addTextField(configurationHandler: {
+        addAlert.addTextField(configurationHandler: {
             textField in textField.placeholder = "In what room does this task happen?"
         })
-        alert.addTextField(configurationHandler: {
+        addAlert.addTextField(configurationHandler: {
             textField in textField.placeholder = "Interval (in weeks)?"
         })
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
+        addAlert.addAction(saveAction)
+        addAlert.addAction(cancelAction)
         
-        present(alert, animated: true)
+        present(addAlert, animated: true)
     }
     
     func save(taskName: String, roomName: String, interval: Int) {
@@ -94,23 +94,24 @@ class TasksViewController: UIViewController {
         
         task.name = taskName
         task.dateCreated = Date()
-        task.lastCompleted = Date.distantPast
+        task.lastCompleted = .distantPast
         task.interval = Int16(interval)
         
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Room")
-        fetchRequest.predicate = NSPredicate(format: "name = %@", roomName)
-        var fetchResults: [NSManagedObject] = []
+        let roomRequest = NSFetchRequest<NSManagedObject>(entityName: "Room")
+        roomRequest.predicate = NSPredicate(format: "name = %@", roomName)
+        var roomResults: [NSManagedObject] = []
         do {
-            fetchResults = try managedObjectContext.fetch(fetchRequest)
+            roomResults = try managedObjectContext.fetch(roomRequest)
         } catch let error as NSError {
             print("Could not load room. \(error), \(error.userInfo)")
         }
-        let room = fetchResults[0]  as! Room
+        let room = roomResults[0]  as! Room
         task.ofRoom = room
         
         do {
             try managedObjectContext.save()
             tasks.append(task)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadRoomTable"), object: nil)
         } catch let error as NSError {
             print("Could not add new task. \(error), \(error.userInfo)")
         }
@@ -130,13 +131,13 @@ extension TasksViewController: UITableViewDataSource {
         let dueDate = Calendar.current.date(byAdding: .weekOfMonth, value: Int(task.interval), to: task.lastCompleted!)!
 
         cell.selectedBackgroundView = {
-            let bgView = UIView(frame: CGRect.zero)
-            bgView.backgroundColor = UIColor.darkGray
+            let bgView = UIView(frame: .zero)
+            bgView.backgroundColor = .darkGray
             return bgView
         }()
         cell.textLabel?.text = task.name
         if (dueDate < Date()) {
-            cell.textLabel?.textColor = UIColor.red
+            cell.textLabel?.textColor = .red
         }
         cell.detailTextLabel?.text = task.ofRoom?.name
         
@@ -144,7 +145,7 @@ extension TasksViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == UITableViewCell.EditingStyle.delete {
+        if editingStyle == .delete {
             self.deleteTask(task: self.tasks[indexPath.row], index: indexPath)
         }
     }
@@ -159,7 +160,8 @@ extension TasksViewController: UITableViewDataSource {
         do {
             try managedObjectContext.save()
             tasks.remove(at: index.row)
-            tableView.deleteRows(at: [index], with: UITableView.RowAnimation.fade)
+            tableView.deleteRows(at: [index], with: .fade)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadRoomTable"), object: nil)
         } catch let error as NSError {
             print("Could not delete task. \(error), \(error.userInfo)")
         }
