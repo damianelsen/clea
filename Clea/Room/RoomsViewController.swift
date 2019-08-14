@@ -68,7 +68,7 @@ class RoomsViewController: UIViewController {
             self.save(roomName: name, roomType: type)
             self.tableView.reloadData()
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         addAlert.addTextField(configurationHandler: {
             textField in textField.placeholder = "What is the name of the new room?"

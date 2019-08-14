@@ -49,6 +49,7 @@
                 <outlet property="room" destination="uND-lm-c36" id="Wc0-of-5zL"/>
                 <outlet property="taskDue" destination="Ynx-Xf-m68" id="2if-Zm-oxV"/>
             </connections>
+            <point key="canvasLocation" x="53.600000000000001" y="39.90147783251232"/>
         </tableViewCell>
     </objects>
 </document>

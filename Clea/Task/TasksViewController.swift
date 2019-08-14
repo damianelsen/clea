@@ -57,7 +57,7 @@ class TasksViewController: UIViewController {
     
     @IBAction func addTask(_ sender: UIBarButtonItem) {
         let addAlert = UIAlertController(title: "Add Task", message: nil, preferredStyle: .alert)
-        let saveAction = UIAlertAction(title: "Save", style: .default) {
+        let saveAction = UIAlertAction(title: "Add", style: .default) {
             [unowned self] action in
             guard let nameTextField = addAlert.textFields?[0], let taskToSave = nameTextField.text else {
                 return
@@ -71,7 +71,7 @@ class TasksViewController: UIViewController {
             self.save(taskName: taskToSave, roomName: roomToSave, interval: Int(intervalToSave) ?? 0)
             self.tableView.reloadData()
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         addAlert.addTextField(configurationHandler: {
             textField in textField.placeholder = "What is the name of the new task?"
