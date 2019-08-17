@@ -10,12 +10,12 @@ import UIKit
 import CoreData
 
 class TaskTableViewController: UITableViewController {
-
+    
     var tasks: [Task] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = "Tasks"
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: Notification.Name(rawValue: "reloadTaskTable"), object: nil)
@@ -25,9 +25,7 @@ class TaskTableViewController: UITableViewController {
         
         self.clearsSelectionOnViewWillAppear = false
     }
-
-    // MARK: - Table view data source
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -56,11 +54,11 @@ class TaskTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tasks.count
     }
-
+    
     @IBAction func addTask(_ sender: UIBarButtonItem) {
         let addAlert = UIAlertController(title: "Add Task", message: nil, preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Add", style: .default) {
@@ -125,7 +123,7 @@ class TaskTableViewController: UITableViewController {
             print("Could not add new task. \(error), \(error.userInfo)")
         }
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let task = tasks[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskTableViewCell", for: indexPath) as! TaskTableViewCell

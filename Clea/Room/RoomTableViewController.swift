@@ -10,12 +10,12 @@ import UIKit
 import CoreData
 
 class RoomTableViewController: UITableViewController {
-
+    
     var rooms: [Room] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = "Rooms"
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: Notification.Name(rawValue: "reloadRoomTable"), object: nil)
@@ -25,7 +25,7 @@ class RoomTableViewController: UITableViewController {
         
         self.clearsSelectionOnViewWillAppear = false
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -54,10 +54,11 @@ class RoomTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rooms.count
     }
+    
     @IBAction func addRoom(_ sender: UIBarButtonItem) {
         let addAlert = UIAlertController(title: "New Room", message: nil, preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Add", style: .default) {
@@ -103,7 +104,7 @@ class RoomTableViewController: UITableViewController {
             print("Could not add new room. \(error), \(error.userInfo)")
         }
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let room = rooms[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "RoomTableViewCell", for: indexPath) as! RoomTableViewCell
