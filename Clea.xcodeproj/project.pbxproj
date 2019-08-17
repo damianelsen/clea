@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		2D5DF87222EE8E0E0018E985 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5DF87122EE8E0E0018E985 /* MainTabBarController.swift */; };
 		2DA6837122E94124000BC7A1 /* Clea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DA6836D22E94124000BC7A1 /* Clea.xcdatamodeld */; };
-		2DA6837222E94124000BC7A1 /* RoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA6836F22E94124000BC7A1 /* RoomsViewController.swift */; };
-		2DA6837322E94124000BC7A1 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA6837022E94124000BC7A1 /* TasksViewController.swift */; };
 		2DA7F6872100D72300B7A295 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F6862100D72300B7A295 /* AppDelegate.swift */; };
 		2DA7F68C2100D72300B7A295 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DA7F68A2100D72300B7A295 /* Main.storyboard */; };
 		2DA7F6912100D72500B7A295 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DA7F6902100D72500B7A295 /* Assets.xcassets */; };
@@ -19,6 +17,8 @@
 		2DA7F6AA2100D72600B7A295 /* CleaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F6A92100D72600B7A295 /* CleaUITests.swift */; };
 		2DCBF2BB2301BAD700EF365C /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCBF2B92301BAD700EF365C /* TaskTableViewCell.swift */; };
 		2DCBF2BC2301BAD700EF365C /* TaskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DCBF2BA2301BAD700EF365C /* TaskTableViewCell.xib */; };
+		2DEA4E4B2304B37C00498FAF /* RoomTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DEA4E4A2304B37C00498FAF /* RoomTableViewController.swift */; };
+		2DEA4E4D230772F000498FAF /* TaskTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DEA4E4C230772F000498FAF /* TaskTableViewController.swift */; };
 		2DF7C2F1230113C000F39D57 /* RoomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DF7C2EF230113C000F39D57 /* RoomTableViewCell.xib */; };
 		2DF7C2F2230113C000F39D57 /* RoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF7C2F0230113C000F39D57 /* RoomTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -43,8 +43,6 @@
 /* Begin PBXFileReference section */
 		2D5DF87122EE8E0E0018E985 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		2DA6836E22E94124000BC7A1 /* Clea.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Clea.xcdatamodel; sourceTree = "<group>"; };
-		2DA6836F22E94124000BC7A1 /* RoomsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomsViewController.swift; sourceTree = "<group>"; };
-		2DA6837022E94124000BC7A1 /* TasksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
 		2DA7F6832100D72300B7A295 /* Clea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA7F6862100D72300B7A295 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2DA7F68B2100D72300B7A295 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -59,6 +57,8 @@
 		2DA7F6AB2100D72600B7A295 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2DCBF2B92301BAD700EF365C /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
 		2DCBF2BA2301BAD700EF365C /* TaskTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskTableViewCell.xib; sourceTree = "<group>"; };
+		2DEA4E4A2304B37C00498FAF /* RoomTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomTableViewController.swift; sourceTree = "<group>"; };
+		2DEA4E4C230772F000498FAF /* TaskTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewController.swift; sourceTree = "<group>"; };
 		2DF7C2EF230113C000F39D57 /* RoomTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoomTableViewCell.xib; sourceTree = "<group>"; };
 		2DF7C2F0230113C000F39D57 /* RoomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,7 +91,7 @@
 		2D7102DE230112A000E7B091 /* Task */ = {
 			isa = PBXGroup;
 			children = (
-				2DA6837022E94124000BC7A1 /* TasksViewController.swift */,
+				2DEA4E4C230772F000498FAF /* TaskTableViewController.swift */,
 				2DCBF2B92301BAD700EF365C /* TaskTableViewCell.swift */,
 				2DCBF2BA2301BAD700EF365C /* TaskTableViewCell.xib */,
 			);
@@ -102,7 +102,7 @@
 		2D7102DF230112A600E7B091 /* Room */ = {
 			isa = PBXGroup;
 			children = (
-				2DA6836F22E94124000BC7A1 /* RoomsViewController.swift */,
+				2DEA4E4A2304B37C00498FAF /* RoomTableViewController.swift */,
 				2DF7C2F0230113C000F39D57 /* RoomTableViewCell.swift */,
 				2DF7C2EF230113C000F39D57 /* RoomTableViewCell.xib */,
 			);
@@ -302,10 +302,10 @@
 			files = (
 				2DCBF2BB2301BAD700EF365C /* TaskTableViewCell.swift in Sources */,
 				2DF7C2F2230113C000F39D57 /* RoomTableViewCell.swift in Sources */,
+				2DEA4E4D230772F000498FAF /* TaskTableViewController.swift in Sources */,
 				2DA6837122E94124000BC7A1 /* Clea.xcdatamodeld in Sources */,
-				2DA6837322E94124000BC7A1 /* TasksViewController.swift in Sources */,
+				2DEA4E4B2304B37C00498FAF /* RoomTableViewController.swift in Sources */,
 				2D5DF87222EE8E0E0018E985 /* MainTabBarController.swift in Sources */,
-				2DA6837222E94124000BC7A1 /* RoomsViewController.swift in Sources */,
 				2DA7F6872100D72300B7A295 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

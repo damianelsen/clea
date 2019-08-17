@@ -1,19 +1,17 @@
 //
-//  TasksViewController.swift
+//  TaskTableViewController.swift
 //  Clea
 //
-//  Created by Damian Elsen on 7/14/19.
+//  Created by Damian Elsen on 8/16/19.
 //  Copyright © 2019 Damian Elsen. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class TasksViewController: UIViewController {
+class TaskTableViewController: UITableViewController {
     
     var tasks: [Task] = []
-    
-    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,16 +22,14 @@ class TasksViewController: UIViewController {
         
         let taskTableViewCell = UINib(nibName: "TaskTableViewCell", bundle: nil)
         self.tableView.register(taskTableViewCell, forCellReuseIdentifier: "TaskTableViewCell")
+        
+        self.clearsSelectionOnViewWillAppear = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.load()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     @objc func refreshTableView() {
@@ -53,6 +49,14 @@ class TasksViewController: UIViewController {
         } catch let error as NSError {
             print("Could not load tasks. \(error), \(error.userInfo)")
         }
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tasks.count
     }
     
     @IBAction func addTask(_ sender: UIBarButtonItem) {
@@ -120,22 +124,14 @@ class TasksViewController: UIViewController {
         }
     }
     
-}
-
-extension TasksViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tasks.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let task = tasks[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskTableViewCell", for: indexPath) as! TaskTableViewCell
         let dueDate = Calendar.current.date(byAdding: .weekOfMonth, value: Int(task.interval), to: task.lastCompleted!)!
         let dueDays = Int(dueDate.timeIntervalSince(Date()) / 86400)
         var taskDue = "Due in " + dueDays.description + " day" + (dueDays == 1 ? "" : "s")
         taskDue = dueDays < 0 ? "Overdue" : taskDue
-
+        
         cell.name.text = task.name
         cell.room.text = task.ofRoom?.name
         cell.taskDue.text = taskDue
@@ -143,11 +139,20 @@ extension TasksViewController: UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             self.deleteTask(task: self.tasks[indexPath.row], index: indexPath)
         }
     }
+    
+//    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let cleanedAction = UIContextualAction(style: .normal, title: "Clean") { (action, view, actionPerformed) in
+//            actionPerformed(true)
+//        }
+//        cleanedAction.backgroundColor = .blue
+//        
+//        return UISwipeActionsConfiguration(actions: [cleanedAction])
+//    }
     
     func deleteTask(task: Task, index: IndexPath) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
