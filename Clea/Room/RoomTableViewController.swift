@@ -1,39 +1,35 @@
 //
-//  RoomsViewController.swift
+//  RoomTableViewController.swift
 //  Clea
 //
-//  Created by Damian Elsen on 7/19/18.
-//  Copyright © 2018 Damian Elsen. All rights reserved.
+//  Created by Damian Elsen on 8/14/19.
+//  Copyright © 2019 Damian Elsen. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class RoomsViewController: UIViewController {
-    
+class RoomTableViewController: UITableViewController {
+
     var rooms: [Room] = []
-    
-    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = "Rooms"
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: Notification.Name(rawValue: "reloadRoomTable"), object: nil)
-
+        
         let roomTableViewCell = UINib(nibName: "RoomTableViewCell", bundle: nil)
         self.tableView.register(roomTableViewCell, forCellReuseIdentifier: "RoomTableViewCell")
+        
+        self.clearsSelectionOnViewWillAppear = false
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.load()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     @objc func refreshTableView() {
@@ -55,6 +51,13 @@ class RoomsViewController: UIViewController {
         }
     }
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return rooms.count
+    }
     @IBAction func addRoom(_ sender: UIBarButtonItem) {
         let addAlert = UIAlertController(title: "New Room", message: nil, preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Add", style: .default) {
@@ -100,16 +103,8 @@ class RoomsViewController: UIViewController {
             print("Could not add new room. \(error), \(error.userInfo)")
         }
     }
-    
-}
 
-extension RoomsViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rooms.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let room = rooms[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "RoomTableViewCell", for: indexPath) as! RoomTableViewCell
         let overdueTasks = room.tasks?.filtered(using: NSPredicate(format: "CAST(CAST(lastCompleted, 'NSNumber') + (interval * 604800), 'NSDate') < %@", Date() as CVarArg))
@@ -128,7 +123,7 @@ extension RoomsViewController: UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
             let title = "Delete Room?"
