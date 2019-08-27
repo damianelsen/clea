@@ -9,11 +9,10 @@
 import UIKit
 
 class TaskTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var room: UILabel!
     @IBOutlet weak var taskDue: UILabel!
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,14 +23,13 @@ class TaskTableViewCell: UITableViewCell {
             return bgView
         }()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        if ((self.taskDue?.text?.contains("Overdue"))!) {
-            self.taskDue?.textColor = .red
-            self.taskDue?.highlightedTextColor = .red
-        }
+        
+        let color = (self.taskDue?.text?.contains("Overdue"))! ? UIColor.red : UIColor.white
+        self.taskDue?.textColor = color
+        self.taskDue?.highlightedTextColor = color
     }
     
 }

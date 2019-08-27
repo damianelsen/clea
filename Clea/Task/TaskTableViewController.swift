@@ -106,13 +106,14 @@ class TaskTableViewController: UITableViewController {
         
         let roomRequest = NSFetchRequest<NSManagedObject>(entityName: "Room")
         roomRequest.predicate = NSPredicate(format: "name = %@", roomName)
+        // TODO Is there a better way to get the room rather than using its name?
         var roomResults: [NSManagedObject] = []
         do {
             roomResults = try managedObjectContext.fetch(roomRequest)
         } catch let error as NSError {
             print("Could not load room. \(error), \(error.userInfo)")
         }
-        let room = roomResults[0]  as! Room
+        let room = roomResults[0] as! Room
         task.ofRoom = room
         
         do {
@@ -131,6 +132,8 @@ class TaskTableViewController: UITableViewController {
         let dueDays = Int(dueDate.timeIntervalSince(Date()) / 86400)
         var taskDue = "Due in " + dueDays.description + " day" + (dueDays == 1 ? "" : "s")
         taskDue = dueDays < 0 ? "Overdue" : taskDue
+        // TODO needs work to correctly reflect the number of days, e.g. Due in 7 days, Due today (perhaps in yellow),
+        //      Overdue (when really overdue)
         
         cell.name.text = task.name
         cell.room.text = task.ofRoom?.name
@@ -145,14 +148,29 @@ class TaskTableViewController: UITableViewController {
         }
     }
     
-//    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let cleanedAction = UIContextualAction(style: .normal, title: "Clean") { (action, view, actionPerformed) in
-//            actionPerformed(true)
-//        }
-//        cleanedAction.backgroundColor = .blue
-//        
-//        return UISwipeActionsConfiguration(actions: [cleanedAction])
-//    }
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let cleanedAction = UIContextualAction(style: .normal, title: "Clean") { (action, view, actionPerformed) in
+            let task = self.tasks[indexPath.row]
+            task.lastCompleted = Date()
+            
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return
+            }
+            let managedObjectContext = appDelegate.persistentContainer.viewContext
+            do {
+                try managedObjectContext.save()
+            } catch let error as NSError {
+                print("Could not mark task as cleaned. \(error), \(error.userInfo)")
+            }
+            
+            self.tableView.reloadData()
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadRoomTable"), object: nil)
+            actionPerformed(true)
+        }
+        cleanedAction.backgroundColor = .blue
+        
+        return UISwipeActionsConfiguration(actions: [cleanedAction])
+    }
     
     func deleteTask(task: Task, index: IndexPath) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
