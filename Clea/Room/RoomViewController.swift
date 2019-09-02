@@ -14,8 +14,8 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     // MARK: - Properties
     
     var room: RoomModel?
-    var roomTypes: [String] = [String]()
-
+    var roomTypes: [RoomType] = []
+    
     // MARK: - Outlets
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -35,12 +35,11 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         
         roomNameTextField.delegate = self
         roomTypePickerView.delegate = self
+        roomTypePickerView.dataSource = self
+        
+        roomTypes = getRoomTypes()
         
         saveButton.isEnabled = false
-        
-        // TODO: Add Room Type as an entity in Core Data
-        roomTypePickerView.dataSource = self
-        roomTypes = ["Living Room", "Bedroom", "Bathroom", "Kitchen", "Dining Room", "Office"]
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,11 +96,11 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return roomTypes[row]
+        return roomTypes[row].name
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attributedString = NSAttributedString(string: roomTypes[row], attributes: [NSAttributedString.Key.foregroundColor : CleaColors.accentColor])
+        let attributedString = NSAttributedString(string: roomTypes[row].name!, attributes: [NSAttributedString.Key.foregroundColor : CleaColors.accentColor])
         return attributedString
     }
     
@@ -109,6 +108,24 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     
     private func updateSaveButtonState(value: String) {
         saveButton.isEnabled = !value.isEmpty
+    }
+    
+    private func getRoomTypes() -> [RoomType] {
+        var types: [RoomType] = []
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return types
+        }
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        let roomTypeRequest = NSFetchRequest<RoomType>(entityName: "RoomType")
+        
+        do {
+            types = try managedObjectContext.fetch(roomTypeRequest)
+        } catch let error as NSError {
+            print("Could not load room types. \(error), \(error.userInfo)")
+        }
+        
+        return types
     }
     
 }
