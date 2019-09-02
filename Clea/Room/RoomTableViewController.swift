@@ -71,7 +71,7 @@ class RoomTableViewController: UITableViewController {
         }
         
         cell.name?.text = room.name
-        cell.type?.text = room.type
+        cell.type?.text = room.type?.name
         cell.taskCount?.text = totalTaskMessage
         cell.tasksOverdue?.text = overdueTaskMessage
         
@@ -125,7 +125,7 @@ class RoomTableViewController: UITableViewController {
         let room = Room(context: managedObjectContext)
         
         room.name = roomName
-        room.type = roomType
+        room.type = nil
         room.dateCreated = Date()
         
         do {
