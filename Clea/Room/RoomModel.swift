@@ -13,17 +13,13 @@ class RoomModel {
     // MARK: - Properties
     
     var name: String
-    var type: String
+    var type: RoomType
     var created: Date
     
     // MARK: - Initialization
     
-    init?(name: String, type: String) {
+    init?(name: String, type: RoomType) {
         if name.isEmpty {
-            return nil
-        }
-        
-        if type.isEmpty  {
             return nil
         }
         

@@ -97,7 +97,7 @@ class RoomTableViewController: UITableViewController {
     }
     
     // MARK: - Private Methods
-
+    
     @objc private func refresh() {
         self.load()
         self.tableView.reloadData()
@@ -117,7 +117,7 @@ class RoomTableViewController: UITableViewController {
         }
     }
     
-    private func save(roomName: String, roomType: String) {
+    private func save(roomName: String, roomType: RoomType) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -125,7 +125,7 @@ class RoomTableViewController: UITableViewController {
         let room = Room(context: managedObjectContext)
         
         room.name = roomName
-        room.type = nil
+        room.type = roomType
         room.dateCreated = Date()
         
         do {
