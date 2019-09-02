@@ -10,10 +10,14 @@ import UIKit
 
 class RoomTableViewCell: UITableViewCell {
     
+    // MARK: - Outlets
+    
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var type: UILabel!
     @IBOutlet weak var taskCount: UILabel!
     @IBOutlet weak var tasksOverdue: UILabel!
+    
+    // MARK: - View Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,6 +28,8 @@ class RoomTableViewCell: UITableViewCell {
             return bgView
         }()
     }
+    
+    // MARK: - View Overrides
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

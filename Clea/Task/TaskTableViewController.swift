@@ -11,6 +11,8 @@ import CoreData
 
 class TaskTableViewController: UITableViewController {
     
+    let cellReuseIdentifier = "TaskTableViewCell"
+    
     var tasks: [Task] = []
     
     override func viewDidLoad() {
@@ -20,8 +22,8 @@ class TaskTableViewController: UITableViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: Notification.Name(rawValue: "reloadTaskTable"), object: nil)
         
-        let taskTableViewCell = UINib(nibName: "TaskTableViewCell", bundle: nil)
-        self.tableView.register(taskTableViewCell, forCellReuseIdentifier: "TaskTableViewCell")
+        let taskTableViewCell = UINib(nibName: cellReuseIdentifier, bundle: nil)
+        self.tableView.register(taskTableViewCell, forCellReuseIdentifier: cellReuseIdentifier)
         
         self.clearsSelectionOnViewWillAppear = false
     }
@@ -106,7 +108,7 @@ class TaskTableViewController: UITableViewController {
         
         let roomRequest = NSFetchRequest<NSManagedObject>(entityName: "Room")
         roomRequest.predicate = NSPredicate(format: "name = %@", roomName)
-        // TODO Is there a better way to get the room rather than using its name?
+        // TODO: Is there a better way to get the room rather than using its name?
         var roomResults: [NSManagedObject] = []
         do {
             roomResults = try managedObjectContext.fetch(roomRequest)
@@ -127,12 +129,12 @@ class TaskTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let task = tasks[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TaskTableViewCell", for: indexPath) as! TaskTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! TaskTableViewCell
         let dueDate = Calendar.current.date(byAdding: .weekOfMonth, value: Int(task.interval), to: task.lastCompleted!)!
         let dueDays = Int(dueDate.timeIntervalSince(Date()) / 86400)
         var taskDue = "Due in " + dueDays.description + " day" + (dueDays == 1 ? "" : "s")
         taskDue = dueDays < 0 ? "Overdue" : taskDue
-        // TODO needs work to correctly reflect the number of days, e.g. Due in 7 days, Due today (perhaps in yellow),
+        // TODO: Needs work to correctly reflect the number of days, e.g. Due in 7 days, Due today (perhaps in yellow),
         //      Overdue (when really overdue)
         
         cell.name.text = task.name
