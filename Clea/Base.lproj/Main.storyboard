@@ -57,6 +57,7 @@
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Enter a name for the new room" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Q6j-xr-I8r">
                                 <rect key="frame" x="15" y="39" width="345" height="25"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" keyboardAppearance="alert" returnKeyType="done"/>
@@ -74,7 +75,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DSH-ZS-Wq3">
-                                <rect key="frame" x="15" y="113" width="345" height="216"/>
+                                <rect key="frame" x="15" y="106" width="345" height="216"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </pickerView>
                         </subviews>
@@ -82,7 +83,7 @@
                         <constraints>
                             <constraint firstItem="7sE-lY-QSc" firstAttribute="leading" secondItem="oH6-NC-gmd" secondAttribute="leading" constant="15" id="DQf-my-GeC"/>
                             <constraint firstItem="Q6j-xr-I8r" firstAttribute="leading" secondItem="oH6-NC-gmd" secondAttribute="leading" constant="15" id="Pba-tJ-9PZ"/>
-                            <constraint firstItem="DSH-ZS-Wq3" firstAttribute="top" secondItem="7sE-lY-QSc" secondAttribute="bottom" constant="8" id="Qph-cL-YkR"/>
+                            <constraint firstItem="DSH-ZS-Wq3" firstAttribute="top" secondItem="7sE-lY-QSc" secondAttribute="bottom" constant="1" id="Qph-cL-YkR"/>
                             <constraint firstItem="oH6-NC-gmd" firstAttribute="trailing" secondItem="LCl-fd-Uqg" secondAttribute="trailing" constant="15" id="Wov-rF-lbr"/>
                             <constraint firstItem="oH6-NC-gmd" firstAttribute="trailing" secondItem="DSH-ZS-Wq3" secondAttribute="trailing" constant="15" id="a3F-yI-WeH"/>
                             <constraint firstItem="DSH-ZS-Wq3" firstAttribute="leading" secondItem="oH6-NC-gmd" secondAttribute="leading" constant="15" id="kx8-5X-fJt"/>
@@ -172,10 +173,10 @@
             </objects>
             <point key="canvasLocation" x="1780" y="501"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Clea Tab Bar Controller-->
         <scene sceneID="1Tb-k3-4UD">
             <objects>
-                <tabBarController id="9jG-LC-hux" sceneMemberID="viewController">
+                <tabBarController id="9jG-LC-hux" customClass="CleaTabBarController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" id="wfY-eS-o8m">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

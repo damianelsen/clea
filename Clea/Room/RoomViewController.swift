@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -34,12 +35,23 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         
         roomNameTextField.delegate = self
         roomTypePickerView.delegate = self
-        roomTypePickerView.dataSource = self
         
         saveButton.isEnabled = false
         
         // TODO: Add Room Type as an entity in Core Data
+        roomTypePickerView.dataSource = self
         roomTypes = ["Living Room", "Bedroom", "Bathroom", "Kitchen", "Dining Room", "Office"]
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        roomNameTextField.borderStyle = UITextField.BorderStyle.none
+        
+        let roomNameTextFieldBottomBorder = CALayer()
+        roomNameTextFieldBottomBorder.frame = CGRect(x: 0.0, y: roomNameTextField.frame.height - 1, width: roomNameTextField.frame.width, height: 1.0)
+        roomNameTextFieldBottomBorder.backgroundColor = CleaColors.accentColor.cgColor
+        roomNameTextField.layer.addSublayer(roomNameTextFieldBottomBorder)
     }
     
     // MARK: - Navigation
@@ -89,7 +101,7 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attributedString = NSAttributedString(string: roomTypes[row], attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 0.61223846670000004, green: 1.0, blue: 0.0, alpha: 1.0)])
+        let attributedString = NSAttributedString(string: roomTypes[row], attributes: [NSAttributedString.Key.foregroundColor : CleaColors.accentColor])
         return attributedString
     }
     
