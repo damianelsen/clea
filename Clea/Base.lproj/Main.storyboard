@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -35,9 +36,8 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Rooms" id="gtM-nX-rCM">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="R14-Bd-36z">
-                            <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="addRoom:" destination="acQ-Ji-e8m" id="WkC-UY-V7l"/>
+                                <segue destination="HGC-GL-87G" kind="presentation" id="81Z-N2-1w4"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -45,6 +45,78 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U2b-5a-ZDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2804" y="-234"/>
+        </scene>
+        <!--New Room-->
+        <scene sceneID="9UD-6L-3W2">
+            <objects>
+                <viewController id="cUh-mR-0vN" customClass="RoomViewController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yGe-4p-d2h">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="672"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Enter a name for the new room" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Q6j-xr-I8r">
+                                <rect key="frame" x="15" y="39" width="345" height="25"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" keyboardAppearance="alert" returnKeyType="done"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCl-fd-Uqg">
+                                <rect key="frame" x="15" y="10" width="345" height="21"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7sE-lY-QSc">
+                                <rect key="frame" x="15" y="84" width="345" height="21"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DSH-ZS-Wq3">
+                                <rect key="frame" x="15" y="113" width="345" height="216"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="7sE-lY-QSc" firstAttribute="leading" secondItem="oH6-NC-gmd" secondAttribute="leading" constant="15" id="DQf-my-GeC"/>
+                            <constraint firstItem="Q6j-xr-I8r" firstAttribute="leading" secondItem="oH6-NC-gmd" secondAttribute="leading" constant="15" id="Pba-tJ-9PZ"/>
+                            <constraint firstItem="DSH-ZS-Wq3" firstAttribute="top" secondItem="7sE-lY-QSc" secondAttribute="bottom" constant="8" id="Qph-cL-YkR"/>
+                            <constraint firstItem="oH6-NC-gmd" firstAttribute="trailing" secondItem="LCl-fd-Uqg" secondAttribute="trailing" constant="15" id="Wov-rF-lbr"/>
+                            <constraint firstItem="oH6-NC-gmd" firstAttribute="trailing" secondItem="DSH-ZS-Wq3" secondAttribute="trailing" constant="15" id="a3F-yI-WeH"/>
+                            <constraint firstItem="DSH-ZS-Wq3" firstAttribute="leading" secondItem="oH6-NC-gmd" secondAttribute="leading" constant="15" id="kx8-5X-fJt"/>
+                            <constraint firstItem="LCl-fd-Uqg" firstAttribute="top" secondItem="oH6-NC-gmd" secondAttribute="top" constant="10" id="o9F-IZ-jug"/>
+                            <constraint firstItem="Q6j-xr-I8r" firstAttribute="top" secondItem="LCl-fd-Uqg" secondAttribute="bottom" constant="8" id="sVK-np-GcX"/>
+                            <constraint firstItem="7sE-lY-QSc" firstAttribute="top" secondItem="Q6j-xr-I8r" secondAttribute="bottom" constant="20" id="sdJ-1c-xRc"/>
+                            <constraint firstItem="oH6-NC-gmd" firstAttribute="trailing" secondItem="Q6j-xr-I8r" secondAttribute="trailing" constant="15" id="taD-Uc-ZUx"/>
+                            <constraint firstItem="oH6-NC-gmd" firstAttribute="trailing" secondItem="7sE-lY-QSc" secondAttribute="trailing" constant="15" id="uti-fo-M9Z"/>
+                            <constraint firstItem="LCl-fd-Uqg" firstAttribute="leading" secondItem="oH6-NC-gmd" secondAttribute="leading" constant="15" id="zaH-T8-sfh"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="oH6-NC-gmd"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="New Room" id="3Rd-f6-1EL">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="S5Q-Hd-98R">
+                            <connections>
+                                <action selector="cancelButton:" destination="cUh-mR-0vN" id="0h8-Ew-DHd"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="gEC-pt-pN7">
+                            <connections>
+                                <segue destination="VsN-hA-oOL" kind="unwind" unwindAction="unwindToRoomListWithSender:" id="Qke-sH-bTx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="roomNameTextField" destination="Q6j-xr-I8r" id="THx-9b-iYM"/>
+                        <outlet property="roomTypePickerView" destination="DSH-ZS-Wq3" id="tOz-ga-cfE"/>
+                        <outlet property="saveButton" destination="gEC-pt-pN7" id="Gza-rt-dix"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="O8K-SQ-Q0z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="VsN-hA-oOL" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="4791.1999999999998" y="-234.23645320197045"/>
         </scene>
         <!--Tasks-->
         <scene sceneID="IJe-ub-vht">
@@ -72,7 +144,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Tasks" id="xc1-UK-YCp">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="B6Z-kB-hQN">
-                            <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="addTask:" destination="oi4-z5-FlP" id="3tF-LS-isQ"/>
                             </connections>
@@ -87,16 +158,11 @@
         <scene sceneID="Q4l-C2-b50">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HxR-uy-lxw" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Tasks" image="file-list-tick" id="8nP-I4-qEW">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Tasks" image="file-list-tick" id="8nP-I4-qEW"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="4Dm-jd-bhL">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="oi4-z5-FlP" kind="relationship" relationship="rootViewController" id="5HE-UY-NeU"/>
@@ -106,14 +172,15 @@
             </objects>
             <point key="canvasLocation" x="1780" y="501"/>
         </scene>
-        <!--Main Tab Bar Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="1Tb-k3-4UD">
             <objects>
-                <tabBarController id="9jG-LC-hux" customClass="MainTabBarController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="9jG-LC-hux" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" id="wfY-eS-o8m">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="selectedImageTintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="Hxj-Jm-91T" kind="relationship" relationship="viewControllers" id="2tK-tJ-WsE"/>
@@ -128,17 +195,12 @@
         <scene sceneID="NW8-j1-Jhx">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Hxj-Jm-91T" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Rooms" image="home" id="YBP-kb-IHc">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Rooms" image="home" id="YBP-kb-IHc"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="Apx-YK-ZE5">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -148,6 +210,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="80U-R0-2wx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1780" y="-234"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="KTU-3P-aEc">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HGC-GL-87G" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="uBx-Fe-lKF">
+                        <rect key="frame" x="0.0" y="44" width="375" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="cUh-mR-0vN" kind="relationship" relationship="rootViewController" id="eMW-52-c6P"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kki-DD-Lj1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3848.8000000000002" y="-234.23645320197045"/>
         </scene>
     </scenes>
     <resources>
