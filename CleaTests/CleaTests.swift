@@ -33,31 +33,4 @@ class CleaTests: XCTestCase {
         }
     }
     
-    // MARK: - RoomModel Class Tests
-    
-    func testRoomModelInitializationSucceeds() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let roomType = RoomType(context: managedObjectContext)
-
-        // Valid Room
-        let validRoom = RoomModel.init(name: "roomName", type: roomType)
-        XCTAssertNotNil(validRoom)
-        
-        managedObjectContext.rollback()
-    }
-    
-    func testRoomModelInitializationFails() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let roomType = RoomType(context: managedObjectContext)
-        
-        // Empty Room name
-        let emptyRoomName = RoomModel.init(name: "", type: roomType)
-        XCTAssertNil(emptyRoomName)
-    }
 }

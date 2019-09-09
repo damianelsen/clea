@@ -41,6 +41,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="addButton" destination="R14-Bd-36z" id="bq3-6z-7cy"/>
+                        <segue destination="HGC-GL-87G" kind="presentation" identifier="ShowRoomDetail" id="z4S-e6-QJ3"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U2b-5a-ZDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -229,11 +233,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kki-DD-Lj1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3848.8000000000002" y="-234.23645320197045"/>
+            <point key="canvasLocation" x="3810" y="-234"/>
         </scene>
     </scenes>
     <resources>
         <image name="file-list-tick" width="30" height="30"/>
         <image name="home" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="z4S-e6-QJ3"/>
+    </inferredMetricsTieBreakers>
 </document>

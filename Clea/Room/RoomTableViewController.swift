@@ -14,18 +14,25 @@ class RoomTableViewController: UITableViewController {
     // MARK: - Constants
     
     let cellReuseIdentifier = "RoomTableViewCell"
+    let segueShowRoomDetail = "ShowRoomDetail"
     
     // MARK: - Properties
     
     var rooms: [Room] = []
     
+    // MARK: - Outlets
+    
+    @IBOutlet weak var addButton: UIBarButtonItem!
+    
     // MARK: - Actions
     
     @IBAction func unwindToRoomList(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? RoomViewController, let room = sourceViewController.room {
-            self.save(roomName: room.name, roomType: room.type)
-            self.tableView.reloadData()
+        guard let sourceViewController = sender.source as? RoomViewController, let room = sourceViewController.room else {
+            return
         }
+        
+        self.save(room: room)
+        self.tableView.reloadData()
     }
     
     // MARK: - View Lifecycle
@@ -49,6 +56,31 @@ class RoomTableViewController: UITableViewController {
         self.load()
     }
     
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        guard segue.identifier == segueShowRoomDetail else {
+            guard let button = sender as? UIBarButtonItem, button === addButton else {
+                return
+            }
+            guard tableView!.indexPathForSelectedRow != nil else {
+                return
+            }
+            
+            tableView.deselectRow(at: tableView!.indexPathForSelectedRow!, animated: true)
+            
+            return
+        }
+        
+        let roomNavigationController = segue.destination as! UINavigationController
+        let indexPath = sender as! IndexPath
+        let roomViewController = roomNavigationController.viewControllers[0] as? RoomViewController
+        
+        roomViewController!.room = rooms[indexPath.row]
+    }
+    
     // MARK: - View Overrides
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -59,7 +91,7 @@ class RoomTableViewController: UITableViewController {
         return rooms.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> RoomTableViewCell {
         let room = rooms[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! RoomTableViewCell
         let overdueTasks = room.tasks?.filtered(using: NSPredicate(format: "CAST(CAST(lastCompleted, 'NSNumber') + (interval * 604800), 'NSDate') < %@", Date() as CVarArg))
@@ -76,6 +108,10 @@ class RoomTableViewController: UITableViewController {
         cell.tasksOverdue?.text = overdueTaskMessage
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: segueShowRoomDetail, sender: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -117,23 +153,25 @@ class RoomTableViewController: UITableViewController {
         }
     }
     
-    private func save(roomName: String, roomType: RoomType) {
+    private func save(room: Room?) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let room = Room(context: managedObjectContext)
-        
-        room.name = roomName
-        room.type = roomType
-        room.dateCreated = Date()
         
         do {
             try managedObjectContext.save()
-            rooms.append(room)
         } catch let error as NSError {
             print("Could not add new room. \(error), \(error.userInfo)")
         }
+        
+        guard tableView?.indexPathForSelectedRow == nil else {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadTaskTable"), object: nil)
+            
+            return
+        }
+        
+        rooms.append(room!)
     }
     
     private func delete(room: Room, index: IndexPath) {
@@ -145,12 +183,13 @@ class RoomTableViewController: UITableViewController {
         
         do {
             try managedObjectContext.save()
-            rooms.remove(at: index.row)
-            tableView.deleteRows(at: [index], with: .fade)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadTaskTable"), object: nil)
         } catch let error as NSError {
             print("Could not delete room. \(error), \(error.userInfo)")
         }
+        
+        rooms.remove(at: index.row)
+        tableView.deleteRows(at: [index], with: .fade)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadTaskTable"), object: nil)
     }
     
 }
