@@ -11,11 +11,6 @@ import CoreData
 
 class RoomTableViewController: UITableViewController {
     
-    // MARK: - Constants
-    
-    let cellReuseIdentifier = "RoomTableViewCell"
-    let segueShowRoomDetail = "ShowRoomDetail"
-    
     // MARK: - Properties
     
     var rooms: [Room] = []
@@ -42,10 +37,10 @@ class RoomTableViewController: UITableViewController {
         
         title = "Rooms"
         
-        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name(rawValue: "reloadRoomTable"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
         
-        let roomTableViewCell = UINib(nibName: cellReuseIdentifier, bundle: nil)
-        self.tableView.register(roomTableViewCell, forCellReuseIdentifier: cellReuseIdentifier)
+        let roomTableViewCell = UINib(nibName: CleaConstants.cellReuseIdentifierRoom, bundle: nil)
+        self.tableView.register(roomTableViewCell, forCellReuseIdentifier: CleaConstants.cellReuseIdentifierRoom)
         
         self.clearsSelectionOnViewWillAppear = false
     }
@@ -61,7 +56,7 @@ class RoomTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
-        guard segue.identifier == segueShowRoomDetail else {
+        guard segue.identifier == CleaConstants.segueShowDetailRoom else {
             guard let button = sender as? UIBarButtonItem, button === addButton else {
                 return
             }
@@ -93,25 +88,15 @@ class RoomTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> RoomTableViewCell {
         let room = rooms[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! RoomTableViewCell
-        let overdueTasks = room.tasks?.filtered(using: NSPredicate(format: "CAST(CAST(lastCompleted, 'NSNumber') + (interval * 604800), 'NSDate') < %@", Date() as CVarArg))
-        var totalTaskMessage = (room.tasks?.count == 0 ? "No" : (room.tasks?.count.description)!) + " task"
-        totalTaskMessage = totalTaskMessage + (room.tasks?.count != 1 ? "s" : "")
-        var overdueTaskMessage = ""
-        if (overdueTasks!.count > 0) {
-            overdueTaskMessage = (overdueTasks?.count.description)! + " task" + (overdueTasks!.count > 1 ? "s" : "") + " overdue"
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: CleaConstants.cellReuseIdentifierRoom, for: indexPath) as! RoomTableViewCell
         
-        cell.name?.text = room.name
-        cell.type?.text = room.type?.name
-        cell.taskCount?.text = totalTaskMessage
-        cell.tasksOverdue?.text = overdueTaskMessage
+        cell.room = room
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: segueShowRoomDetail, sender: indexPath)
+        self.performSegue(withIdentifier: CleaConstants.segueShowDetailRoom, sender: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -121,7 +106,7 @@ class RoomTableViewController: UITableViewController {
             let message = "Deleting this room will also delete all of its tasks. Are you sure?"
             let deleteAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             let yes = UIAlertAction(title: "Yes", style: .destructive, handler: { (action) -> Void in
-                self.delete(room: self.rooms[indexPath.row], index: indexPath)
+                self.delete(index: indexPath)
             })
             let no = UIAlertAction(title: "No", style: .cancel, handler: nil)
             
@@ -144,7 +129,8 @@ class RoomTableViewController: UITableViewController {
             return
         }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let roomRequest = NSFetchRequest<Room>(entityName: "Room")
+        let roomRequest = NSFetchRequest<Room>(entityName: CleaConstants.entityNameRoom)
+        // TODO: - Add sort predicate
         
         do {
             rooms = try managedObjectContext.fetch(roomRequest)
@@ -166,7 +152,7 @@ class RoomTableViewController: UITableViewController {
         }
         
         guard tableView?.indexPathForSelectedRow == nil else {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadTaskTable"), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableTask), object: nil)
             
             return
         }
@@ -174,12 +160,12 @@ class RoomTableViewController: UITableViewController {
         rooms.append(room!)
     }
     
-    private func delete(room: Room, index: IndexPath) {
+    private func delete(index: IndexPath) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
-        managedObjectContext.delete(room as NSManagedObject)
+        managedObjectContext.delete(rooms.remove(at: index.row) as NSManagedObject)
         
         do {
             try managedObjectContext.save()
@@ -187,9 +173,9 @@ class RoomTableViewController: UITableViewController {
             print("Could not delete room. \(error), \(error.userInfo)")
         }
         
-        rooms.remove(at: index.row)
         tableView.deleteRows(at: [index], with: .fade)
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadTaskTable"), object: nil)
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableTask), object: nil)
     }
     
 }

@@ -150,10 +150,14 @@
                     <navigationItem key="navigationItem" title="Tasks" id="xc1-UK-YCp">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="B6Z-kB-hQN">
                             <connections>
-                                <action selector="addTask:" destination="oi4-z5-FlP" id="3tF-LS-isQ"/>
+                                <segue destination="Vsj-Zb-kf7" kind="presentation" id="OoT-ME-kxw"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="addButton" destination="B6Z-kB-hQN" id="pOx-rg-ua3"/>
+                        <segue destination="Vsj-Zb-kf7" kind="presentation" identifier="ShowTaskDetail" id="Tsa-EC-g0n"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rbZ-y1-edg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -235,12 +239,122 @@
             </objects>
             <point key="canvasLocation" x="3810" y="-234"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Yu7-rb-I3s">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Vsj-Zb-kf7" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="5JI-0l-4Rt">
+                        <rect key="frame" x="0.0" y="44" width="375" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="OW2-mm-R65" kind="relationship" relationship="rootViewController" id="kgy-CZ-uSm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SVF-sC-CEO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3809" y="501"/>
+        </scene>
+        <!--New Task-->
+        <scene sceneID="cTr-aJ-1tz">
+            <objects>
+                <viewController id="OW2-mm-R65" customClass="TaskViewController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lJ2-fJ-4qc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="672"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Enter a name for the new room" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gxe-Sf-YCM">
+                                <rect key="frame" x="15" y="39" width="345" height="25"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" keyboardAppearance="alert" returnKeyType="done"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TGE-1e-e7N">
+                                <rect key="frame" x="15" y="10" width="345" height="21"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qID-Qe-owY">
+                                <rect key="frame" x="15" y="84" width="345" height="21"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due Every" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2yv-kf-huP">
+                                <rect key="frame" x="15" y="330" width="345" height="21"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kpg-62-0Lp">
+                                <rect key="frame" x="15" y="106" width="345" height="216"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bSo-Og-xbU">
+                                <rect key="frame" x="15" y="359" width="345" height="216"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="qID-Qe-owY" firstAttribute="top" secondItem="gxe-Sf-YCM" secondAttribute="bottom" constant="20" id="3Rp-v7-eQj"/>
+                            <constraint firstItem="TGE-1e-e7N" firstAttribute="top" secondItem="h87-gz-pqa" secondAttribute="top" constant="10" id="55E-9S-0Cg"/>
+                            <constraint firstItem="bSo-Og-xbU" firstAttribute="leading" secondItem="h87-gz-pqa" secondAttribute="leading" constant="15" id="C9z-JJ-Po5"/>
+                            <constraint firstItem="kpg-62-0Lp" firstAttribute="top" secondItem="qID-Qe-owY" secondAttribute="bottom" constant="1" id="CVQ-EV-riE"/>
+                            <constraint firstItem="qID-Qe-owY" firstAttribute="leading" secondItem="h87-gz-pqa" secondAttribute="leading" constant="15" id="KQC-Sg-Zmx"/>
+                            <constraint firstItem="2yv-kf-huP" firstAttribute="top" secondItem="kpg-62-0Lp" secondAttribute="bottom" constant="8" id="OMQ-sv-hlg"/>
+                            <constraint firstItem="2yv-kf-huP" firstAttribute="leading" secondItem="h87-gz-pqa" secondAttribute="leading" constant="15" id="Q2m-KL-Nky"/>
+                            <constraint firstItem="h87-gz-pqa" firstAttribute="trailing" secondItem="bSo-Og-xbU" secondAttribute="trailing" constant="15" id="T7O-Xo-x7f"/>
+                            <constraint firstItem="gxe-Sf-YCM" firstAttribute="top" secondItem="TGE-1e-e7N" secondAttribute="bottom" constant="8" id="WTJ-0q-5xy"/>
+                            <constraint firstItem="h87-gz-pqa" firstAttribute="trailing" secondItem="TGE-1e-e7N" secondAttribute="trailing" constant="15" id="aS9-KA-Dd7"/>
+                            <constraint firstItem="bSo-Og-xbU" firstAttribute="top" secondItem="2yv-kf-huP" secondAttribute="bottom" constant="8" id="cuo-ls-I0k"/>
+                            <constraint firstItem="h87-gz-pqa" firstAttribute="trailing" secondItem="qID-Qe-owY" secondAttribute="trailing" constant="15" id="eIF-kf-Otd"/>
+                            <constraint firstItem="gxe-Sf-YCM" firstAttribute="leading" secondItem="h87-gz-pqa" secondAttribute="leading" constant="15" id="h5x-3v-UwI"/>
+                            <constraint firstItem="h87-gz-pqa" firstAttribute="trailing" secondItem="kpg-62-0Lp" secondAttribute="trailing" constant="15" id="mqQ-Yg-9RA"/>
+                            <constraint firstItem="h87-gz-pqa" firstAttribute="trailing" secondItem="2yv-kf-huP" secondAttribute="trailing" constant="15" id="rUo-5f-xYj"/>
+                            <constraint firstItem="h87-gz-pqa" firstAttribute="trailing" secondItem="gxe-Sf-YCM" secondAttribute="trailing" constant="15" id="vbv-qb-fIV"/>
+                            <constraint firstItem="kpg-62-0Lp" firstAttribute="leading" secondItem="h87-gz-pqa" secondAttribute="leading" constant="15" id="w5v-Ox-ai6"/>
+                            <constraint firstItem="TGE-1e-e7N" firstAttribute="leading" secondItem="h87-gz-pqa" secondAttribute="leading" constant="15" id="xqC-3q-Pur"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="h87-gz-pqa"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="New Task" id="YDb-bZ-40n">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="rmz-0b-UsW">
+                            <connections>
+                                <action selector="cancelButton:" destination="OW2-mm-R65" id="9UQ-Sb-qO1"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="p5k-VT-lKu">
+                            <connections>
+                                <segue destination="V46-gE-nvu" kind="unwind" unwindAction="unwindToTaskListWithSender:" id="beq-8K-NdP"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="intervalPickerView" destination="bSo-Og-xbU" id="cMz-jF-2M0"/>
+                        <outlet property="roomPickerView" destination="kpg-62-0Lp" id="ukd-kJ-z87"/>
+                        <outlet property="saveButton" destination="p5k-VT-lKu" id="BEw-SY-Fld"/>
+                        <outlet property="taskNameTextField" destination="gxe-Sf-YCM" id="uCE-UR-JF5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W6q-05-oZi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="V46-gE-nvu" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="4791" y="501"/>
+        </scene>
     </scenes>
     <resources>
         <image name="file-list-tick" width="30" height="30"/>
         <image name="home" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Tsa-EC-g0n"/>
         <segue reference="z4S-e6-QJ3"/>
     </inferredMetricsTieBreakers>
 </document>

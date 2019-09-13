@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18G87" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18G95" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="IntervalType" representedClassName="IntervalType" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="noOfDays" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Task" inverseName="intervalType" inverseEntity="Task" syncable="YES"/>
+    </entity>
     <entity name="Room" representedClassName=".Room" syncable="YES" codeGenerationType="class">
         <attribute name="dateCreated" attributeType="Date" minDateTimeInterval="568015200" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" minValueString="1" maxValueString="100" syncable="YES"/>
@@ -15,11 +20,13 @@
         <attribute name="interval" attributeType="Integer 16" minValueString="1" maxValueString="365" defaultValueString="7" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="lastCompleted" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" minValueString="1" maxValueString="100" defaultValueString="New Task" syncable="YES"/>
+        <relationship name="intervalType" maxCount="1" deletionRule="Nullify" destinationEntity="IntervalType" inverseName="tasks" inverseEntity="IntervalType" syncable="YES"/>
         <relationship name="ofRoom" maxCount="1" deletionRule="Nullify" destinationEntity="Room" inverseName="tasks" inverseEntity="Room" syncable="YES"/>
     </entity>
     <elements>
+        <element name="IntervalType" positionX="63" positionY="9" width="128" height="90"/>
         <element name="Room" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="Task" positionX="195.37890625" positionY="-48.265625" width="128" height="120"/>
         <element name="RoomType" positionX="63" positionY="9" width="128" height="75"/>
+        <element name="Task" positionX="195.37890625" positionY="-48.265625" width="128" height="135"/>
     </elements>
 </model>
