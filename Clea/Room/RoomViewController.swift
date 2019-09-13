@@ -57,12 +57,11 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         roomNameTextFieldBottomBorder.backgroundColor = CleaColors.accentColor.cgColor
         roomNameTextField.layer.addSublayer(roomNameTextFieldBottomBorder)
 
-        guard self.room == nil else {
+        guard self.room != nil else {
+            self.roomTypePickerView.selectRow(2, inComponent: 0, animated: true)
+            saveButton.isEnabled = false
             return
         }
-        
-        self.roomTypePickerView.selectRow(2, inComponent: 0, animated: true)
-        saveButton.isEnabled = false
     }
     
     // MARK: - Navigation
@@ -106,21 +105,12 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        var roomName = textField.text ?? ""
-        roomName = roomName.trimmingCharacters(in: .whitespaces)
+        var name = textField.text ?? ""
+        name = name.trimmingCharacters(in: .whitespaces)
         
-        guard let exists = roomExists(withName: roomName), !exists else {
-            let alert = UIAlertController(title: "Duplicate Room", message: "A room with this name already exists. Please choose a different name.", preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            
-            self.present(alert, animated: true)
-            
-            return
-        }
+        updateSaveButtonState(value: name)
         
-        updateSaveButtonState(value: roomName)
-        navigationItem.title = roomName.isEmpty ? "New Room" : roomName
+        navigationItem.title = name.isEmpty ? "New Room" : name
     }
     
     // MARK: - UIPickerViewDelegate
@@ -155,8 +145,8 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
             return types
         }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let roomTypeRequest = NSFetchRequest<RoomType>(entityName: "RoomType")
-        let roomTypeSortByName = NSSortDescriptor(key: "name", ascending: true)
+        let roomTypeRequest = NSFetchRequest<RoomType>(entityName: CleaConstants.entityNameRoomType)
+        let roomTypeSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
         roomTypeRequest.sortDescriptors = [roomTypeSortByName]
         
         do {
@@ -166,27 +156,6 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         }
         
         return types
-    }
-    
-    private func roomExists(withName: String) -> Bool? {
-        var exists = true
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return exists
-        }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let roomRequest = NSFetchRequest<Room>(entityName: "Room")
-        let roomNamePredicate = NSPredicate(format: "name = %@", withName)
-        roomRequest.predicate = roomNamePredicate
-        
-        do {
-            let rooms = try managedObjectContext.fetch(roomRequest)
-            exists = rooms.count != 0
-        } catch let error as NSError {
-            print("Could not load rooms. \(error), \(error.userInfo)")
-        }
-        
-        return exists
     }
     
 }
