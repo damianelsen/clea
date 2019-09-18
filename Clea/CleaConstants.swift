@@ -29,4 +29,6 @@ class CleaConstants {
     static let reloadTableRoom = "reloadRoomTable"
     static let reloadTableTask = "reloadTaskTable"
     
+    static let predicateOverdueTask = "CAST(CAST(lastCompleted, 'NSNumber') + (interval * intervalType.noOfDays * 86400), 'NSDate') < %@"
+    
 }

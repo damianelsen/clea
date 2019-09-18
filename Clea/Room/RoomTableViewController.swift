@@ -130,12 +130,27 @@ class RoomTableViewController: UITableViewController {
         }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         let roomRequest = NSFetchRequest<Room>(entityName: CleaConstants.entityNameRoom)
-        // TODO: - Add sort predicate
+        let roomSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: false)
+        roomRequest.sortDescriptors = [roomSortByName]
         
         do {
             rooms = try managedObjectContext.fetch(roomRequest)
         } catch let error as NSError {
             print("Could not load rooms. \(error), \(error.userInfo)")
+        }
+        
+        self.sort()
+    }
+    
+    private func sort() {
+        rooms.sort { room1, room2 in
+            let now = Calendar.current.startOfDay(for: Date())
+            let overduePredicateFormat = CleaConstants.predicateOverdueTask
+            let overduePredicate = NSPredicate(format: overduePredicateFormat, now as CVarArg)
+            let room1OverdueTasks = room1.tasks?.filtered(using: overduePredicate)
+            let room2OverdueTasks = room2.tasks?.filtered(using: overduePredicate)
+            
+            return room1OverdueTasks!.count >= room2OverdueTasks!.count
         }
     }
     

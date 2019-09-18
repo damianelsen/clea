@@ -110,7 +110,7 @@ class TaskTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let cleanedAction = UIContextualAction(style: .normal, title: "Clean") { (action, view, actionPerformed) in
             let task = self.tasks[indexPath.row]
-            task.lastCompleted = Date()
+            task.lastCompleted = Calendar.current.startOfDay(for: Date())
             
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                 return
@@ -122,6 +122,7 @@ class TaskTableViewController: UITableViewController {
                 print("Could not mark task as cleaned. \(error), \(error.userInfo)")
             }
             
+            self.sort()
             self.tableView.reloadData()
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
             actionPerformed(true)
@@ -144,12 +145,31 @@ class TaskTableViewController: UITableViewController {
         }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         let taskRequest = NSFetchRequest<Task>(entityName: CleaConstants.entityNameTask)
-        // TODO: - Add sort predicate
+        let taskSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
+        taskRequest.sortDescriptors = [taskSortByName]
         
         do {
             tasks = try managedObjectContext.fetch(taskRequest)
         } catch let error as NSError {
             print("Could not load tasks. \(error), \(error.userInfo)")
+        }
+        
+        self.sort()
+    }
+    
+    private func sort() {
+        tasks.sort { task1, task2 in
+            let now = Calendar.current.startOfDay(for: Date())
+            let task1Days = Int(task1.intervalType!.noOfDays * task1.interval)
+            let task2Days = Int(task2.intervalType!.noOfDays * task2.interval)
+            let task1DueDate = Calendar.current.date(byAdding: .day, value: task1Days, to: task1.lastCompleted!)!
+            let task2DueDate = Calendar.current.date(byAdding: .day, value: task2Days, to: task2.lastCompleted!)!
+            let task1DateDiff = Calendar.current.dateComponents([.day], from: now, to: task1DueDate)
+            let task2DateDiff = Calendar.current.dateComponents([.day], from: now, to: task2DueDate)
+            let task1DueDays = task1DateDiff.day!
+            let task2DueDays = task2DateDiff.day!
+            
+            return task1DueDays < task2DueDays
         }
     }
     

@@ -6,8 +6,6 @@
 //  Copyright © 2019 Damian Elsen. All rights reserved.
 //
 
-// TODO: - Add constraints
-
 import UIKit
 
 class RoomTableViewCell: UITableViewCell {
@@ -54,19 +52,20 @@ class RoomTableViewCell: UITableViewCell {
     
     private func taskCountMessage(forRoom: Room) -> String {
         var message = (room!.tasks?.count == 0 ? "No" : (room!.tasks?.count.description)!) + " task"
-        message = message + (room!.tasks?.count != 1 ? "s" : "")
+        message += (room!.tasks?.count != 1 ? "s" : "")
         
         return message
     }
     
     private func overdueTaskMessage(forRoom: Room) -> String {
-        let predicateFormat = "CAST(CAST(lastCompleted, 'NSNumber') + (interval * 604800), 'NSDate') < %@"
-        let overduePredicate = NSPredicate(format: predicateFormat, Date() as CVarArg)
-        let overdueTasks = forRoom.tasks?.filtered(using: overduePredicate)
         var message = ""
+        let now = Calendar.current.startOfDay(for: Date())
+        let overduePredicateFormat = CleaConstants.predicateOverdueTask
+        let overduePredicate = NSPredicate(format: overduePredicateFormat, now as CVarArg)
+        let overdueTasks = forRoom.tasks?.filtered(using: overduePredicate)
         
         if (overdueTasks!.count > 0) {
-            message = (overdueTasks?.count.description)! + " task" + (overdueTasks!.count > 1 ? "s" : "") + " overdue"
+            message = (overdueTasks!.count.description) + " overdue"
         }
         
         return message

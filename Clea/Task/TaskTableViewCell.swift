@@ -54,29 +54,35 @@ class TaskTableViewCell: UITableViewCell {
     // MARK: - Private Methods
     
     private func overdueMessage(forTask: Task) -> String {
-        let days = Int(forTask.intervalType!.noOfDays * forTask.interval)
-        let lastCompleted = Calendar.current.startOfDay(for: forTask.lastCompleted!)
-        let dueDate = Calendar.current.date(byAdding: .day, value: days, to: lastCompleted)!
+        var message = ""
         let now = Calendar.current.startOfDay(for: Date())
+        let days = Int(forTask.intervalType!.noOfDays * forTask.interval)
+        let dueDate = Calendar.current.date(byAdding: .day, value: days, to: forTask.lastCompleted!)!
         let dateDiff = Calendar.current.dateComponents([.day], from: now, to: dueDate)
         let dueDays = dateDiff.day!
         
-        var message: String
-        if (dueDays < 0) {
+        switch dueDays {
+        case ...(-1):
             message = "Overdue"
-        } else if (dueDays == 0) {
+        case 0:
             message = "Due today"
-        } else if (dueDays == 1) {
+        case 1:
             message = "Due tomorrow"
-        } else {
+        case 2...13:
             message = "Due in " + dueDays.description + " day" + (dueDays == 1 ? "" : "s")
+        case 14...29:
+            let weeks = dueDays / 7
+            message = "Due in " + weeks.description + " weeks"
+        default:
+            let months = dueDays / 30
+            message = "Due in " + months.description + " month" + (months == 1 ? "" : "s")
         }
         
         return message
     }
     
     private func color(forMessage: String) -> UIColor {
-        var color = UIColor.white
+        var color = UIColor.green
         
         if (forMessage.contains("Overdue")) {
             color = UIColor.red
