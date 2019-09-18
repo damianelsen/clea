@@ -33,21 +33,4 @@ class CleaTests: XCTestCase {
         }
     }
     
-    // MARK: - RoomModel Class Tests
-    
-    func testRoomModelInitializationSucceeds() {
-        // Valid Room
-        let validRoom = RoomModel.init(name: "roomName", type: "roomType")
-        XCTAssertNotNil(validRoom)
-    }
-    
-    func testRoomModelInitializationFails() {
-        // Empty Room name
-        let emptyRoomName = RoomModel.init(name: "", type: "roomType")
-        XCTAssertNil(emptyRoomName)
-        
-        // Empty Room type
-        let emptyRoomType = RoomModel.init(name: "roomName", type: "")
-        XCTAssertNil(emptyRoomType)
-    }
 }

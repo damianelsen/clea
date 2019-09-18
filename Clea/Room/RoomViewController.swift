@@ -7,14 +7,15 @@
 //
 
 import UIKit
+import CoreData
 
 class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     // MARK: - Properties
     
-    var room: RoomModel?
-    var roomTypes: [String] = [String]()
-
+    var room: Room?
+    var roomTypes: [RoomType] = []
+    
     // MARK: - Outlets
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -36,10 +37,31 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         roomTypePickerView.delegate = self
         roomTypePickerView.dataSource = self
         
-        saveButton.isEnabled = false
+        roomTypes = getRoomTypes()
         
-        // TODO: Add Room Type as an entity in Core Data
-        roomTypes = ["Living Room", "Bedroom", "Bathroom", "Kitchen", "Dining Room", "Office"]
+        if let room = self.room {
+            navigationItem.title = room.name
+            roomNameTextField.text = room.name
+            let row = roomTypes.firstIndex(of: room.type!)!
+            roomTypePickerView.selectRow(row, inComponent: 0, animated: true)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        roomNameTextField.borderStyle = UITextField.BorderStyle.none
+        
+        let roomNameTextFieldBottomBorder = CALayer()
+        roomNameTextFieldBottomBorder.frame = CGRect(x: 0.0, y: roomNameTextField.frame.height - 1, width: roomNameTextField.frame.width, height: 1.0)
+        roomNameTextFieldBottomBorder.backgroundColor = CleaColors.accentColor.cgColor
+        roomNameTextField.layer.addSublayer(roomNameTextFieldBottomBorder)
+
+        guard self.room != nil else {
+            self.roomTypePickerView.selectRow(2, inComponent: 0, animated: true)
+            saveButton.isEnabled = false
+            return
+        }
     }
     
     // MARK: - Navigation
@@ -54,7 +76,21 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         let name = roomNameTextField.text ?? ""
         let type = roomTypes[roomTypePickerView.selectedRow(inComponent: 0)]
         
-        room = RoomModel(name: name, type: type)
+        if (!name.isEmpty) {
+            
+            if (room == nil) {
+                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                    return
+                }
+                let managedObjectContext = appDelegate.persistentContainer.viewContext
+                
+                room = Room(context: managedObjectContext)
+                room?.dateCreated = Date()
+            }
+            
+            room?.name = name.trimmingCharacters(in: .whitespaces)
+            room?.type = type
+        }
     }
     
     // MARK: - UITextFieldDelegate
@@ -69,9 +105,12 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        let roomName = textField.text ?? ""
-        updateSaveButtonState(value: roomName)
-        navigationItem.title = roomName.isEmpty ? "New Room" : roomName
+        var name = textField.text ?? ""
+        name = name.trimmingCharacters(in: .whitespaces)
+        
+        updateSaveButtonState(value: name)
+        
+        navigationItem.title = name.isEmpty ? "New Room" : name
     }
     
     // MARK: - UIPickerViewDelegate
@@ -85,11 +124,11 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return roomTypes[row]
+        return roomTypes[row].name
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attributedString = NSAttributedString(string: roomTypes[row], attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 0.61223846670000004, green: 1.0, blue: 0.0, alpha: 1.0)])
+        let attributedString = NSAttributedString(string: roomTypes[row].name!, attributes: [NSAttributedString.Key.foregroundColor : CleaColors.accentColor])
         return attributedString
     }
     
@@ -97,6 +136,26 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     
     private func updateSaveButtonState(value: String) {
         saveButton.isEnabled = !value.isEmpty
+    }
+    
+    private func getRoomTypes() -> [RoomType] {
+        var types: [RoomType] = []
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return types
+        }
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        let roomTypeRequest = NSFetchRequest<RoomType>(entityName: CleaConstants.entityNameRoomType)
+        let roomTypeSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
+        roomTypeRequest.sortDescriptors = [roomTypeSortByName]
+        
+        do {
+            types = try managedObjectContext.fetch(roomTypeRequest)
+        } catch let error as NSError {
+            print("Could not load room types. \(error), \(error.userInfo)")
+        }
+        
+        return types
     }
     
 }

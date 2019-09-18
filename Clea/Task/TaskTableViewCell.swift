@@ -10,9 +10,17 @@ import UIKit
 
 class TaskTableViewCell: UITableViewCell {
     
+    // MARK: - Properties
+    
+    var task: Task?
+    
+    // MARK: - Outlets
+    
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var room: UILabel!
     @IBOutlet weak var taskDue: UILabel!
+    
+    // MARK: - View Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,12 +32,65 @@ class TaskTableViewCell: UITableViewCell {
         }()
     }
     
+    // MARK: - View Overrides
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-        let color = (self.taskDue?.text?.contains("Overdue"))! ? UIColor.red : UIColor.white
-        self.taskDue?.textColor = color
-        self.taskDue?.highlightedTextColor = color
+        guard task != nil, task!.name != nil else {
+            return
+        }
+        
+        name.text = task!.name
+        room.text = task!.ofRoom?.name
+        taskDue.text = overdueMessage(forTask: task!)
+        
+        let messageColor = color(forMessage: taskDue.text!)
+        
+        self.taskDue?.textColor = messageColor
+        self.taskDue?.highlightedTextColor = messageColor
+    }
+    
+    // MARK: - Private Methods
+    
+    private func overdueMessage(forTask: Task) -> String {
+        var message = ""
+        let now = Calendar.current.startOfDay(for: Date())
+        let days = Int(forTask.intervalType!.noOfDays * forTask.interval)
+        let dueDate = Calendar.current.date(byAdding: .day, value: days, to: forTask.lastCompleted!)!
+        let dateDiff = Calendar.current.dateComponents([.day], from: now, to: dueDate)
+        let dueDays = dateDiff.day!
+        
+        switch dueDays {
+        case ...(-1):
+            message = "Overdue"
+        case 0:
+            message = "Due today"
+        case 1:
+            message = "Due tomorrow"
+        case 2...13:
+            message = "Due in " + dueDays.description + " day" + (dueDays == 1 ? "" : "s")
+        case 14...29:
+            let weeks = dueDays / 7
+            message = "Due in " + weeks.description + " weeks"
+        default:
+            let months = dueDays / 30
+            message = "Due in " + months.description + " month" + (months == 1 ? "" : "s")
+        }
+        
+        return message
+    }
+    
+    private func color(forMessage: String) -> UIColor {
+        var color = UIColor.green
+        
+        if (forMessage.contains("Overdue")) {
+            color = UIColor.red
+        } else if (forMessage.contains("today") || forMessage.contains("tomorrow")) {
+            color = UIColor.yellow
+        }
+        
+        return color
     }
     
 }
