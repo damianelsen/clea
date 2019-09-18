@@ -167,7 +167,7 @@
         <scene sceneID="Q4l-C2-b50">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HxR-uy-lxw" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Tasks" image="file-list-tick" id="8nP-I4-qEW"/>
+                    <tabBarItem key="tabBarItem" title="Tasks" image="tasks" id="8nP-I4-qEW"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="4Dm-jd-bhL">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -188,7 +188,6 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" id="wfY-eS-o8m">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="selectedImageTintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
@@ -204,7 +203,7 @@
         <scene sceneID="NW8-j1-Jhx">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Hxj-Jm-91T" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Rooms" image="home" id="YBP-kb-IHc"/>
+                    <tabBarItem key="tabBarItem" title="Rooms" image="rooms" id="YBP-kb-IHc"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="Apx-YK-ZE5">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
@@ -350,8 +349,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="file-list-tick" width="30" height="30"/>
-        <image name="home" width="30" height="30"/>
+        <image name="rooms" width="39" height="29"/>
+        <image name="tasks" width="31" height="29"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Tsa-EC-g0n"/>
