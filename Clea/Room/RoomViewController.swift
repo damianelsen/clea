@@ -41,7 +41,9 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         
         if let room = self.room {
             navigationItem.title = room.name
+            
             roomNameTextField.text = room.name
+            
             let row = roomTypes.firstIndex(of: room.type!)!
             roomTypePickerView.selectRow(row, inComponent: 0, animated: true)
         }
@@ -69,9 +71,7 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
-        guard let button = sender as? UIBarButtonItem, button === saveButton else {
-            return
-        }
+        guard let button = sender as? UIBarButtonItem, button === saveButton else { return }
         
         let name = roomNameTextField.text ?? ""
         let type = roomTypes[roomTypePickerView.selectedRow(inComponent: 0)]
@@ -79,9 +79,7 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         if (!name.isEmpty) {
             
             if (room == nil) {
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                    return
-                }
+                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
                 let managedObjectContext = appDelegate.persistentContainer.viewContext
                 
                 room = Room(context: managedObjectContext)

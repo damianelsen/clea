@@ -37,9 +37,7 @@ class TaskTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-        guard task != nil, task!.name != nil else {
-            return
-        }
+        guard task != nil, task!.name != nil else { return }
         
         name.text = task!.name
         room.text = task!.ofRoom?.name
@@ -69,13 +67,13 @@ class TaskTableViewCell: UITableViewCell {
         case 1:
             message = "Due tomorrow"
         case 2...13:
-            message = "Due in " + dueDays.description + " day" + (dueDays == 1 ? "" : "s")
+            message = "Due in \(dueDays.description) day\(dueDays == 1 ? "" : "s")"
         case 14...29:
             let weeks = dueDays / 7
-            message = "Due in " + weeks.description + " weeks"
+            message = "Due in \(weeks.description) weeks"
         default:
             let months = dueDays / 30
-            message = "Due in " + months.description + " month" + (months == 1 ? "" : "s")
+            message = "Due in \(months.description) month\(months == 1 ? "" : "s")"
         }
         
         return message

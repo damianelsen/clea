@@ -8,22 +8,44 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
+    // MARK: - Types
     
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?)
-        -> Bool {
-        // Override point for customization after application launch.
+    typealias Interval = (name: String, noOfDays: Int16)
+    
+    // MARK: - Properties
+    
+    var window: UIWindow?
+    let notificationCenter = UNUserNotificationCenter.current()
+
+    // MARK: - Application Lifecycle
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        notificationCenter.requestAuthorization(options: options) { (didAllow, error) in
+            // Do nothing
+        }
+        
+        let sixHours: TimeInterval = 60.0 * 60.0 * 6
+        UIApplication.shared.setMinimumBackgroundFetchInterval(sixHours)
+        
+        self.createStaticData()
+        
         return true
     }
 
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        self.updateAppBackground(completionHandler: completionHandler)
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        UIApplication.shared.applicationIconBadgeNumber = self.getBadgeCount()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -42,7 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        self.saveContext()
     }
 
     // MARK: - Core Data stack
@@ -74,20 +95,118 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return container
     }()
 
-    // MARK: - Core Data Saving support
-
-    func saveContext () {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
+    // MARK: - Private Methods - Static Data Creation
+    
+    private func createStaticData() {
+        let mainContext = persistentContainer.viewContext
+        let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        
+        childContext.parent = mainContext
+        childContext.perform {
+            self.createRoomTypes(usingContext: childContext)
+            self.createIntervalTypes(usingContext: childContext)
+            
             do {
-                try context.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                try mainContext.save()
+            } catch let error as NSError {
+                print("Could not create static data. \(error), \(error.userInfo)")
             }
         }
     }
+    
+    private func createRoomTypes(usingContext: NSManagedObjectContext) {
+        let roomTypes = ["Living Room", "Bedroom", "Bathroom", "Kitchen", "Dining Room", "Office"]
+        let roomTypeRequest = NSFetchRequest<RoomType>(entityName: CleaConstants.entityNameRoomType)
+        var existingRoomTypes: [RoomType] = []
+        
+        do {
+            existingRoomTypes = try usingContext.fetch(roomTypeRequest)
+        } catch let error as NSError {
+            print("Could not load room types. \(error), \(error.userInfo)")
+        }
+        
+        guard existingRoomTypes.count == 0 else { return }
+        
+        for type in roomTypes {
+            let roomType = RoomType(context: usingContext)
+            roomType.name = type
+        }
+        
+        do {
+            try usingContext.save()
+        } catch let error as NSError {
+            print("Could not create room types. \(error), \(error.userInfo)")
+        }
+    }
+    
+    private func createIntervalTypes(usingContext: NSManagedObjectContext) {
+        let intervalTypes: [Interval] = [("Days", 1), ("Weeks", 7), ("Months", 30)]
+        let intervalTypeRequest = NSFetchRequest<IntervalType>(entityName: CleaConstants.entityNameIntervalType)
+        var existingIntervalTypes: [IntervalType] = []
+        
+        do {
+            existingIntervalTypes = try usingContext.fetch(intervalTypeRequest)
+        } catch let error as NSError {
+            print("Could not load interval types. \(error), \(error.userInfo)")
+        }
+        
+        guard existingIntervalTypes.count == 0 else { return }
+        
+        for type in intervalTypes {
+            let intervalType = IntervalType(context: usingContext)
+            intervalType.name = type.name
+            intervalType.noOfDays = type.noOfDays
+        }
+        
+        do {
+            try usingContext.save()
+        } catch let error as NSError {
+            print("Could not create interval types. \(error), \(error.userInfo)")
+        }
+    }
+    
+    // MARK: - Private Methods - Background Refresh
+    
+    private func updateAppBackground(completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableTask), object: nil)
 
+        notificationCenter.getNotificationSettings { (settings) in
+            if (settings.authorizationStatus == .authorized && settings.badgeSetting == .enabled) {
+                DispatchQueue.main.async {
+                    UIApplication.shared.applicationIconBadgeNumber = self.getBadgeCount()
+                    completionHandler(.newData)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    UIApplication.shared.applicationIconBadgeNumber = 0
+                    completionHandler(.newData)
+                }
+            }
+        }
+    }
+    
+    private func getBadgeCount() -> Int {
+        let managedObjectContext = persistentContainer.viewContext
+        let roomRequest = NSFetchRequest<Room>(entityName: CleaConstants.entityNameRoom)
+        var rooms: [Room] = []
+
+        do {
+            rooms = try managedObjectContext.fetch(roomRequest)
+        } catch let error as NSError {
+            print("Could not load rooms. \(error), \(error.userInfo)")
+        }
+        
+        let now = Calendar.current.startOfDay(for: Date())
+        let overduePredicate = NSPredicate(format: CleaConstants.predicateOverdueTask, now as CVarArg)
+        var count = 0
+
+        for room in rooms {
+            let overdueTasks = room.tasks?.filtered(using: overduePredicate)
+            count += overdueTasks!.count
+        }
+        
+        return count
+    }
+    
 }

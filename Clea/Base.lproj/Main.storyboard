@@ -181,10 +181,10 @@
             </objects>
             <point key="canvasLocation" x="1780" y="501"/>
         </scene>
-        <!--Clea Tab Bar Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="1Tb-k3-4UD">
             <objects>
-                <tabBarController id="9jG-LC-hux" customClass="CleaTabBarController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="9jG-LC-hux" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" id="wfY-eS-o8m">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
