@@ -118,6 +118,7 @@ class TaskTableViewController: UITableViewController {
             self.sort()
             self.tableView.reloadData()
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
+            Notifications.scheduleNotification(forTask: task)
             actionPerformed(true)
         }
         cleanedAction.backgroundColor = .blue
@@ -132,7 +133,7 @@ class TaskTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    func load() {
+    private func load() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         let taskRequest = NSFetchRequest<Task>(entityName: CleaConstants.entityNameTask)
@@ -164,7 +165,7 @@ class TaskTableViewController: UITableViewController {
         }
     }
     
-    func save(task: Task?) {
+    private func save(task: Task) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         
@@ -174,18 +175,22 @@ class TaskTableViewController: UITableViewController {
             print("Could not add new task. \(error), \(error.userInfo)")
         }
         
+        Notifications.scheduleNotification(forTask: task)
+
         guard tableView?.indexPathForSelectedRow == nil else {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
             
             return
         }
         
-        tasks.append(task!)
+        tasks.append(task)
     }
     
-    func delete(index: IndexPath) {
+    private func delete(index: IndexPath) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
+        
+        Notifications.removeNotification(forTask: tasks[index.row])
         managedObjectContext.delete(tasks.remove(at: index.row) as NSManagedObject)
         
         do {

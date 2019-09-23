@@ -19,6 +19,7 @@
 		2DA7F6AA2100D72600B7A295 /* CleaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F6A92100D72600B7A295 /* CleaUITests.swift */; };
 		2DCBF2BB2301BAD700EF365C /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCBF2B92301BAD700EF365C /* TaskTableViewCell.swift */; };
 		2DCBF2BC2301BAD700EF365C /* TaskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DCBF2BA2301BAD700EF365C /* TaskTableViewCell.xib */; };
+		2DDB0D3523367FBF00B89E0F /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DDB0D3423367FBF00B89E0F /* Notifications.swift */; };
 		2DEA4E4B2304B37C00498FAF /* RoomTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DEA4E4A2304B37C00498FAF /* RoomTableViewController.swift */; };
 		2DEA4E4D230772F000498FAF /* TaskTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DEA4E4C230772F000498FAF /* TaskTableViewController.swift */; };
 		2DED291A231D519A00753C22 /* CleaColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DED2919231D519A00753C22 /* CleaColors.swift */; };
@@ -62,6 +63,7 @@
 		2DA7F6AB2100D72600B7A295 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2DCBF2B92301BAD700EF365C /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
 		2DCBF2BA2301BAD700EF365C /* TaskTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskTableViewCell.xib; sourceTree = "<group>"; };
+		2DDB0D3423367FBF00B89E0F /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		2DEA4E4A2304B37C00498FAF /* RoomTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomTableViewController.swift; sourceTree = "<group>"; };
 		2DEA4E4C230772F000498FAF /* TaskTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewController.swift; sourceTree = "<group>"; };
 		2DED2919231D519A00753C22 /* CleaColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleaColors.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				2DA7F6862100D72300B7A295 /* AppDelegate.swift */,
 				2DED2919231D519A00753C22 /* CleaColors.swift */,
 				2D57306D2329865600E5078A /* CleaConstants.swift */,
+				2DDB0D3423367FBF00B89E0F /* Notifications.swift */,
 			);
 			path = Clea;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 			files = (
 				2D57306E2329865600E5078A /* CleaConstants.swift in Sources */,
 				2DCBF2BB2301BAD700EF365C /* TaskTableViewCell.swift in Sources */,
+				2DDB0D3523367FBF00B89E0F /* Notifications.swift in Sources */,
 				2DED291A231D519A00753C22 /* CleaColors.swift in Sources */,
 				2DF7C2F2230113C000F39D57 /* RoomTableViewCell.swift in Sources */,
 				2DEA4E4D230772F000498FAF /* TaskTableViewController.swift in Sources */,
@@ -429,7 +433,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -484,7 +488,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;

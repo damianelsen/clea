@@ -98,7 +98,7 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
                 
                 task = Task(context: managedObjectContext)
                 task?.dateCreated = Date()
-                task?.lastCompleted = Calendar.current.startOfDay(for: .distantPast)
+                task?.lastCompleted = Calendar.current.startOfDay(for: Date())
             }
             
             task?.name = name.trimmingCharacters(in: .whitespaces)

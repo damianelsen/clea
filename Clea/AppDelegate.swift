@@ -20,18 +20,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Properties
     
     var window: UIWindow?
-    let notificationCenter = UNUserNotificationCenter.current()
 
     // MARK: - Application Lifecycle
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
-        notificationCenter.requestAuthorization(options: options) { (didAllow, error) in
-            // Do nothing
-        }
+        Notifications.requestAuthorization()
         
-        let sixHours: TimeInterval = 60.0 * 60.0 * 6
-        UIApplication.shared.setMinimumBackgroundFetchInterval(sixHours)
+        let oneHour: TimeInterval = 60.0 * 60.0
+        UIApplication.shared.setMinimumBackgroundFetchInterval(oneHour)
         
         self.createStaticData()
         
@@ -45,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-        UIApplication.shared.applicationIconBadgeNumber = self.getBadgeCount()
+        UIApplication.shared.applicationIconBadgeNumber = Notifications.getBadgeCount()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -59,6 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        self.refreshUI()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -168,45 +165,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Private Methods - Background Refresh
     
     private func updateAppBackground(completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableTask), object: nil)
-
+        let notificationCenter = UNUserNotificationCenter.current()
+        
         notificationCenter.getNotificationSettings { (settings) in
             if (settings.authorizationStatus == .authorized && settings.badgeSetting == .enabled) {
                 DispatchQueue.main.async {
-                    UIApplication.shared.applicationIconBadgeNumber = self.getBadgeCount()
-                    completionHandler(.newData)
-                }
-            } else {
-                DispatchQueue.main.async {
-                    UIApplication.shared.applicationIconBadgeNumber = 0
-                    completionHandler(.newData)
+                    UIApplication.shared.applicationIconBadgeNumber = Notifications.getBadgeCount()
                 }
             }
+            completionHandler(.newData)
         }
+        
+        self.refreshUI()
     }
     
-    private func getBadgeCount() -> Int {
-        let managedObjectContext = persistentContainer.viewContext
-        let roomRequest = NSFetchRequest<Room>(entityName: CleaConstants.entityNameRoom)
-        var rooms: [Room] = []
-
-        do {
-            rooms = try managedObjectContext.fetch(roomRequest)
-        } catch let error as NSError {
-            print("Could not load rooms. \(error), \(error.userInfo)")
-        }
-        
-        let now = Calendar.current.startOfDay(for: Date())
-        let overduePredicate = NSPredicate(format: CleaConstants.predicateOverdueTask, now as CVarArg)
-        var count = 0
-
-        for room in rooms {
-            let overdueTasks = room.tasks?.filtered(using: overduePredicate)
-            count += overdueTasks!.count
-        }
-        
-        return count
+    private func refreshUI() {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableTask), object: nil)
     }
     
 }
