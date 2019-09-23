@@ -31,4 +31,6 @@ class CleaConstants {
     
     static let predicateOverdueTask = "CAST(CAST(lastCompleted, 'NSNumber') + (interval * intervalType.noOfDays * 86400), 'NSDate') < %@"
     
+    static let notificationIdentifier = "CleaNotification"
+    
 }

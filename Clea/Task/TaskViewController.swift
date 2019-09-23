@@ -47,10 +47,14 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         
         if let task = self.task {
             navigationItem.title = task.name
+            
             taskNameTextField.text = task.name
+            
             let roomIndex = rooms.firstIndex(of: task.ofRoom!)!
             roomPickerView.selectRow(roomIndex, inComponent: 0, animated: true)
+            
             intervalPickerView.selectRow(Int(task.interval - 1), inComponent: 0, animated: true)
+            
             let intervalIndex = intervalTypes.firstIndex(of: task.intervalType!)!
             intervalPickerView.selectRow(intervalIndex, inComponent: 1, animated: true)
         }
@@ -79,9 +83,7 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
-        guard let button = sender as? UIBarButtonItem, button === saveButton else {
-            return
-        }
+        guard let button = sender as? UIBarButtonItem, button === saveButton else { return }
         
         let name = taskNameTextField.text ?? ""
         let room = rooms[roomPickerView.selectedRow(inComponent: 0)]
@@ -91,14 +93,12 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         if (!name.isEmpty) {
             
             if (task == nil) {
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                    return
-                }
+                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
                 let managedObjectContext = appDelegate.persistentContainer.viewContext
                 
                 task = Task(context: managedObjectContext)
                 task?.dateCreated = Date()
-                task?.lastCompleted = Calendar.current.startOfDay(for: .distantPast)
+                task?.lastCompleted = Calendar.current.startOfDay(for: Date())
             }
             
             task?.name = name.trimmingCharacters(in: .whitespaces)
@@ -152,6 +152,7 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         var string: String
+        
         if (pickerView == roomPickerView) {
             string = rooms[row].name!
         } else {
