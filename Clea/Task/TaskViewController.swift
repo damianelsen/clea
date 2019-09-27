@@ -65,10 +65,12 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         
         taskNameTextField.borderStyle = UITextField.BorderStyle.none
         
-        let taskNameTextFieldBottomBorder = CALayer()
-        taskNameTextFieldBottomBorder.frame = CGRect(x: 0.0, y: taskNameTextField.frame.height - 1, width: taskNameTextField.frame.width, height: 1.0)
-        taskNameTextFieldBottomBorder.backgroundColor = CleaColors.accentColor.cgColor
-        taskNameTextField.layer.addSublayer(taskNameTextFieldBottomBorder)
+        if (taskNameTextField.layer.sublayers?.count ?? 1 == 1) {
+            let taskNameTextFieldBottomBorder = CALayer()
+            taskNameTextFieldBottomBorder.frame = CGRect(x: 0.0, y: taskNameTextField.frame.height - 1, width: taskNameTextField.frame.width, height: 1.0)
+            taskNameTextFieldBottomBorder.backgroundColor = UIColor(named: CleaConstants.accentColorName)?.cgColor
+            taskNameTextField.layer.addSublayer(taskNameTextFieldBottomBorder)
+        }
         
         guard self.task != nil else {
             self.intervalPickerView.selectRow(1, inComponent: 1, animated: true)
@@ -142,14 +144,6 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         }
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if (pickerView == roomPickerView) {
-            return rooms[row].name
-        } else {
-            return component == 0 ? intervals[row] : intervalTypes[row].name
-        }
-    }
-    
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         var string: String
         
@@ -158,7 +152,7 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         } else {
             string = component == 0 ? intervals[row] : intervalTypes[row].name!
         }
-        let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : CleaColors.accentColor])
+        let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : UIColor(named: CleaConstants.accentColorName)!])
         
         return attributedString
     }

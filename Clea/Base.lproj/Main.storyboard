@@ -2,8 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9jG-LC-hux">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,19 +12,18 @@
         <scene sceneID="9Ma-Dl-eY3">
             <objects>
                 <tableViewController id="acQ-Ji-e8m" customClass="RoomTableViewController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="56" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="0yo-TG-rv9">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="56" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="0yo-TG-rv9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RoomTableViewCell" id="s6x-n2-7hE" customClass="RoomTableViewCell" customModule="Clea" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RoomTableViewCell" id="s6x-n2-7hE" customClass="RoomTableViewCell" customModule="Clea" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="56"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="s6x-n2-7hE" id="75Q-s6-dwu">
-                                    <rect key="frame" x="0.0" y="0.0" width="347.66666666666669" height="56"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -34,6 +33,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Rooms" id="gtM-nX-rCM">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="R14-Bd-36z">
+                            <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <segue destination="HGC-GL-87G" kind="presentation" id="81Z-N2-1w4"/>
                             </connections>
@@ -53,45 +53,42 @@
             <objects>
                 <viewController id="cUh-mR-0vN" customClass="RoomViewController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yGe-4p-d2h">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="650"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Enter a name for the new room" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Q6j-xr-I8r">
-                                <rect key="frame" x="15" y="39" width="345" height="29"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="textColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Describe the new room" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Q6j-xr-I8r">
+                                <rect key="frame" x="15" y="147" width="345" height="29"/>
+                                <color key="textColor" name="AccentColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" keyboardAppearance="alert" returnKeyType="done"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCl-fd-Uqg">
-                                <rect key="frame" x="15" y="10" width="345" height="21"/>
+                                <rect key="frame" x="15" y="118" width="345" height="21"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7sE-lY-QSc">
-                                <rect key="frame" x="15" y="88" width="345" height="21"/>
+                                <rect key="frame" x="15" y="206" width="345" height="21"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DSH-ZS-Wq3">
-                                <rect key="frame" x="15" y="110" width="345" height="216"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="15" y="212" width="345" height="216"/>
                             </pickerView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="7sE-lY-QSc" firstAttribute="leading" secondItem="oH6-NC-gmd" secondAttribute="leading" constant="15" id="DQf-my-GeC"/>
                             <constraint firstItem="Q6j-xr-I8r" firstAttribute="leading" secondItem="oH6-NC-gmd" secondAttribute="leading" constant="15" id="Pba-tJ-9PZ"/>
-                            <constraint firstItem="DSH-ZS-Wq3" firstAttribute="top" secondItem="7sE-lY-QSc" secondAttribute="bottom" constant="1" id="Qph-cL-YkR"/>
+                            <constraint firstItem="DSH-ZS-Wq3" firstAttribute="top" secondItem="7sE-lY-QSc" secondAttribute="bottom" constant="-15" id="Qph-cL-YkR"/>
                             <constraint firstItem="oH6-NC-gmd" firstAttribute="trailing" secondItem="LCl-fd-Uqg" secondAttribute="trailing" constant="15" id="Wov-rF-lbr"/>
                             <constraint firstItem="oH6-NC-gmd" firstAttribute="trailing" secondItem="DSH-ZS-Wq3" secondAttribute="trailing" constant="15" id="a3F-yI-WeH"/>
                             <constraint firstItem="DSH-ZS-Wq3" firstAttribute="leading" secondItem="oH6-NC-gmd" secondAttribute="leading" constant="15" id="kx8-5X-fJt"/>
                             <constraint firstItem="LCl-fd-Uqg" firstAttribute="top" secondItem="oH6-NC-gmd" secondAttribute="top" constant="10" id="o9F-IZ-jug"/>
                             <constraint firstItem="Q6j-xr-I8r" firstAttribute="top" secondItem="LCl-fd-Uqg" secondAttribute="bottom" constant="8" id="sVK-np-GcX"/>
-                            <constraint firstItem="7sE-lY-QSc" firstAttribute="top" secondItem="Q6j-xr-I8r" secondAttribute="bottom" constant="20" id="sdJ-1c-xRc"/>
+                            <constraint firstItem="7sE-lY-QSc" firstAttribute="top" secondItem="Q6j-xr-I8r" secondAttribute="bottom" constant="30" id="sdJ-1c-xRc"/>
                             <constraint firstItem="oH6-NC-gmd" firstAttribute="trailing" secondItem="Q6j-xr-I8r" secondAttribute="trailing" constant="15" id="taD-Uc-ZUx"/>
                             <constraint firstItem="oH6-NC-gmd" firstAttribute="trailing" secondItem="7sE-lY-QSc" secondAttribute="trailing" constant="15" id="uti-fo-M9Z"/>
                             <constraint firstItem="LCl-fd-Uqg" firstAttribute="leading" secondItem="oH6-NC-gmd" secondAttribute="leading" constant="15" id="zaH-T8-sfh"/>
@@ -100,11 +97,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="New Room" id="3Rd-f6-1EL">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="S5Q-Hd-98R">
+                            <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <action selector="cancelButton:" destination="cUh-mR-0vN" id="0h8-Ew-DHd"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="gEC-pt-pN7">
+                            <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <segue destination="VsN-hA-oOL" kind="unwind" unwindAction="unwindToRoomListWithSender:" id="Qke-sH-bTx"/>
                             </connections>
@@ -126,18 +125,17 @@
             <objects>
                 <tableViewController id="oi4-z5-FlP" customClass="TaskTableViewController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="56" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Pob-JT-Ngb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TaskTableViewCell" id="UGe-Ov-WwU">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TaskTableViewCell" id="UGe-Ov-WwU">
                                 <rect key="frame" x="0.0" y="28" width="375" height="56"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UGe-Ov-WwU" id="q6H-b9-8Ty">
-                                    <rect key="frame" x="0.0" y="0.0" width="347.66666666666669" height="56"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -147,6 +145,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Tasks" id="xc1-UK-YCp">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="B6Z-kB-hQN">
+                            <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <segue destination="Vsj-Zb-kf7" kind="presentation" id="OoT-ME-kxw"/>
                             </connections>
@@ -165,11 +164,10 @@
         <scene sceneID="Q4l-C2-b50">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HxR-uy-lxw" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Tasks" image="tasks" id="8nP-I4-qEW"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="4Dm-jd-bhL">
+                    <tabBarItem key="tabBarItem" title="Tasks" image="checkmark.square.fill" catalog="system" id="8nP-I4-qEW"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="4Dm-jd-bhL">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="oi4-z5-FlP" kind="relationship" relationship="rootViewController" id="5HE-UY-NeU"/>
@@ -183,10 +181,11 @@
         <scene sceneID="1Tb-k3-4UD">
             <objects>
                 <tabBarController id="9jG-LC-hux" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" id="wfY-eS-o8m">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="wfY-eS-o8m">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="selectedImageTintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" name="AccentColor"/>
+                        <color key="selectedImageTintColor" name="AccentColor"/>
                     </tabBar>
                     <connections>
                         <segue destination="Hxj-Jm-91T" kind="relationship" relationship="viewControllers" id="2tK-tJ-WsE"/>
@@ -201,12 +200,11 @@
         <scene sceneID="NW8-j1-Jhx">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Hxj-Jm-91T" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Rooms" image="rooms" id="YBP-kb-IHc"/>
+                    <tabBarItem key="tabBarItem" title="Rooms" image="house.fill" catalog="system" id="YBP-kb-IHc"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="Apx-YK-ZE5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Apx-YK-ZE5">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -222,10 +220,9 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HGC-GL-87G" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="uBx-Fe-lKF">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="uBx-Fe-lKF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="108"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -241,10 +238,9 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Vsj-Zb-kf7" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="5JI-0l-4Rt">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="5JI-0l-4Rt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="108"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -260,57 +256,53 @@
             <objects>
                 <viewController id="OW2-mm-R65" customClass="TaskViewController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lJ2-fJ-4qc">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="650"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Enter a name for the new room" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gxe-Sf-YCM">
-                                <rect key="frame" x="15" y="39" width="345" height="29"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="textColor" red="0.61223846670000004" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Describe the new task" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gxe-Sf-YCM">
+                                <rect key="frame" x="15" y="147" width="345" height="29"/>
+                                <color key="textColor" name="AccentColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" keyboardAppearance="alert" returnKeyType="done"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TGE-1e-e7N">
-                                <rect key="frame" x="15" y="10" width="345" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TGE-1e-e7N">
+                                <rect key="frame" x="15" y="118" width="345" height="21"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qID-Qe-owY">
-                                <rect key="frame" x="15" y="88" width="345" height="21"/>
+                                <rect key="frame" x="15" y="206" width="345" height="21"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due Every" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2yv-kf-huP">
-                                <rect key="frame" x="15" y="334" width="345" height="21"/>
+                                <rect key="frame" x="15" y="436" width="345" height="21"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kpg-62-0Lp">
-                                <rect key="frame" x="15" y="110" width="345" height="216"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="15" y="212" width="345" height="216"/>
                             </pickerView>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bSo-Og-xbU">
-                                <rect key="frame" x="15" y="363" width="345" height="216"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="15" y="442" width="345" height="216"/>
                             </pickerView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="qID-Qe-owY" firstAttribute="top" secondItem="gxe-Sf-YCM" secondAttribute="bottom" constant="20" id="3Rp-v7-eQj"/>
+                            <constraint firstItem="qID-Qe-owY" firstAttribute="top" secondItem="gxe-Sf-YCM" secondAttribute="bottom" constant="30" id="3Rp-v7-eQj"/>
                             <constraint firstItem="TGE-1e-e7N" firstAttribute="top" secondItem="h87-gz-pqa" secondAttribute="top" constant="10" id="55E-9S-0Cg"/>
                             <constraint firstItem="bSo-Og-xbU" firstAttribute="leading" secondItem="h87-gz-pqa" secondAttribute="leading" constant="15" id="C9z-JJ-Po5"/>
-                            <constraint firstItem="kpg-62-0Lp" firstAttribute="top" secondItem="qID-Qe-owY" secondAttribute="bottom" constant="1" id="CVQ-EV-riE"/>
+                            <constraint firstItem="kpg-62-0Lp" firstAttribute="top" secondItem="qID-Qe-owY" secondAttribute="bottom" constant="-15" id="CVQ-EV-riE"/>
                             <constraint firstItem="qID-Qe-owY" firstAttribute="leading" secondItem="h87-gz-pqa" secondAttribute="leading" constant="15" id="KQC-Sg-Zmx"/>
                             <constraint firstItem="2yv-kf-huP" firstAttribute="top" secondItem="kpg-62-0Lp" secondAttribute="bottom" constant="8" id="OMQ-sv-hlg"/>
                             <constraint firstItem="2yv-kf-huP" firstAttribute="leading" secondItem="h87-gz-pqa" secondAttribute="leading" constant="15" id="Q2m-KL-Nky"/>
                             <constraint firstItem="h87-gz-pqa" firstAttribute="trailing" secondItem="bSo-Og-xbU" secondAttribute="trailing" constant="15" id="T7O-Xo-x7f"/>
                             <constraint firstItem="gxe-Sf-YCM" firstAttribute="top" secondItem="TGE-1e-e7N" secondAttribute="bottom" constant="8" id="WTJ-0q-5xy"/>
                             <constraint firstItem="h87-gz-pqa" firstAttribute="trailing" secondItem="TGE-1e-e7N" secondAttribute="trailing" constant="15" id="aS9-KA-Dd7"/>
-                            <constraint firstItem="bSo-Og-xbU" firstAttribute="top" secondItem="2yv-kf-huP" secondAttribute="bottom" constant="8" id="cuo-ls-I0k"/>
+                            <constraint firstItem="bSo-Og-xbU" firstAttribute="top" secondItem="2yv-kf-huP" secondAttribute="bottom" constant="-15" id="cuo-ls-I0k"/>
                             <constraint firstItem="h87-gz-pqa" firstAttribute="trailing" secondItem="qID-Qe-owY" secondAttribute="trailing" constant="15" id="eIF-kf-Otd"/>
                             <constraint firstItem="gxe-Sf-YCM" firstAttribute="leading" secondItem="h87-gz-pqa" secondAttribute="leading" constant="15" id="h5x-3v-UwI"/>
                             <constraint firstItem="h87-gz-pqa" firstAttribute="trailing" secondItem="kpg-62-0Lp" secondAttribute="trailing" constant="15" id="mqQ-Yg-9RA"/>
@@ -323,11 +315,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="New Task" id="YDb-bZ-40n">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="rmz-0b-UsW">
+                            <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <action selector="cancelButton:" destination="OW2-mm-R65" id="9UQ-Sb-qO1"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="p5k-VT-lKu">
+                            <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <segue destination="V46-gE-nvu" kind="unwind" unwindAction="unwindToTaskListWithSender:" id="beq-8K-NdP"/>
                             </connections>
@@ -347,8 +341,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="rooms" width="39" height="29"/>
-        <image name="tasks" width="31" height="29"/>
+        <image name="checkmark.square.fill" catalog="system" width="64" height="56"/>
+        <image name="house.fill" catalog="system" width="64" height="52"/>
+        <namedColor name="AccentColor">
+            <color red="0.6119999885559082" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Tsa-EC-g0n"/>

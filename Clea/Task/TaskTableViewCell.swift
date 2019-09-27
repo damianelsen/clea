@@ -24,12 +24,6 @@ class TaskTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.selectedBackgroundView = {
-            let bgView = UIView(frame: .zero)
-            bgView.backgroundColor = .darkGray
-            return bgView
-        }()
     }
     
     // MARK: - View Overrides
@@ -80,15 +74,15 @@ class TaskTableViewCell: UITableViewCell {
     }
     
     private func color(forMessage: String) -> UIColor {
-        var color = UIColor.green
+        var color = UIColor(named: CleaConstants.taskScheduledColorName)
         
-        if (forMessage.contains("Overdue")) {
-            color = UIColor.red
-        } else if (forMessage.contains("today") || forMessage.contains("tomorrow")) {
-            color = UIColor.yellow
+        if (forMessage.contains("Overdue") || forMessage.contains("today")) {
+            color = UIColor(named: CleaConstants.taskOverdueColorName)
+        } else if (forMessage.contains("tomorrow")) {
+            color = UIColor(named: CleaConstants.taskDueColorName)
         }
         
-        return color
+        return color!
     }
     
 }

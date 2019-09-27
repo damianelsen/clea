@@ -178,6 +178,8 @@ class TaskTableViewController: UITableViewController {
         Notifications.scheduleNotification(forTask: task)
 
         guard tableView?.indexPathForSelectedRow == nil else {
+            self.sort()
+            
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
             
             return

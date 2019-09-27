@@ -12,6 +12,11 @@ class CleaConstants {
     
     // MARK: - Constants
     
+    static let accentColorName = "AccentColor"
+    static let taskScheduledColorName = "TaskScheduledColor"
+    static let taskDueColorName = "TaskDueColor"
+    static let taskOverdueColorName = "TaskOverdueColor"
+
     static let entityNameRoom = "Room"
     static let entityNameRoomType = "RoomType"
     static let entityNameTask = "Task"
