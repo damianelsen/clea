@@ -25,12 +25,6 @@ class RoomTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.selectedBackgroundView = {
-            let bgView = UIView(frame: .zero)
-            bgView.backgroundColor = .darkGray
-            return bgView
-        }()
     }
     
     // MARK: - View Overrides

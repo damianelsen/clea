@@ -54,10 +54,12 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         
         roomNameTextField.borderStyle = UITextField.BorderStyle.none
         
-        let roomNameTextFieldBottomBorder = CALayer()
-        roomNameTextFieldBottomBorder.frame = CGRect(x: 0.0, y: roomNameTextField.frame.height - 1, width: roomNameTextField.frame.width, height: 1.0)
-        roomNameTextFieldBottomBorder.backgroundColor = CleaColors.accentColor.cgColor
-        roomNameTextField.layer.addSublayer(roomNameTextFieldBottomBorder)
+        if (roomNameTextField.layer.sublayers?.count ?? 1 == 1) {
+            let roomNameTextFieldBottomBorder = CALayer()
+            roomNameTextFieldBottomBorder.frame = CGRect(x: 0.0, y: roomNameTextField.frame.height - 1, width: roomNameTextField.frame.width, height: 1.0)
+            roomNameTextFieldBottomBorder.backgroundColor = UIColor(named: CleaConstants.accentColorName)?.cgColor
+            roomNameTextField.layer.addSublayer(roomNameTextFieldBottomBorder)
+        }
 
         guard self.room != nil else {
             self.roomTypePickerView.selectRow(2, inComponent: 0, animated: true)
@@ -121,12 +123,8 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         return roomTypes.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return roomTypes[row].name
-    }
-    
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attributedString = NSAttributedString(string: roomTypes[row].name!, attributes: [NSAttributedString.Key.foregroundColor : CleaColors.accentColor])
+        let attributedString = NSAttributedString(string: roomTypes[row].name!, attributes: [NSAttributedString.Key.foregroundColor : UIColor(named: CleaConstants.accentColorName)!])
         return attributedString
     }
     
