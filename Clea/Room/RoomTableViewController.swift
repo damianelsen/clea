@@ -22,9 +22,7 @@ class RoomTableViewController: UITableViewController {
     // MARK: - Actions
     
     @IBAction func unwindToRoomList(sender: UIStoryboardSegue) {
-        guard let sourceViewController = sender.source as? RoomViewController, let room = sourceViewController.room else {
-            return
-        }
+        guard let sourceViewController = sender.source as? RoomViewController, let room = sourceViewController.room else { return }
         
         self.save(room: room)
         self.tableView.reloadData()
@@ -57,12 +55,8 @@ class RoomTableViewController: UITableViewController {
         super.prepare(for: segue, sender: sender)
         
         guard segue.identifier == CleaConstants.segueShowDetailRoom else {
-            guard let button = sender as? UIBarButtonItem, button === addButton else {
-                return
-            }
-            guard tableView!.indexPathForSelectedRow != nil else {
-                return
-            }
+            guard let button = sender as? UIBarButtonItem, button === addButton else { return }
+            guard tableView!.indexPathForSelectedRow != nil else { return }
             
             tableView.deselectRow(at: tableView!.indexPathForSelectedRow!, animated: true)
             
@@ -125,9 +119,7 @@ class RoomTableViewController: UITableViewController {
     }
     
     private func load() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         let roomRequest = NSFetchRequest<Room>(entityName: CleaConstants.entityNameRoom)
         let roomSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: false)
@@ -155,9 +147,7 @@ class RoomTableViewController: UITableViewController {
     }
     
     private func save(room: Room?) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         
         do {
@@ -176,9 +166,7 @@ class RoomTableViewController: UITableViewController {
     }
     
     private func delete(index: IndexPath) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         managedObjectContext.delete(rooms.remove(at: index.row) as NSManagedObject)
         

@@ -41,7 +41,9 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         
         if let room = self.room {
             navigationItem.title = room.name
+            
             roomNameTextField.text = room.name
+            
             let row = roomTypes.firstIndex(of: room.type!)!
             roomTypePickerView.selectRow(row, inComponent: 0, animated: true)
         }
@@ -52,10 +54,12 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         
         roomNameTextField.borderStyle = UITextField.BorderStyle.none
         
-        let roomNameTextFieldBottomBorder = CALayer()
-        roomNameTextFieldBottomBorder.frame = CGRect(x: 0.0, y: roomNameTextField.frame.height - 1, width: roomNameTextField.frame.width, height: 1.0)
-        roomNameTextFieldBottomBorder.backgroundColor = CleaColors.accentColor.cgColor
-        roomNameTextField.layer.addSublayer(roomNameTextFieldBottomBorder)
+        if (roomNameTextField.layer.sublayers?.count ?? 1 == 1) {
+            let roomNameTextFieldBottomBorder = CALayer()
+            roomNameTextFieldBottomBorder.frame = CGRect(x: 0.0, y: roomNameTextField.frame.height - 1, width: roomNameTextField.frame.width, height: 1.0)
+            roomNameTextFieldBottomBorder.backgroundColor = UIColor(named: CleaConstants.accentColorName)?.cgColor
+            roomNameTextField.layer.addSublayer(roomNameTextFieldBottomBorder)
+        }
 
         guard self.room != nil else {
             self.roomTypePickerView.selectRow(2, inComponent: 0, animated: true)
@@ -69,9 +73,7 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
-        guard let button = sender as? UIBarButtonItem, button === saveButton else {
-            return
-        }
+        guard let button = sender as? UIBarButtonItem, button === saveButton else { return }
         
         let name = roomNameTextField.text ?? ""
         let type = roomTypes[roomTypePickerView.selectedRow(inComponent: 0)]
@@ -79,9 +81,7 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         if (!name.isEmpty) {
             
             if (room == nil) {
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                    return
-                }
+                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
                 let managedObjectContext = appDelegate.persistentContainer.viewContext
                 
                 room = Room(context: managedObjectContext)
@@ -123,12 +123,8 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         return roomTypes.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return roomTypes[row].name
-    }
-    
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attributedString = NSAttributedString(string: roomTypes[row].name!, attributes: [NSAttributedString.Key.foregroundColor : CleaColors.accentColor])
+        let attributedString = NSAttributedString(string: roomTypes[row].name!, attributes: [NSAttributedString.Key.foregroundColor : UIColor(named: CleaConstants.accentColorName)!])
         return attributedString
     }
     

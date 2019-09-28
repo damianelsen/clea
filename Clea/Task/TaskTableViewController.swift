@@ -22,9 +22,7 @@ class TaskTableViewController: UITableViewController {
     // MARK: - Actions
     
     @IBAction func unwindToTaskList(sender: UIStoryboardSegue) {
-        guard let sourceViewController = sender.source as? TaskViewController, let task = sourceViewController.task else {
-            return
-        }
+        guard let sourceViewController = sender.source as? TaskViewController, let task = sourceViewController.task else { return }
         
         self.save(task: task)
         self.tableView.reloadData()
@@ -59,12 +57,8 @@ class TaskTableViewController: UITableViewController {
         super.prepare(for: segue, sender: sender)
         
         guard segue.identifier == CleaConstants.segueShowDetailTask else {
-            guard let button = sender as? UIBarButtonItem, button === addButton else {
-                return
-            }
-            guard tableView!.indexPathForSelectedRow != nil else {
-                return
-            }
+            guard let button = sender as? UIBarButtonItem, button === addButton else { return }
+            guard tableView!.indexPathForSelectedRow != nil else { return }
             
             tableView.deselectRow(at: tableView!.indexPathForSelectedRow!, animated: true)
             
@@ -112,10 +106,9 @@ class TaskTableViewController: UITableViewController {
             let task = self.tasks[indexPath.row]
             task.lastCompleted = Calendar.current.startOfDay(for: Date())
             
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return
-            }
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let managedObjectContext = appDelegate.persistentContainer.viewContext
+            
             do {
                 try managedObjectContext.save()
             } catch let error as NSError {
@@ -125,6 +118,7 @@ class TaskTableViewController: UITableViewController {
             self.sort()
             self.tableView.reloadData()
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
+            Notifications.scheduleNotification(forTask: task)
             actionPerformed(true)
         }
         cleanedAction.backgroundColor = .blue
@@ -139,10 +133,8 @@ class TaskTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    func load() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
+    private func load() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         let taskRequest = NSFetchRequest<Task>(entityName: CleaConstants.entityNameTask)
         let taskSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
@@ -173,10 +165,8 @@ class TaskTableViewController: UITableViewController {
         }
     }
     
-    func save(task: Task?) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
+    private func save(task: Task) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         
         do {
@@ -185,20 +175,24 @@ class TaskTableViewController: UITableViewController {
             print("Could not add new task. \(error), \(error.userInfo)")
         }
         
+        Notifications.scheduleNotification(forTask: task)
+
         guard tableView?.indexPathForSelectedRow == nil else {
+            self.sort()
+            
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
             
             return
         }
         
-        tasks.append(task!)
+        tasks.append(task)
     }
     
-    func delete(index: IndexPath) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
+    private func delete(index: IndexPath) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
+        
+        Notifications.removeNotification(forTask: tasks[index.row])
         managedObjectContext.delete(tasks.remove(at: index.row) as NSManagedObject)
         
         do {
