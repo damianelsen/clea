@@ -42,8 +42,9 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         intervalPickerView.delegate = self
         intervalPickerView.dataSource = self
         
-        rooms = getRooms()
-        intervalTypes = getIntervalTypes()
+        let roomSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
+        rooms = DataController.fetchAllRooms(sortBy: roomSortByName)
+        intervalTypes = DataController.fetchAllIntervalTypes()
         
         if let task = self.task {
             navigationItem.title = task.name
@@ -53,9 +54,8 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
             let roomIndex = rooms.firstIndex(of: task.ofRoom!)!
             roomPickerView.selectRow(roomIndex, inComponent: 0, animated: true)
             
-            intervalPickerView.selectRow(Int(task.interval - 1), inComponent: 0, animated: true)
-            
             let intervalIndex = intervalTypes.firstIndex(of: task.intervalType!)!
+            intervalPickerView.selectRow(Int(task.interval - 1), inComponent: 0, animated: true)
             intervalPickerView.selectRow(intervalIndex, inComponent: 1, animated: true)
         }
     }
@@ -93,12 +93,8 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         let intervalType = self.intervalTypes[intervalPickerView.selectedRow(inComponent: 1)]
         
         if (!name.isEmpty) {
-            
             if (task == nil) {
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                let managedObjectContext = appDelegate.persistentContainer.viewContext
-                
-                task = Task(context: managedObjectContext)
+                task = DataController.createNewTask()
                 task?.dateCreated = Date()
                 task?.lastCompleted = Calendar.current.startOfDay(for: Date())
             }
@@ -161,46 +157,6 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     
     private func updateSaveButtonState(value: String) {
         saveButton.isEnabled = !value.isEmpty && rooms.count != 0
-    }
-    
-    private func getRooms() -> [Room] {
-        var rooms: [Room] = []
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return rooms
-        }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let roomRequest = NSFetchRequest<Room>(entityName: CleaConstants.entityNameRoom)
-        let roomSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
-        roomRequest.sortDescriptors = [roomSortByName]
-        
-        do {
-            rooms = try managedObjectContext.fetch(roomRequest)
-        } catch let error as NSError {
-            print("Could not load rooms. \(error), \(error.userInfo)")
-        }
-        
-        return rooms
-    }
-    
-    private func getIntervalTypes() -> [IntervalType] {
-        var intervalTypes: [IntervalType] = []
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return intervalTypes
-        }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let intervalRequest = NSFetchRequest<IntervalType>(entityName: CleaConstants.entityNameIntervalType)
-        let intervalSortByDays = NSSortDescriptor(key: CleaConstants.keyNameDays, ascending: true)
-        intervalRequest.sortDescriptors = [intervalSortByDays]
-        
-        do {
-            intervalTypes = try managedObjectContext.fetch(intervalRequest)
-        } catch let error as NSError {
-            print("Could not load task intervals. \(error), \(error.userInfo)")
-        }
-        
-        return intervalTypes
     }
     
 }

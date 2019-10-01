@@ -95,7 +95,6 @@ class RoomTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
             let title = "Delete Room?"
             let message = "Deleting this room will also delete all of its tasks. Are you sure?"
             let deleteAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -119,26 +118,18 @@ class RoomTableViewController: UITableViewController {
     }
     
     private func load() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let roomRequest = NSFetchRequest<Room>(entityName: CleaConstants.entityNameRoom)
-        let roomSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: false)
-        roomRequest.sortDescriptors = [roomSortByName]
-        
-        do {
-            rooms = try managedObjectContext.fetch(roomRequest)
-        } catch let error as NSError {
-            print("Could not load rooms. \(error), \(error.userInfo)")
-        }
+        rooms = DataController.fetchAllRooms(sortBy: nil)
         
         self.sort()
     }
     
     private func sort() {
         rooms.sort { room1, room2 in
-            let now = Calendar.current.startOfDay(for: Date())
+            return room1.name! > room2.name!
+        }
+        rooms.sort { room1, room2 in
             let overduePredicateFormat = CleaConstants.predicateOverdueTask
-            let overduePredicate = NSPredicate(format: overduePredicateFormat, now as CVarArg)
+            let overduePredicate = NSPredicate(format: overduePredicateFormat, Date() as CVarArg)
             let room1OverdueTasks = room1.tasks?.filtered(using: overduePredicate)
             let room2OverdueTasks = room2.tasks?.filtered(using: overduePredicate)
             
@@ -147,37 +138,32 @@ class RoomTableViewController: UITableViewController {
     }
     
     private func save(room: Room?) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        let isAdd = tableView?.indexPathForSelectedRow == nil
         
-        do {
-            try managedObjectContext.save()
-        } catch let error as NSError {
-            print("Could not add new room. \(error), \(error.userInfo)")
-        }
-        
-        guard tableView?.indexPathForSelectedRow == nil else {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableTask), object: nil)
+        guard let success = DataController.save(), success else {
+            let message = "Room could not be \(isAdd ? "added" : "changed")"
+            Toast.show(message: message, withType: .Error, forController: self.parent!)
             
             return
         }
         
-        rooms.append(room!)
+        if (isAdd) {
+            rooms.append(room!)
+        } else {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableTask), object: nil)
+        }
+        
+        self.sort()
     }
     
     private func delete(index: IndexPath) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        managedObjectContext.delete(rooms.remove(at: index.row) as NSManagedObject)
-        
-        do {
-            try managedObjectContext.save()
-        } catch let error as NSError {
-            print("Could not delete room. \(error), \(error.userInfo)")
+        guard let success = DataController.delete(forObject: rooms.remove(at: index.row) as NSManagedObject), success else {
+            Toast.show(message: "Room could not be deleted", withType: .Error, forController: self.parent!)
+            
+            return
         }
         
         tableView.deleteRows(at: [index], with: .fade)
-        
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableTask), object: nil)
     }
     

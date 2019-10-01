@@ -16,6 +16,7 @@ class CleaConstants {
     static let taskScheduledColorName = "TaskScheduledColor"
     static let taskDueColorName = "TaskDueColor"
     static let taskOverdueColorName = "TaskOverdueColor"
+    static let toastBackgroundColorName = "ToastBackgroundColor"
 
     static let entityNameRoom = "Room"
     static let entityNameRoomType = "RoomType"
@@ -35,7 +36,8 @@ class CleaConstants {
     static let reloadTableTask = "reloadTaskTable"
     
     static let predicateOverdueTask = "CAST(CAST(lastCompleted, 'NSNumber') + (interval * intervalType.noOfDays * 86400), 'NSDate') < %@"
-    
+    static let predicateDueTodayTask = "CAST(CAST(lastCompleted, 'NSNumber') + (interval * intervalType.noOfDays * 86400), 'NSDate') = %@"
+
     static let notificationIdentifier = "CleaNotification"
     
 }

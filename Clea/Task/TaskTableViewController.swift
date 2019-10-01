@@ -106,15 +106,12 @@ class TaskTableViewController: UITableViewController {
             let task = self.tasks[indexPath.row]
             task.lastCompleted = Calendar.current.startOfDay(for: Date())
             
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            let managedObjectContext = appDelegate.persistentContainer.viewContext
-            
-            do {
-                try managedObjectContext.save()
-            } catch let error as NSError {
-                print("Could not mark task as cleaned. \(error), \(error.userInfo)")
+            guard let success = DataController.save(), success else {
+                Toast.show(message: "Could not mark task cleaned", withType: .Error, forController: self.parent!)
+                
+                return
             }
-            
+
             self.sort()
             self.tableView.reloadData()
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
@@ -134,17 +131,7 @@ class TaskTableViewController: UITableViewController {
     }
     
     private func load() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let taskRequest = NSFetchRequest<Task>(entityName: CleaConstants.entityNameTask)
-        let taskSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
-        taskRequest.sortDescriptors = [taskSortByName]
-        
-        do {
-            tasks = try managedObjectContext.fetch(taskRequest)
-        } catch let error as NSError {
-            print("Could not load tasks. \(error), \(error.userInfo)")
-        }
+        tasks = DataController.fetchAllTasks(sortBy: nil)
         
         self.sort()
     }
@@ -161,48 +148,41 @@ class TaskTableViewController: UITableViewController {
             let task1DueDays = task1DateDiff.day!
             let task2DueDays = task2DateDiff.day!
             
-            return task1DueDays < task2DueDays
+            return task1DueDays == task2DueDays ? task1.name! < task2.name! : task1DueDays < task2DueDays
         }
     }
     
     private func save(task: Task) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        let isAdd = tableView?.indexPathForSelectedRow == nil
         
-        do {
-            try managedObjectContext.save()
-        } catch let error as NSError {
-            print("Could not add new task. \(error), \(error.userInfo)")
-        }
-        
-        Notifications.scheduleNotification(forTask: task)
-
-        guard tableView?.indexPathForSelectedRow == nil else {
-            self.sort()
-            
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
+        guard let success = DataController.save(), success else {
+            let message = "Task could not be \(isAdd ? "added" : "changed")"
+            Toast.show(message: message, withType: .Error, forController: self.parent!)
             
             return
         }
-        
-        tasks.append(task)
+
+        if (isAdd) {
+            tasks.append(task)
+        }
+
+        self.sort()
+        Notifications.scheduleNotification(forTask: task)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
     }
     
     private func delete(index: IndexPath) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        let task = tasks[index.row]
         
-        Notifications.removeNotification(forTask: tasks[index.row])
-        managedObjectContext.delete(tasks.remove(at: index.row) as NSManagedObject)
-        
-        do {
-            try managedObjectContext.save()
-        } catch let error as NSError {
-            print("Could not delete task. \(error), \(error.userInfo)")
+        guard let success = DataController.delete(forObject: task as NSManagedObject), success else {
+            Toast.show(message: "Task could not be deleted", withType: .Error, forController: self.parent!)
+            
+            return
         }
-        
+
+        Notifications.removeNotification(forTask: task)
+        tasks.remove(at: index.row)
         tableView.deleteRows(at: [index], with: .fade)
-        
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
     }
     

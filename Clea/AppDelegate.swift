@@ -6,6 +6,9 @@
 //  Copyright © 2018 Damian Elsen. All rights reserved.
 //
 
+// TODO:
+//   1. Add navigation from Room list to filtered Task list by selected Room
+
 import UIKit
 import CoreData
 import UserNotifications
@@ -57,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Saves changes in the application's managed object context before the application terminates.
     }
 
-    // MARK: - Core Data stack
+    // MARK: - Core Data Stack
 
     lazy var persistentContainer: NSPersistentContainer = {
         /*

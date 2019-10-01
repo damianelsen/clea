@@ -17,16 +17,16 @@
                 <rect key="frame" x="0.0" y="0.0" width="347.66666666666669" height="56"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="# tasks overdue" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8KU-L6-2EU">
-                        <rect key="frame" x="238.66666666666663" y="30" width="90" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="## overdue and # today" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8KU-L6-2EU">
+                        <rect key="frame" x="194" y="30" width="134.66666666666663" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" name="TaskOverdueColor"/>
                         <color key="highlightedColor" name="TaskOverdueColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="# tasks" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KpP-GJ-Xjg">
-                        <rect key="frame" x="287.66666666666669" y="12" width="41" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="## tasks" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KpP-GJ-Xjg">
+                        <rect key="frame" x="280" y="12" width="48.666666666666686" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="highlightedColor" name="AccentColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ay-0L-vvc">
@@ -36,9 +36,9 @@
                         <color key="highlightedColor" name="AccentColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qMz-n1-Hrg">
-                        <rect key="frame" x="16.000000000000004" y="30" width="63.333333333333343" height="15"/>
+                        <rect key="frame" x="16" y="30" width="167.66666666666666" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="highlightedColor" name="AccentColor"/>
                     </label>
                 </subviews>
@@ -47,6 +47,7 @@
                     <constraint firstItem="qMz-n1-Hrg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="Fhb-S8-e0t"/>
                     <constraint firstItem="KpP-GJ-Xjg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="NHm-Zb-7g5"/>
                     <constraint firstItem="2Ay-0L-vvc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="Or8-b6-wdI"/>
+                    <constraint firstAttribute="trailing" secondItem="qMz-n1-Hrg" secondAttribute="trailing" constant="165" id="ZHb-sM-4EI"/>
                     <constraint firstAttribute="trailing" secondItem="2Ay-0L-vvc" secondAttribute="trailing" constant="80" id="qTB-Zh-6uy"/>
                     <constraint firstAttribute="trailing" secondItem="8KU-L6-2EU" secondAttribute="trailing" constant="20" id="uDZ-gL-AOr"/>
                     <constraint firstAttribute="trailing" secondItem="KpP-GJ-Xjg" secondAttribute="trailing" constant="20" id="vJN-8P-BgT"/>

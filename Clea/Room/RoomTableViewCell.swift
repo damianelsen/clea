@@ -54,11 +54,20 @@ class RoomTableViewCell: UITableViewCell {
         let now = Calendar.current.startOfDay(for: Date())
         let overduePredicate = NSPredicate(format: CleaConstants.predicateOverdueTask, now as CVarArg)
         let overdueTasks = forRoom.tasks?.filtered(using: overduePredicate)
-        
+        let dueTodayPredicate = NSPredicate(format: CleaConstants.predicateDueTodayTask, now as CVarArg)
+        let dueTodayTasks = forRoom.tasks?.filtered(using: dueTodayPredicate)
+
         if (overdueTasks!.count > 0) {
             message = "\(overdueTasks!.count.description) overdue"
         }
-        
+        if (dueTodayTasks!.count > 0) {
+            if (overdueTasks!.count == 0) {
+                message = "\(dueTodayTasks!.count.description) due today"
+            } else {
+                message += " and \(dueTodayTasks!.count.description) today"
+            }
+        }
+
         return message
     }
     
