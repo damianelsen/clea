@@ -25,13 +25,13 @@ class Notifications {
             addNotification(forTask: forTask)
             resetBadgeNumbers()
         } else {
-            removeNotification(forTask: forTask)
+            let taskId = forTask.objectID.uriRepresentation().description
+            removeNotification(forTaskId: taskId)
         }
     }
     
-    static func removeNotification(forTask: Task) {
-        let taskID = forTask.objectID.uriRepresentation().description
-        let notificationIdentifier = "\(CleaConstants.notificationIdentifier) \(taskID)"
+    static func removeNotification(forTaskId: String) {
+        let notificationIdentifier = "\(CleaConstants.notificationIdentifier) \(forTaskId)"
         
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationIdentifier])
     }

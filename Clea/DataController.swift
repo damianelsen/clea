@@ -89,6 +89,22 @@ class DataController {
         return intervalTypes
     }
     
+    static func createNewRoom() -> Room? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        
+        return Room(context: managedObjectContext)
+
+    }
+    
+    static func createNewTask() -> Task? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        
+        return Task(context: managedObjectContext)
+
+    }
+    
     static func save() -> Bool? {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
@@ -97,6 +113,7 @@ class DataController {
             try managedObjectContext.save()
         } catch let error as NSError {
             print("Could not save changes. \(error), \(error.userInfo)")
+            managedObjectContext.rollback()
             return false
         }
         
@@ -112,26 +129,11 @@ class DataController {
             try managedObjectContext.save()
         } catch let error as NSError {
             print("Could not delete object. \(error), \(error.userInfo)")
+            managedObjectContext.rollback()
             return false
         }
         
         return true
-    }
-    
-    static func createNewRoom() -> Room? {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        
-        return Room(context: managedObjectContext)
-
-    }
-    
-    static func createNewTask() -> Task? {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        
-        return Task(context: managedObjectContext)
-
     }
     
 }

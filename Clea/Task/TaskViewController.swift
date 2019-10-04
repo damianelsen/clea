@@ -14,6 +14,7 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     // MARK: - Properties
     
     var task: Task?
+    var room: Room?
     var rooms: [Room] = []
     var intervalTypes: [IntervalType] = []
     var intervals: [String] = ["1","2","3","4","5","6","7","8","9","10","11","12"]
@@ -72,10 +73,15 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
             taskNameTextField.layer.addSublayer(taskNameTextFieldBottomBorder)
         }
         
-        guard self.task != nil else {
+        if (self.task == nil) {
             self.intervalPickerView.selectRow(1, inComponent: 1, animated: true)
             saveButton.isEnabled = false
-            return
+        }
+        
+        if let room = self.room {
+            let roomIndex = rooms.firstIndex(of: room)!
+            roomPickerView.selectRow(roomIndex, inComponent: 0, animated: true)
+            roomPickerView.isUserInteractionEnabled = false
         }
         
     }
