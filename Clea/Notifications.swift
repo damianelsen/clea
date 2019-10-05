@@ -25,31 +25,21 @@ class Notifications {
             addNotification(forTask: forTask)
             resetBadgeNumbers()
         } else {
-            removeNotification(forTask: forTask)
+            let taskId = forTask.objectID.uriRepresentation().description
+            removeNotification(forTaskId: taskId)
         }
     }
     
-    static func removeNotification(forTask: Task) {
-        let taskID = forTask.objectID.uriRepresentation().description
-        let notificationIdentifier = "\(CleaConstants.notificationIdentifier) \(taskID)"
+    static func removeNotification(forTaskId: String) {
+        let notificationIdentifier = "\(CleaConstants.notificationIdentifier) \(forTaskId)"
         
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationIdentifier])
     }
     
     static func getBadgeCount() -> Int {
-        var count = 0
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return count }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let roomRequest = NSFetchRequest<Room>(entityName: CleaConstants.entityNameRoom)
-        var rooms: [Room] = []
-        
-        do {
-            rooms = try managedObjectContext.fetch(roomRequest)
-        } catch let error as NSError {
-            print("Could not load rooms. \(error), \(error.userInfo)")
-        }
-        
+        let rooms = DataController.fetchAllRooms(sortBy: nil)
         let overduePredicate = NSPredicate(format: CleaConstants.predicateOverdueTask, Date() as CVarArg)
+        var count = 0
         
         for room in rooms {
             let overdueTasks = room.tasks?.filtered(using: overduePredicate)
@@ -97,18 +87,9 @@ class Notifications {
     }
     
     private static func resetBadgeNumbers() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let taskRequest = NSFetchRequest<Task>(entityName: CleaConstants.entityNameTask)
-        var tasks: [Task] = []
-        
-        do {
-            tasks = try managedObjectContext.fetch(taskRequest)
-        } catch let error as NSError {
-            print("Could not load tasks. \(error), \(error.userInfo)")
-        }
-        
+        let tasks = DataController.fetchAllTasks(sortBy: nil)
         let notificationCenter = UNUserNotificationCenter.current()
+        
         notificationCenter.getPendingNotificationRequests(completionHandler: { notifications in
             for notification in notifications {
                 let notificationTrigger = notification.trigger as! UNCalendarNotificationTrigger

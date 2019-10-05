@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9jG-LC-hux">
-    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <device id="retina5_9" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -13,7 +13,7 @@
             <objects>
                 <tableViewController id="acQ-Ji-e8m" customClass="RoomTableViewController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="56" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="0yo-TG-rv9">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
@@ -31,7 +31,7 @@
                             <outlet property="delegate" destination="acQ-Ji-e8m" id="JOc-nu-DlR"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Rooms" id="gtM-nX-rCM">
+                    <navigationItem key="navigationItem" title="Rooms" id="gtM-nX-rCM" userLabel="I">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="R14-Bd-36z">
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
@@ -42,6 +42,7 @@
                     <connections>
                         <outlet property="addButton" destination="R14-Bd-36z" id="bq3-6z-7cy"/>
                         <segue destination="HGC-GL-87G" kind="presentation" identifier="ShowRoomDetail" id="z4S-e6-QJ3"/>
+                        <segue destination="oi4-z5-FlP" kind="show" identifier="ShowRoomTasks" id="RBP-ng-5p2"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U2b-5a-ZDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -124,8 +125,8 @@
         <scene sceneID="IJe-ub-vht">
             <objects>
                 <tableViewController id="oi4-z5-FlP" customClass="TaskTableViewController" customModule="Clea" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="56" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Pob-JT-Ngb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="56" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Pob-JT-Ngb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
@@ -168,6 +169,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="4Dm-jd-bhL">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="AccentColor"/>
                     </navigationBar>
                     <connections>
                         <segue destination="oi4-z5-FlP" kind="relationship" relationship="rootViewController" id="5HE-UY-NeU"/>
@@ -181,7 +183,7 @@
         <scene sceneID="1Tb-k3-4UD">
             <objects>
                 <tabBarController id="9jG-LC-hux" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="wfY-eS-o8m">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wfY-eS-o8m">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" name="AccentColor"/>
@@ -350,5 +352,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="Tsa-EC-g0n"/>
         <segue reference="z4S-e6-QJ3"/>
+        <segue reference="5HE-UY-NeU"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" name="AccentColor"/>
 </document>

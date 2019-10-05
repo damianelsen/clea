@@ -55,19 +55,19 @@ class TaskTableViewCell: UITableViewCell {
         
         switch dueDays {
         case ...(-1):
-            message = "Overdue"
+            message = "overdue"
         case 0:
-            message = "Due today"
+            message = "today"
         case 1:
-            message = "Due tomorrow"
+            message = "tomorrow"
         case 2...13:
-            message = "Due in \(dueDays.description) day\(dueDays == 1 ? "" : "s")"
+            message = "in \(dueDays.description) day\(dueDays == 1 ? "" : "s")"
         case 14...29:
             let weeks = dueDays / 7
-            message = "Due in \(weeks.description) weeks"
+            message = "in \(weeks.description) weeks"
         default:
             let months = dueDays / 30
-            message = "Due in \(months.description) month\(months == 1 ? "" : "s")"
+            message = "in \(months.description) month\(months == 1 ? "" : "s")"
         }
         
         return message
@@ -76,7 +76,7 @@ class TaskTableViewCell: UITableViewCell {
     private func color(forMessage: String) -> UIColor {
         var color = UIColor(named: CleaConstants.taskScheduledColorName)
         
-        if (forMessage.contains("Overdue") || forMessage.contains("today")) {
+        if (forMessage.contains("overdue") || forMessage.contains("today")) {
             color = UIColor(named: CleaConstants.taskOverdueColorName)
         } else if (forMessage.contains("tomorrow")) {
             color = UIColor(named: CleaConstants.taskDueColorName)

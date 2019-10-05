@@ -14,6 +14,8 @@ class TaskTableViewController: UITableViewController {
     // MARK: - Properties
     
     var tasks: [Task] = []
+    var room: Room?
+    var currentRow: Int?
     
     // MARK: - Outlets
     
@@ -25,9 +27,6 @@ class TaskTableViewController: UITableViewController {
         guard let sourceViewController = sender.source as? TaskViewController, let task = sourceViewController.task else { return }
         
         self.save(task: task)
-        self.tableView.reloadData()
-        
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
     }
     
     // MARK: - View Lifecycle
@@ -35,9 +34,7 @@ class TaskTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Tasks"
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name(rawValue: CleaConstants.reloadTableTask), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name(rawValue: CleaConstants.notificationRefreshTasks), object: nil)
         
         let taskTableViewCell = UINib(nibName: CleaConstants.cellReuseIdentifierTask, bundle: nil)
         self.tableView.register(taskTableViewCell, forCellReuseIdentifier: CleaConstants.cellReuseIdentifierTask)
@@ -48,7 +45,7 @@ class TaskTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.load()
+        self.refresh()
     }
     
     // MARK: - Navigation
@@ -56,19 +53,23 @@ class TaskTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
+        let taskNavigationController = segue.destination as! UINavigationController
+        let taskViewController = taskNavigationController.viewControllers[0] as? TaskViewController
+        
         guard segue.identifier == CleaConstants.segueShowDetailTask else {
             guard let button = sender as? UIBarButtonItem, button === addButton else { return }
-            guard tableView!.indexPathForSelectedRow != nil else { return }
             
-            tableView.deselectRow(at: tableView!.indexPathForSelectedRow!, animated: true)
+            currentRow = nil
+            
+            if let room = self.room {
+                taskViewController?.room = room
+            }
             
             return
         }
         
-        let taskNavigationController = segue.destination as! UINavigationController
         let indexPath = sender as! IndexPath
-        let taskViewController = taskNavigationController.viewControllers[0] as? TaskViewController
-        
+        currentRow = indexPath.row
         taskViewController!.task = tasks[indexPath.row]
     }
     
@@ -83,15 +84,15 @@ class TaskTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> TaskTableViewCell {
-        let task = tasks[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: CleaConstants.cellReuseIdentifierTask, for: indexPath) as! TaskTableViewCell
+        let task = tasks[indexPath.row]
         
         cell.task = task
         
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         self.performSegue(withIdentifier: CleaConstants.segueShowDetailTask, sender: indexPath)
     }
     
@@ -104,21 +105,9 @@ class TaskTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let cleanedAction = UIContextualAction(style: .normal, title: "Clean") { (action, view, actionPerformed) in
             let task = self.tasks[indexPath.row]
-            task.lastCompleted = Calendar.current.startOfDay(for: Date())
             
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            let managedObjectContext = appDelegate.persistentContainer.viewContext
+            self.markAsClean(forTask: task)
             
-            do {
-                try managedObjectContext.save()
-            } catch let error as NSError {
-                print("Could not mark task as cleaned. \(error), \(error.userInfo)")
-            }
-            
-            self.sort()
-            self.tableView.reloadData()
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
-            Notifications.scheduleNotification(forTask: task)
             actionPerformed(true)
         }
         cleanedAction.backgroundColor = .blue
@@ -128,25 +117,17 @@ class TaskTableViewController: UITableViewController {
     
     // MARK: - Private Methods
     
-    @objc func refresh() {
-        self.load()
-        self.tableView.reloadData()
-    }
-    
-    private func load() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let taskRequest = NSFetchRequest<Task>(entityName: CleaConstants.entityNameTask)
-        let taskSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
-        taskRequest.sortDescriptors = [taskSortByName]
-        
-        do {
-            tasks = try managedObjectContext.fetch(taskRequest)
-        } catch let error as NSError {
-            print("Could not load tasks. \(error), \(error.userInfo)")
+    @objc private func refresh() {
+        if let room = self.room {
+            title = room.name
+            tasks = room.tasks?.allObjects as! [Task]
+        } else {
+            title = "Tasks"
+            tasks = DataController.fetchAllTasks(sortBy: nil)
         }
         
         self.sort()
+        self.tableView.reloadData()
     }
     
     private func sort() {
@@ -161,49 +142,74 @@ class TaskTableViewController: UITableViewController {
             let task1DueDays = task1DateDiff.day!
             let task2DueDays = task2DateDiff.day!
             
-            return task1DueDays < task2DueDays
+            return task1DueDays == task2DueDays ? task1.name! < task2.name! : task1DueDays < task2DueDays
         }
     }
     
     private func save(task: Task) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        let isAdd = currentRow == nil
         
-        do {
-            try managedObjectContext.save()
-        } catch let error as NSError {
-            print("Could not add new task. \(error), \(error.userInfo)")
-        }
-        
-        Notifications.scheduleNotification(forTask: task)
-
-        guard tableView?.indexPathForSelectedRow == nil else {
-            self.sort()
-            
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
+        guard let success = DataController.save(), success else {
+            let message = "Task could not be \(isAdd ? "added" : "changed")"
+            Toast.show(message: message, withType: .Error, forController: self.parent!)
             
             return
         }
         
-        tasks.append(task)
+        if (isAdd) {
+            tasks.append(task)
+            self.sort()
+            let index = tasks.firstIndex(of: task)
+            tableView.insertRows(at: [IndexPath(row: index!, section: 0)], with: .automatic)
+        } else {
+            self.refresh()
+        }
+
+        Notifications.scheduleNotification(forTask: task)
     }
     
     private func delete(index: IndexPath) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        let task = tasks[index.row]
+        let taskId = task.objectID.uriRepresentation().description
         
-        Notifications.removeNotification(forTask: tasks[index.row])
-        managedObjectContext.delete(tasks.remove(at: index.row) as NSManagedObject)
+        guard let success = DataController.delete(forObject: task as NSManagedObject), success else {
+            Toast.show(message: "Task could not be deleted", withType: .Error, forController: self.parent!)
+            
+            return
+        }
+
+        tasks.remove(at: index.row)
+        Notifications.removeNotification(forTaskId: taskId)
+        tableView.deleteRows(at: [index], with: .fade)
+    }
+    
+    private func markAsClean(forTask: Task) {
+        forTask.lastCompleted = Calendar.current.startOfDay(for: Date())
         
-        do {
-            try managedObjectContext.save()
-        } catch let error as NSError {
-            print("Could not delete task. \(error), \(error.userInfo)")
+        guard let success = DataController.save(), success else {
+            Toast.show(message: "Could not mark task as clean", withType: .Error, forController: self.parent!)
+            
+            return
         }
         
-        tableView.deleteRows(at: [index], with: .fade)
+        Notifications.scheduleNotification(forTask: forTask)
         
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.reloadTableRoom), object: nil)
+        let oldRow = tasks.firstIndex(of: forTask)!
+        self.sort()
+        let newRow = tasks.firstIndex(of: forTask)!
+        self.reorderTable(fromRow: oldRow, toRow: newRow)
+    }
+    
+    private func reorderTable(fromRow: Int, toRow: Int) {
+        let indexes = fromRow < toRow ? (fromRow...toRow) : (toRow...fromRow)
+        var indexPaths: [IndexPath] = []
+        
+        for index in indexes {
+            let indexPath = IndexPath(row: index, section: 0)
+            indexPaths.append(indexPath)
+        }
+        
+        tableView.reloadRows(at: indexPaths, with: .fade)
     }
     
 }

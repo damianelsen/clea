@@ -37,7 +37,7 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         roomTypePickerView.delegate = self
         roomTypePickerView.dataSource = self
         
-        roomTypes = getRoomTypes()
+        roomTypes = DataController.fetchAllRoomTypes()
         
         if let room = self.room {
             navigationItem.title = room.name
@@ -81,10 +81,7 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         if (!name.isEmpty) {
             
             if (room == nil) {
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                let managedObjectContext = appDelegate.persistentContainer.viewContext
-                
-                room = Room(context: managedObjectContext)
+                room = DataController.createNewRoom()
                 room?.dateCreated = Date()
             }
             
@@ -132,26 +129,6 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     
     private func updateSaveButtonState(value: String) {
         saveButton.isEnabled = !value.isEmpty
-    }
-    
-    private func getRoomTypes() -> [RoomType] {
-        var types: [RoomType] = []
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return types
-        }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let roomTypeRequest = NSFetchRequest<RoomType>(entityName: CleaConstants.entityNameRoomType)
-        let roomTypeSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
-        roomTypeRequest.sortDescriptors = [roomTypeSortByName]
-        
-        do {
-            types = try managedObjectContext.fetch(roomTypeRequest)
-        } catch let error as NSError {
-            print("Could not load room types. \(error), \(error.userInfo)")
-        }
-        
-        return types
     }
     
 }
