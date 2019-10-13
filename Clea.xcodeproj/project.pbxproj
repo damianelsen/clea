@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2D57306E2329865600E5078A /* CleaConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D57306D2329865600E5078A /* CleaConstants.swift */; };
+		2D71443B2353B7D400944524 /* Clea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2D7144392353B7D400944524 /* Clea.xcdatamodeld */; };
 		2DA7F6872100D72300B7A295 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F6862100D72300B7A295 /* AppDelegate.swift */; };
 		2DA7F68C2100D72300B7A295 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DA7F68A2100D72300B7A295 /* Main.storyboard */; };
 		2DA7F6912100D72500B7A295 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DA7F6902100D72500B7A295 /* Assets.xcassets */; };
@@ -22,7 +23,6 @@
 		2DC84C5B2353AE3F003C5EDA /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC84C592353AE3F003C5EDA /* RoomViewController.swift */; };
 		2DC84C5E2353AE64003C5EDA /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC84C5C2353AE64003C5EDA /* TaskViewController.swift */; };
 		2DC84C5F2353AE64003C5EDA /* TaskTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC84C5D2353AE64003C5EDA /* TaskTableViewController.swift */; };
-		2DC84C632353AE93003C5EDA /* Clea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DC84C612353AE93003C5EDA /* Clea.xcdatamodeld */; };
 		2DC84C662353AF0F003C5EDA /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC84C652353AF0F003C5EDA /* DataController.swift */; };
 		2DDB0D3523367FBF00B89E0F /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DDB0D3423367FBF00B89E0F /* Notifications.swift */; };
 		2DEFA9AC2340F11700424D10 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DEFA9AB2340F11700424D10 /* Toast.swift */; };
@@ -47,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		2D57306D2329865600E5078A /* CleaConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleaConstants.swift; sourceTree = "<group>"; };
+		2D71443A2353B7D400944524 /* Clea.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Clea.xcdatamodel; sourceTree = "<group>"; };
 		2DA7F6832100D72300B7A295 /* Clea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA7F6862100D72300B7A295 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2DA7F68B2100D72300B7A295 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -67,7 +68,6 @@
 		2DC84C592353AE3F003C5EDA /* RoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
 		2DC84C5C2353AE64003C5EDA /* TaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
 		2DC84C5D2353AE64003C5EDA /* TaskTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskTableViewController.swift; sourceTree = "<group>"; };
-		2DC84C622353AE93003C5EDA /* Clea.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Clea.xcdatamodel; sourceTree = "<group>"; };
 		2DC84C652353AF0F003C5EDA /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		2DDB0D3423367FBF00B89E0F /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		2DEFA9AB2340F11700424D10 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
@@ -128,8 +128,8 @@
 				2D57306D2329865600E5078A /* CleaConstants.swift */,
 				2DDB0D3423367FBF00B89E0F /* Notifications.swift */,
 				2DEFA9AB2340F11700424D10 /* Toast.swift */,
+				2D7144392353B7D400944524 /* Clea.xcdatamodeld */,
 				2DC84C642353AF0F003C5EDA /* Controllers */,
-				2DC84C602353AE93003C5EDA /* Models */,
 				2DC84C572353AE3F003C5EDA /* ViewControllers */,
 				2DE6B62C2353ACBA00C0506D /* ViewCells */,
 			);
@@ -163,14 +163,6 @@
 				2DC84C5C2353AE64003C5EDA /* TaskViewController.swift */,
 			);
 			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		2DC84C602353AE93003C5EDA /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				2DC84C612353AE93003C5EDA /* Clea.xcdatamodeld */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		2DC84C642353AF0F003C5EDA /* Controllers */ = {
@@ -344,8 +336,8 @@
 				2DC84C4A2353AD4D003C5EDA /* RoomTypeTableViewCell.swift in Sources */,
 				2DC84C4D2353AD7C003C5EDA /* RoomTableViewCell.swift in Sources */,
 				2DA7F6872100D72300B7A295 /* AppDelegate.swift in Sources */,
+				2D71443B2353B7D400944524 /* Clea.xcdatamodeld in Sources */,
 				2DC84C662353AF0F003C5EDA /* DataController.swift in Sources */,
-				2DC84C632353AE93003C5EDA /* Clea.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -670,12 +662,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		2DC84C612353AE93003C5EDA /* Clea.xcdatamodeld */ = {
+		2D7144392353B7D400944524 /* Clea.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				2DC84C622353AE93003C5EDA /* Clea.xcdatamodel */,
+				2D71443A2353B7D400944524 /* Clea.xcdatamodel */,
 			);
-			currentVersion = 2DC84C622353AE93003C5EDA /* Clea.xcdatamodel */;
+			currentVersion = 2D71443A2353B7D400944524 /* Clea.xcdatamodel */;
 			path = Clea.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
