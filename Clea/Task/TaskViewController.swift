@@ -46,34 +46,21 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         let roomSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
         rooms = DataController.fetchAllRooms(sortBy: roomSortByName)
         intervalTypes = DataController.fetchAllIntervalTypes()
-        
-        if let task = self.task {
-            navigationItem.title = task.name
-            
-            taskNameTextField.text = task.name
-            
-            let roomIndex = rooms.firstIndex(of: task.ofRoom!)!
-            roomPickerView.selectRow(roomIndex, inComponent: 0, animated: true)
-            
-            let intervalIndex = intervalTypes.firstIndex(of: task.intervalType!)!
-            intervalPickerView.selectRow(Int(task.interval - 1), inComponent: 0, animated: true)
-            intervalPickerView.selectRow(intervalIndex, inComponent: 1, animated: true)
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        taskNameTextField.borderStyle = UITextField.BorderStyle.none
-        
-        if (taskNameTextField.layer.sublayers?.count ?? 1 == 1) {
-            let taskNameTextFieldBottomBorder = CALayer()
-            taskNameTextFieldBottomBorder.frame = CGRect(x: 0.0, y: taskNameTextField.frame.height - 1, width: taskNameTextField.frame.width, height: 1.0)
-            taskNameTextFieldBottomBorder.backgroundColor = UIColor(named: CleaConstants.accentColorName)?.cgColor
-            taskNameTextField.layer.addSublayer(taskNameTextFieldBottomBorder)
-        }
-        
-        if (self.task == nil) {
+        if let task = self.task {
+            let roomIndex = rooms.firstIndex(of: task.ofRoom!)!
+            let intervalIndex = intervalTypes.firstIndex(of: task.intervalType!)!
+            
+            navigationItem.title = task.name
+            taskNameTextField.text = task.name
+            roomPickerView.selectRow(roomIndex, inComponent: 0, animated: true)
+            intervalPickerView.selectRow(Int(task.interval - 1), inComponent: 0, animated: true)
+            intervalPickerView.selectRow(intervalIndex, inComponent: 1, animated: true)
+        } else {
             self.intervalPickerView.selectRow(1, inComponent: 1, animated: true)
             saveButton.isEnabled = false
         }
@@ -83,7 +70,6 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
             roomPickerView.selectRow(roomIndex, inComponent: 0, animated: true)
             roomPickerView.isUserInteractionEnabled = false
         }
-        
     }
     
     // MARK: - Navigation
@@ -98,8 +84,8 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         let interval = Int16(self.intervals[intervalPickerView.selectedRow(inComponent: 0)]) ?? 1
         let intervalType = self.intervalTypes[intervalPickerView.selectedRow(inComponent: 1)]
         
-        if (!name.isEmpty) {
-            if (task == nil) {
+        if !name.isEmpty {
+            if task == nil {
                 task = DataController.createNewTask()
                 task?.dateCreated = Date()
                 task?.lastCompleted = Calendar.current.startOfDay(for: Date())
@@ -116,6 +102,7 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        
         return true
     }
     
@@ -139,7 +126,7 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if (pickerView == roomPickerView) {
+        if pickerView == roomPickerView {
             return rooms.count
         } else {
             return component == 0 ? intervals.count : intervalTypes.count
@@ -149,7 +136,7 @@ class TaskViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         var string: String
         
-        if (pickerView == roomPickerView) {
+        if pickerView == roomPickerView {
             string = rooms[row].name!
         } else {
             string = component == 0 ? intervals[row] : intervalTypes[row].name!

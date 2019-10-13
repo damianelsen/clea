@@ -9,18 +9,19 @@
 import UIKit
 import CoreData
 
-class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class RoomViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     // MARK: - Properties
     
     var room: Room?
-    var roomTypes: [RoomType] = []
+    var roomTypePickerIsVisible: Bool = false
+    var selectedRoomType: RoomType?
     
     // MARK: - Outlets
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var roomNameTextField: UITextField!
-    @IBOutlet weak var roomTypePickerView: UIPickerView!
+    @IBOutlet weak var roomTypeTableView: UITableView!
     
     // MARK: - Actions
     
@@ -34,37 +35,21 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         super.viewDidLoad()
         
         roomNameTextField.delegate = self
-        roomTypePickerView.delegate = self
-        roomTypePickerView.dataSource = self
+        roomTypeTableView.delegate = self
+        roomTypeTableView.dataSource = self
         
-        roomTypes = DataController.fetchAllRoomTypes()
-        
-        if let room = self.room {
-            navigationItem.title = room.name
-            
-            roomNameTextField.text = room.name
-            
-            let row = roomTypes.firstIndex(of: room.type!)!
-            roomTypePickerView.selectRow(row, inComponent: 0, animated: true)
-        }
+        roomTypeTableView.register(RoomTypeTableViewCell.self, forCellReuseIdentifier: RoomTypeTableViewCell.reuseIdentifier)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        roomNameTextField.borderStyle = UITextField.BorderStyle.none
-        
-        if (roomNameTextField.layer.sublayers?.count ?? 1 == 1) {
-            let roomNameTextFieldBottomBorder = CALayer()
-            roomNameTextFieldBottomBorder.frame = CGRect(x: 0.0, y: roomNameTextField.frame.height - 1, width: roomNameTextField.frame.width, height: 1.0)
-            roomNameTextFieldBottomBorder.backgroundColor = UIColor(named: CleaConstants.accentColorName)?.cgColor
-            roomNameTextField.layer.addSublayer(roomNameTextFieldBottomBorder)
-        }
-
-        guard self.room != nil else {
-            self.roomTypePickerView.selectRow(2, inComponent: 0, animated: true)
+        if let room = self.room {
+            navigationItem.title = room.name
+            roomNameTextField.text = room.name
+            selectedRoomType = room.type
+        } else {
             saveButton.isEnabled = false
-            return
         }
     }
     
@@ -76,17 +61,15 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
         guard let button = sender as? UIBarButtonItem, button === saveButton else { return }
         
         let name = roomNameTextField.text ?? ""
-        let type = roomTypes[roomTypePickerView.selectedRow(inComponent: 0)]
         
-        if (!name.isEmpty) {
-            
-            if (room == nil) {
+        if !name.isEmpty {
+            if room == nil {
                 room = DataController.createNewRoom()
                 room?.dateCreated = Date()
             }
             
             room?.name = name.trimmingCharacters(in: .whitespaces)
-            room?.type = type
+            room?.type = selectedRoomType
         }
     }
     
@@ -102,33 +85,84 @@ class RoomViewController: UIViewController, UITextFieldDelegate, UIPickerViewDel
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        updateSaveButtonState()
+        
         var name = textField.text ?? ""
         name = name.trimmingCharacters(in: .whitespaces)
-        
-        updateSaveButtonState(value: name)
-        
         navigationItem.title = name.isEmpty ? "New Room" : name
     }
     
-    // MARK: - UIPickerViewDelegate
+    // MARK: - UITableViewDataSource
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return roomTypes.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return roomTypePickerIsVisible ? 2 : 1
     }
     
-    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attributedString = NSAttributedString(string: roomTypes[row].name!, attributes: [NSAttributedString.Key.foregroundColor : UIColor(named: CleaConstants.accentColorName)!])
-        return attributedString
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: CleaConstants.cellReuseIdentifierRoomType, for: indexPath)
+            
+            cell.backgroundColor = UIColor.secondarySystemBackground
+            cell.textLabel?.text = "Room Type"
+            cell.detailTextLabel?.text = selectedRoomType?.name
+            cell.detailTextLabel?.textColor = UIColor(named: CleaConstants.accentColorName)
+            
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: RoomTypeTableViewCell.reuseIdentifier, for: indexPath) as! RoomTypeTableViewCell
+            cell.delegate = self
+            
+            if let room = self.room {
+                cell.selectedRoomType = room.type
+            }
+            
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return indexPath.row == 0 ? 44 : RoomTypeTableViewCell.cellHeight
+    }
+    
+    // MARK: - UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            roomTypePickerIsVisible = !roomTypePickerIsVisible
+            
+            if roomTypePickerIsVisible {
+                tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .middle)
+            } else {
+                tableView.deleteRows(at: [IndexPath(row: 1, section: 0)], with: .middle)
+            }
+            
+            roomTypeTableView.deselectRow(at: indexPath, animated: true)
+        }
     }
     
     // MARK: - Private Methods
     
-    private func updateSaveButtonState(value: String) {
-        saveButton.isEnabled = !value.isEmpty
+    private func updateSaveButtonState() {
+        var roomName = roomNameTextField.text ?? ""
+        roomName = roomName.trimmingCharacters(in: .whitespaces)
+        let roomNameIsProvided = !roomName.isEmpty
+        let roomTypeIsProvided = selectedRoomType != nil
+        
+        saveButton.isEnabled = roomNameIsProvided && roomTypeIsProvided
+    }
+    
+}
+
+extension RoomViewController: RoomTypeTableViewCellDelegate {
+    
+    func didChangeRoomType(roomType: RoomType) {
+        selectedRoomType = roomType
+        updateSaveButtonState()
+        roomTypeTableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
     }
     
 }

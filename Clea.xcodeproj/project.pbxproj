@@ -10,6 +10,7 @@
 		2D1F589C2327C41D00981D0C /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F589B2327C41D00981D0C /* TaskViewController.swift */; };
 		2D3DF8BF2315CA0F0098CE3F /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3DF8BD2315CA0F0098CE3F /* RoomViewController.swift */; };
 		2D57306E2329865600E5078A /* CleaConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D57306D2329865600E5078A /* CleaConstants.swift */; };
+		2D780597234E623500A7A199 /* RoomTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D780596234E623500A7A199 /* RoomTypeTableViewCell.swift */; };
 		2DA6837122E94124000BC7A1 /* Clea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DA6836D22E94124000BC7A1 /* Clea.xcdatamodeld */; };
 		2DA7F6872100D72300B7A295 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F6862100D72300B7A295 /* AppDelegate.swift */; };
 		2DA7F68C2100D72300B7A295 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DA7F68A2100D72300B7A295 /* Main.storyboard */; };
@@ -48,6 +49,7 @@
 		2D1F589B2327C41D00981D0C /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
 		2D3DF8BD2315CA0F0098CE3F /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
 		2D57306D2329865600E5078A /* CleaConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleaConstants.swift; sourceTree = "<group>"; };
+		2D780596234E623500A7A199 /* RoomTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomTypeTableViewCell.swift; sourceTree = "<group>"; };
 		2DA6836E22E94124000BC7A1 /* Clea.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Clea.xcdatamodel; sourceTree = "<group>"; };
 		2DA7F6832100D72300B7A295 /* Clea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA7F6862100D72300B7A295 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				2DEFA9A9233FC96600424D10 /* DataController.swift */,
 				2DDB0D3423367FBF00B89E0F /* Notifications.swift */,
 				2DEFA9AB2340F11700424D10 /* Toast.swift */,
+				2D780596234E623500A7A199 /* RoomTypeTableViewCell.swift */,
 			);
 			path = Clea;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				2D1F589C2327C41D00981D0C /* TaskViewController.swift in Sources */,
 				2DA7F6872100D72300B7A295 /* AppDelegate.swift in Sources */,
 				2D3DF8BF2315CA0F0098CE3F /* RoomViewController.swift in Sources */,
+				2D780597234E623500A7A199 /* RoomTypeTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

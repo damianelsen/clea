@@ -36,8 +36,8 @@ class TaskTableViewController: UITableViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name(rawValue: CleaConstants.notificationRefreshTasks), object: nil)
         
-        let taskTableViewCell = UINib(nibName: CleaConstants.cellReuseIdentifierTask, bundle: nil)
-        self.tableView.register(taskTableViewCell, forCellReuseIdentifier: CleaConstants.cellReuseIdentifierTask)
+        let taskTableViewCell = UINib(nibName: TaskTableViewCell.nibName, bundle: nil)
+        self.tableView.register(taskTableViewCell, forCellReuseIdentifier: TaskTableViewCell.reuseIdentifier)
         
         self.clearsSelectionOnViewWillAppear = false
     }
@@ -84,7 +84,7 @@ class TaskTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> TaskTableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CleaConstants.cellReuseIdentifierTask, for: indexPath) as! TaskTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TaskTableViewCell.reuseIdentifier, for: indexPath) as! TaskTableViewCell
         let task = tasks[indexPath.row]
         
         cell.task = task
@@ -156,7 +156,7 @@ class TaskTableViewController: UITableViewController {
             return
         }
         
-        if (isAdd) {
+        if isAdd {
             tasks.append(task)
             self.sort()
             let index = tasks.firstIndex(of: task)
@@ -164,7 +164,7 @@ class TaskTableViewController: UITableViewController {
         } else {
             self.refresh()
         }
-
+        
         Notifications.scheduleNotification(forTask: task)
     }
     
@@ -177,7 +177,7 @@ class TaskTableViewController: UITableViewController {
             
             return
         }
-
+        
         tasks.remove(at: index.row)
         Notifications.removeNotification(forTaskId: taskId)
         tableView.deleteRows(at: [index], with: .fade)

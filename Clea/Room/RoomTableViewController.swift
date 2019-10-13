@@ -37,8 +37,8 @@ class RoomTableViewController: UITableViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name(rawValue: CleaConstants.notificationRefreshRooms), object: nil)
         
-        let roomTableViewCell = UINib(nibName: CleaConstants.cellReuseIdentifierRoom, bundle: nil)
-        self.tableView.register(roomTableViewCell, forCellReuseIdentifier: CleaConstants.cellReuseIdentifierRoom)
+        let roomTableViewCell = UINib(nibName: RoomTableViewCell.nibName, bundle: nil)
+        self.tableView.register(roomTableViewCell, forCellReuseIdentifier: RoomTableViewCell.reuseIdentifier)
         
         self.clearsSelectionOnViewWillAppear = false
     }
@@ -59,17 +59,17 @@ class RoomTableViewController: UITableViewController {
             let roomNavigationController = segue.destination as! UINavigationController
             let roomViewController = roomNavigationController.viewControllers[0] as? RoomViewController
             let indexPath = sender as! IndexPath
-
+            
             roomViewController!.room = rooms[indexPath.row]
             currentRow = indexPath.row
-
+            
         case CleaConstants.segueShowRoomTasks:
             let taskTableViewController = segue.destination as! TaskTableViewController
             let room = sender as! Room
-
+            
             taskTableViewController.room = room
             taskTableViewController.hidesBottomBarWhenPushed = true
-
+            
         default:
             guard let button = sender as? UIBarButtonItem, button === addButton else { return }
             
@@ -88,7 +88,7 @@ class RoomTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> RoomTableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CleaConstants.cellReuseIdentifierRoom, for: indexPath) as! RoomTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: RoomTableViewCell.reuseIdentifier, for: indexPath) as! RoomTableViewCell
         let room = rooms[indexPath.row]
         
         cell.room = room
@@ -151,7 +151,7 @@ class RoomTableViewController: UITableViewController {
             return
         }
         
-        if (isAdd) {
+        if isAdd {
             rooms.append(room)
             self.sort()
             let index = rooms.firstIndex(of: room)
