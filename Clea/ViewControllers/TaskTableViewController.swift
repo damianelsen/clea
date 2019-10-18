@@ -62,7 +62,8 @@ class TaskTableViewController: UITableViewController {
             currentRow = nil
             
             if let room = self.room {
-                taskViewController?.room = room
+                taskViewController?.selectedRoom = room
+                taskViewController?.isSingleRoomView = true
             }
             
             return

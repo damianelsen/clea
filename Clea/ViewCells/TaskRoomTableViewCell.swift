@@ -1,29 +1,30 @@
 //
-//  UIPickerTableViewCell.swift
+//  TaskRoomTableViewCell.swift
 //  Clea
 //
-//  Created by Damian Elsen on 10/9/19.
+//  Created by Damian Elsen on 10/17/19.
 //  Copyright © 2019 Damian Elsen. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-protocol RoomTypeTableViewCellDelegate: class {
-    func didChangeRoomType(roomType: RoomType)
+protocol TaskRoomTableViewCellDelegate: class {
+    func didChangeRoom(room: Room)
 }
 
-class RoomTypeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
+class TaskRoomTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
     
     // MARK: - Properties
     
-    static var reuseIdentifier: String = "PickerTableViewCellIdentifier"
+    static var reuseIdentifier: String = "TaskRoomTableViewCellIdentifier"
     static var cellHeight: CGFloat = 216
     
-    weak var delegate: RoomTypeTableViewCellDelegate?
-    var roomTypePickerView: UIPickerView!
-    var roomTypes: [RoomType] = []
-    var selectedRoomType: RoomType?
+    weak var delegate: TaskRoomTableViewCellDelegate?
+    var roomPickerView: UIPickerView!
+    var rooms: [Room] = []
+    var selectedRoom: Room?
+    var isSingleRoomView: Bool = false
     
     // MARK: - View Lifecycle
     
@@ -37,7 +38,8 @@ class RoomTypeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         self.backgroundColor = UIColor.secondarySystemBackground
         self.setupUIPickerView()
         
-        roomTypes = DataController.fetchAllRoomTypes()
+        let roomSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
+        rooms = DataController.fetchAllRooms(sortBy: roomSortByName)
     }
     
     // MARK: - View Overrides
@@ -46,11 +48,11 @@ class RoomTypeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         super.setSelected(selected, animated: animated)
         
         var row: Int = 0
-        if let roomType = selectedRoomType {
-            row = roomTypes.firstIndex(of: roomType)!
+        if let room = selectedRoom {
+            row = rooms.firstIndex(of: room)!
         }
         
-        roomTypePickerView.selectRow(row, inComponent: 0, animated: false)
+        roomPickerView.selectRow(row, inComponent: 0, animated: false)
     }
     
     // MARK: - UIPickerViewDelegate
@@ -60,28 +62,30 @@ class RoomTypeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return roomTypes.count
+        return rooms.count
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedRoomType = roomTypes[row]
-        delegate?.didChangeRoomType(roomType: selectedRoomType!)
+        selectedRoom = rooms[row]
+        
+        delegate?.didChangeRoom(room: selectedRoom!)
     }
     
     // MARK: - UIPickerViewDataSource
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return roomTypes[row].name!
+        return rooms[row].name!
     }
     
     // MARK: - Private Methods
     
     private func setupUIPickerView() {
-        roomTypePickerView = UIPickerView(frame: CGRect(x: 15, y: 0, width: 330, height: RoomTypeTableViewCell.cellHeight))
-        roomTypePickerView.delegate = self
-        roomTypePickerView.dataSource = self
+        roomPickerView = UIPickerView(frame: CGRect(x: 15, y: 0, width: 330, height: TaskRoomTableViewCell.cellHeight))
+        roomPickerView.delegate = self
+        roomPickerView.dataSource = self
+        roomPickerView.isUserInteractionEnabled = !isSingleRoomView
         
-        self.contentView.addSubview(roomTypePickerView)
+        self.contentView.addSubview(roomPickerView)
     }
     
 }

@@ -34,6 +34,7 @@ class CleaConstants {
     // MARK: - Cell Reuse Identifiers
     
     static let cellReuseIdentifierRoomType = "RoomTypeTableViewCellIdentifier"
+    static let cellReuseIdentifierTaskDetail = "TaskDetailTableViewCellIdentifier"
     
     // MARK: - Segues
     

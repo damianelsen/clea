@@ -6,6 +6,9 @@
 //  Copyright © 2018 Damian Elsen. All rights reserved.
 //
 
+// TODO: - Set aliases for function parameter names?
+// TODO: - Check all with: .effects
+
 import UIKit
 import CoreData
 import UserNotifications

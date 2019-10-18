@@ -20,8 +20,10 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - Outlets
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var roomNameContainerView: UIView!
     @IBOutlet weak var roomNameTextField: UITextField!
     @IBOutlet weak var roomTypeTableView: UITableView!
+    @IBOutlet weak var roomTypeTableViewHeight: NSLayoutConstraint!
     
     // MARK: - Actions
     
@@ -34,9 +36,15 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        roomNameTextField.delegate = self
         roomTypeTableView.delegate = self
         roomTypeTableView.dataSource = self
+        roomTypeTableView.layer.cornerRadius = 10;
+        roomTypeTableView.layer.masksToBounds = true;
+        
+        roomNameContainerView.layer.cornerRadius = 10;
+        roomNameContainerView.layer.masksToBounds = true;
+        
+        roomNameTextField.delegate = self
         
         roomTypeTableView.register(RoomTypeTableViewCell.self, forCellReuseIdentifier: RoomTypeTableViewCell.reuseIdentifier)
     }
@@ -49,6 +57,8 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
             roomNameTextField.text = room.name
             selectedRoomType = room.type
         } else {
+            let roomTypes = DataController.fetchAllRoomTypes()
+            selectedRoomType = roomTypes[0]
             saveButton.isEnabled = false
         }
     }
@@ -85,11 +95,12 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        updateSaveButtonState()
-        
         var name = textField.text ?? ""
         name = name.trimmingCharacters(in: .whitespaces)
+        
         navigationItem.title = name.isEmpty ? "New Room" : name
+        
+        saveButton.isEnabled = !name.isEmpty
     }
     
     // MARK: - UITableViewDataSource
@@ -135,24 +146,15 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
             roomTypePickerIsVisible = !roomTypePickerIsVisible
             
             if roomTypePickerIsVisible {
-                tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .middle)
+                tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .none)
+                roomTypeTableViewHeight.constant = 259
             } else {
-                tableView.deleteRows(at: [IndexPath(row: 1, section: 0)], with: .middle)
+                tableView.deleteRows(at: [IndexPath(row: 1, section: 0)], with: .none)
+                roomTypeTableViewHeight.constant = 43
             }
             
-            roomTypeTableView.deselectRow(at: indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
-    }
-    
-    // MARK: - Private Methods
-    
-    private func updateSaveButtonState() {
-        var roomName = roomNameTextField.text ?? ""
-        roomName = roomName.trimmingCharacters(in: .whitespaces)
-        let roomNameIsProvided = !roomName.isEmpty
-        let roomTypeIsProvided = selectedRoomType != nil
-        
-        saveButton.isEnabled = roomNameIsProvided && roomTypeIsProvided
     }
     
 }
@@ -161,7 +163,6 @@ extension RoomViewController: RoomTypeTableViewCellDelegate {
     
     func didChangeRoomType(roomType: RoomType) {
         selectedRoomType = roomType
-        updateSaveButtonState()
         roomTypeTableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
     }
     
