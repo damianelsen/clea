@@ -12,6 +12,9 @@ class RoomTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
+    static var nibName: String = "RoomTableViewCell"
+    static var reuseIdentifier: String = "RoomTableViewCellIdentifier"
+    
     var room: Room?
     
     // MARK: - Outlets
@@ -56,18 +59,19 @@ class RoomTableViewCell: UITableViewCell {
         let overdueTasks = forRoom.tasks?.filtered(using: overduePredicate)
         let dueTodayPredicate = NSPredicate(format: CleaConstants.predicateDueTodayTask, now as CVarArg)
         let dueTodayTasks = forRoom.tasks?.filtered(using: dueTodayPredicate)
-
-        if (overdueTasks!.count > 0) {
+        
+        if overdueTasks!.count > 0 {
             message = "\(overdueTasks!.count.description) overdue"
         }
-        if (dueTodayTasks!.count > 0) {
-            if (overdueTasks!.count == 0) {
+        
+        if dueTodayTasks!.count > 0 {
+            if overdueTasks!.count == 0 {
                 message = "\(dueTodayTasks!.count.description) due today"
             } else {
                 message += " and \(dueTodayTasks!.count.description) today"
             }
         }
-
+        
         return message
     }
     

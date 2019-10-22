@@ -55,6 +55,7 @@
                     <constraint firstItem="8KU-L6-2EU" firstAttribute="top" secondItem="KpP-GJ-Xjg" secondAttribute="bottom" constant="3" id="zGu-L7-rw7"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <color key="tintColor" name="AccentColor"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>

@@ -21,7 +21,7 @@ class Notifications {
     }
     
     static func scheduleNotification(forTask: Task) {
-        if (notificationsAreAuthorized()) {
+        if notificationsAreAuthorized() {
             addNotification(forTask: forTask)
             resetBadgeNumbers()
         } else {

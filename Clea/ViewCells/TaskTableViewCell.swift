@@ -12,6 +12,9 @@ class TaskTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
+    static var nibName: String = "TaskTableViewCell"
+    static var reuseIdentifier: String = "TaskTableViewCellIdentifier"
+    
     var task: Task?
     
     // MARK: - Outlets
@@ -76,9 +79,9 @@ class TaskTableViewCell: UITableViewCell {
     private func color(forMessage: String) -> UIColor {
         var color = UIColor(named: CleaConstants.taskScheduledColorName)
         
-        if (forMessage.contains("overdue") || forMessage.contains("today")) {
+        if forMessage.contains("overdue") || forMessage.contains("today") {
             color = UIColor(named: CleaConstants.taskOverdueColorName)
-        } else if (forMessage.contains("tomorrow")) {
+        } else if forMessage.contains("tomorrow") {
             color = UIColor(named: CleaConstants.taskDueColorName)
         }
         

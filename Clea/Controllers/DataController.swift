@@ -18,7 +18,7 @@ class DataController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return rooms }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         let roomRequest = NSFetchRequest<Room>(entityName: CleaConstants.entityNameRoom)
-        if (sortBy != nil) {
+        if sortBy != nil {
             roomRequest.sortDescriptors = [sortBy!]
         }
         
@@ -56,7 +56,7 @@ class DataController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return tasks }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         let taskRequest = NSFetchRequest<Task>(entityName: CleaConstants.entityNameTask)
-        if (sortBy != nil) {
+        if sortBy != nil {
             taskRequest.sortDescriptors = [sortBy!]
         }
         
@@ -94,7 +94,6 @@ class DataController {
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         
         return Room(context: managedObjectContext)
-
     }
     
     static func createNewTask() -> Task? {
@@ -102,7 +101,6 @@ class DataController {
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         
         return Task(context: managedObjectContext)
-
     }
     
     static func save() -> Bool? {
@@ -124,7 +122,7 @@ class DataController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         managedObjectContext.delete(forObject)
-
+        
         do {
             try managedObjectContext.save()
         } catch let error as NSError {
