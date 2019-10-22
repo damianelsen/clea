@@ -77,7 +77,7 @@ class RoomTypeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     // MARK: - Private Methods
     
     private func setupUIPickerView() {
-        roomTypePickerView = UIPickerView(frame: CGRect(x: 15, y: 0, width: 330, height: RoomTypeTableViewCell.cellHeight))
+        roomTypePickerView = UIPickerView(frame: CGRect(x: 15, y: 0, width: 315, height: RoomTypeTableViewCell.cellHeight))
         roomTypePickerView.delegate = self
         roomTypePickerView.dataSource = self
         

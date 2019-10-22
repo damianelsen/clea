@@ -7,7 +7,6 @@
 //
 
 // TODO: - Set aliases for function parameter names?
-// TODO: - Check all with: .effects
 
 import UIKit
 import CoreData

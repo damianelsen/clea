@@ -23,7 +23,6 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var roomNameContainerView: UIView!
     @IBOutlet weak var roomNameTextField: UITextField!
     @IBOutlet weak var roomTypeTableView: UITableView!
-    @IBOutlet weak var roomTypeTableViewHeight: NSLayoutConstraint!
     
     // MARK: - Actions
     
@@ -36,16 +35,15 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        roomTypeTableView.delegate = self
-        roomTypeTableView.dataSource = self
-        roomTypeTableView.layer.cornerRadius = 10;
-        roomTypeTableView.layer.masksToBounds = true;
-        
         roomNameContainerView.layer.cornerRadius = 10;
         roomNameContainerView.layer.masksToBounds = true;
         
         roomNameTextField.delegate = self
         
+        roomTypeTableView.delegate = self
+        roomTypeTableView.dataSource = self
+        roomTypeTableView.layer.cornerRadius = 10;
+        roomTypeTableView.layer.masksToBounds = true;
         roomTypeTableView.register(RoomTypeTableViewCell.self, forCellReuseIdentifier: RoomTypeTableViewCell.reuseIdentifier)
     }
     
@@ -87,6 +85,7 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        
         return true
     }
     
@@ -117,10 +116,8 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: CleaConstants.cellReuseIdentifierRoomType, for: indexPath)
             
-            cell.backgroundColor = UIColor.secondarySystemBackground
             cell.textLabel?.text = "Room Type"
             cell.detailTextLabel?.text = selectedRoomType?.name
-            cell.detailTextLabel?.textColor = UIColor(named: CleaConstants.accentColorName)
             
             return cell
         } else {
@@ -146,15 +143,13 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
             roomTypePickerIsVisible = !roomTypePickerIsVisible
             
             if roomTypePickerIsVisible {
-                tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .none)
-                roomTypeTableViewHeight.constant = 259
+                tableView.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .fade)
             } else {
-                tableView.deleteRows(at: [IndexPath(row: 1, section: 0)], with: .none)
-                roomTypeTableViewHeight.constant = 43
+                tableView.deleteRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .fade)
             }
-            
-            tableView.deselectRow(at: indexPath, animated: true)
         }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

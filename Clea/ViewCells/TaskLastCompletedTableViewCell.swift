@@ -34,6 +34,7 @@ class TaskLastCompletedTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.backgroundColor = UIColor.secondarySystemBackground
+        
         self.setupUIDatePicker()
     }
     
@@ -48,7 +49,7 @@ class TaskLastCompletedTableViewCell: UITableViewCell {
     // MARK: - Private Methods
     
     private func setupUIDatePicker() {
-        datePickerView = UIDatePicker(frame: CGRect(x: 15, y: 0, width: 330, height: TaskLastCompletedTableViewCell.cellHeight))
+        datePickerView = UIDatePicker(frame: CGRect(x: 15, y: 0, width: 315, height: TaskLastCompletedTableViewCell.cellHeight))
         datePickerView.datePickerMode = .date
         datePickerView.maximumDate = Date()
         datePickerView.addTarget(self, action: #selector(datePickerChanged(_:)), for: .valueChanged)

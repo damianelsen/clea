@@ -40,16 +40,15 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        taskDetailTableView.delegate = self
-        taskDetailTableView.dataSource = self
-        taskDetailTableView.layer.cornerRadius = 10;
-        taskDetailTableView.layer.masksToBounds = true;
-        
         taskNameContainerView.layer.cornerRadius = 10;
         taskNameContainerView.layer.masksToBounds = true;
         
         taskNameTextField.delegate = self
         
+        taskDetailTableView.delegate = self
+        taskDetailTableView.dataSource = self
+        taskDetailTableView.layer.cornerRadius = 10;
+        taskDetailTableView.layer.masksToBounds = true;
         taskDetailTableView.register(TaskRoomTableViewCell.self, forCellReuseIdentifier: TaskRoomTableViewCell.reuseIdentifier)
         taskDetailTableView.register(TaskIntervalTableViewCell.self, forCellReuseIdentifier: TaskIntervalTableViewCell.reuseIdentifier)
         taskDetailTableView.register(TaskLastCompletedTableViewCell.self, forCellReuseIdentifier: TaskLastCompletedTableViewCell.reuseIdentifier)
@@ -68,7 +67,9 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             let roomSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
             let rooms = DataController.fetchAllRooms(sortBy: roomSortByName)
-            selectedRoom = rooms[0]
+            if rooms.count > 0 {
+                selectedRoom = rooms[0]
+            }
             let intervalTypes = DataController.fetchAllIntervalTypes()
             selectedIntervalType = intervalTypes[0]
             saveButton.isEnabled = false
@@ -153,7 +154,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.row == 0 && isSingleRoomView {
+        if isSingleRoomView && indexPath.row == 0 {
             return
         }
         
@@ -178,20 +179,20 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func createTableViewCell(cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = visiblePickerIndexPath != nil && indexPath.row > visiblePickerIndexPath!.row ? indexPath.row - 1 : indexPath.row
         let cell = taskDetailTableView.dequeueReusableCell(withIdentifier: CleaConstants.cellReuseIdentifierTaskDetail, for: indexPath)
-        
-        cell.backgroundColor = UIColor.secondarySystemBackground
-        cell.textLabel?.text = cellTextLabels[row]
-        cell.detailTextLabel?.textColor = UIColor(named: CleaConstants.accentColorName)
+        var detailText = ""
         
         switch row {
         case 0:
-            cell.detailTextLabel?.text = selectedRoom?.name
+            detailText = selectedRoom!.name!
         case 1:
             let intervalType = selectedInterval == 1 ? String((selectedIntervalType?.name!.dropLast())!) : selectedIntervalType?.name
-            cell.detailTextLabel?.text = "\(selectedInterval) \(intervalType!)"
+            detailText = "\(selectedInterval) \(intervalType!)"
         default:
-            cell.detailTextLabel?.text = formatDate(from: selectedLastCompleted)
+            detailText = formatDate(from: selectedLastCompleted)
         }
+        
+        cell.textLabel?.text = cellTextLabels[row]
+        cell.detailTextLabel?.text = detailText
         
         return cell
     }

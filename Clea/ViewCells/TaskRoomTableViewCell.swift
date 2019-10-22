@@ -66,9 +66,10 @@ class TaskRoomTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedRoom = rooms[row]
-        
-        delegate?.didChangeRoom(room: selectedRoom!)
+        if rooms.count > 0 {
+            selectedRoom = rooms[row]
+            delegate?.didChangeRoom(room: selectedRoom!)
+        }
     }
     
     // MARK: - UIPickerViewDataSource
@@ -80,7 +81,7 @@ class TaskRoomTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     // MARK: - Private Methods
     
     private func setupUIPickerView() {
-        roomPickerView = UIPickerView(frame: CGRect(x: 15, y: 0, width: 330, height: TaskRoomTableViewCell.cellHeight))
+        roomPickerView = UIPickerView(frame: CGRect(x: 15, y: 0, width: 315, height: TaskRoomTableViewCell.cellHeight))
         roomPickerView.delegate = self
         roomPickerView.dataSource = self
         roomPickerView.isUserInteractionEnabled = !isSingleRoomView
