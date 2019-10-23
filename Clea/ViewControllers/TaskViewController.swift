@@ -117,7 +117,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         navigationItem.title = name.isEmpty ? "New Task" : name
         
-        saveButton.isEnabled = !name.isEmpty
+        saveButton.isEnabled = !name.isEmpty && selectedRoom != nil
     }
     
     // MARK: - UITableViewDataSource
@@ -183,7 +183,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         switch row {
         case 0:
-            detailText = selectedRoom!.name!
+            detailText = selectedRoom != nil ? selectedRoom!.name! : ""
         case 1:
             let intervalType = selectedInterval == 1 ? String((selectedIntervalType?.name!.dropLast())!) : selectedIntervalType?.name
             detailText = "\(selectedInterval) \(intervalType!)"
