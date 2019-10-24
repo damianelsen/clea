@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol TaskLastCompletedTableViewCellDelegate: class {
-    func didChangeLastCompleted(lastCompleted: Date)
+    func didChangeLastCompleted(forDate date: Date)
 }
 
 class TaskLastCompletedTableViewCell: UITableViewCell {
@@ -58,7 +58,7 @@ class TaskLastCompletedTableViewCell: UITableViewCell {
     }
     
     @objc func datePickerChanged(_ sender: UIDatePicker) {
-        delegate?.didChangeLastCompleted(lastCompleted: sender.date)
+        delegate?.didChangeLastCompleted(forDate: sender.date)
     }
     
 }

@@ -20,18 +20,18 @@ class Notifications {
         UNUserNotificationCenter.current().requestAuthorization(options: options) { (didAllow, error) in }
     }
     
-    static func scheduleNotification(forTask: Task) {
+    static func scheduleNotification(forTask task: Task) {
         if notificationsAreAuthorized() {
-            addNotification(forTask: forTask)
+            addNotification(forTask: task)
             resetBadgeNumbers()
         } else {
-            let taskId = forTask.objectID.uriRepresentation().description
+            let taskId = task.objectID.uriRepresentation().description
             removeNotification(forTaskId: taskId)
         }
     }
     
-    static func removeNotification(forTaskId: String) {
-        let notificationIdentifier = "\(CleaConstants.notificationIdentifier) \(forTaskId)"
+    static func removeNotification(forTaskId taskId: String) {
+        let notificationIdentifier = "\(CleaConstants.notificationIdentifier) \(taskId)"
         
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationIdentifier])
     }
@@ -67,16 +67,16 @@ class Notifications {
         return authorizationStatus == .authorized
     }
     
-    private static func addNotification(forTask: Task) {
-        let taskID = forTask.objectID.uriRepresentation().description
+    private static func addNotification(forTask task: Task) {
+        let taskID = task.objectID.uriRepresentation().description
         let notificationIdentifier = "\(CleaConstants.notificationIdentifier) \(taskID)"
-        let days = Int(forTask.intervalType!.noOfDays * forTask.interval)
-        let dueDate = Calendar.current.date(byAdding: .day, value: days, to: forTask.lastCompleted!)!
+        let days = Int(task.intervalType!.noOfDays * task.interval)
+        let dueDate = Calendar.current.date(byAdding: .day, value: days, to: task.lastCompleted!)!
         let notificationTime = Calendar.current.date(byAdding: .hour, value: 9, to: dueDate)!
         let triggerTime = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: notificationTime)
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: false)
-        let taskName = forTask.name!
-        let roomName = forTask.ofRoom!.name
+        let taskName = task.name!
+        let roomName = task.ofRoom!.name
         let content = UNMutableNotificationContent()
         
         content.body = "\(taskName) in the \(roomName!) is due today"

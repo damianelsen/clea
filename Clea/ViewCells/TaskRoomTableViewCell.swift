@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol TaskRoomTableViewCellDelegate: class {
-    func didChangeRoom(room: Room)
+    func didChangeRoom(forRoom: Room)
 }
 
 class TaskRoomTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -68,7 +68,7 @@ class TaskRoomTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if rooms.count > 0 {
             selectedRoom = rooms[row]
-            delegate?.didChangeRoom(room: selectedRoom!)
+            delegate?.didChangeRoom(forRoom: selectedRoom!)
         }
     }
     

@@ -99,7 +99,7 @@ class TaskTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            self.delete(index: indexPath)
+            self.delete(forRowAt: indexPath)
         }
     }
     
@@ -169,8 +169,8 @@ class TaskTableViewController: UITableViewController {
         Notifications.scheduleNotification(forTask: task)
     }
     
-    private func delete(index: IndexPath) {
-        let task = tasks[index.row]
+    private func delete(forRowAt indexPath: IndexPath) {
+        let task = tasks[indexPath.row]
         let taskId = task.objectID.uriRepresentation().description
         
         guard let success = DataController.delete(forObject: task as NSManagedObject), success else {
@@ -179,13 +179,13 @@ class TaskTableViewController: UITableViewController {
             return
         }
         
-        tasks.remove(at: index.row)
+        tasks.remove(at: indexPath.row)
         Notifications.removeNotification(forTaskId: taskId)
-        tableView.deleteRows(at: [index], with: .fade)
+        tableView.deleteRows(at: [indexPath], with: .fade)
     }
     
-    private func markAsClean(forTask: Task) {
-        forTask.lastCompleted = Calendar.current.startOfDay(for: Date())
+    private func markAsClean(forTask task: Task) {
+        task.lastCompleted = Calendar.current.startOfDay(for: Date())
         
         guard let success = DataController.save(), success else {
             Toast.show(message: "Could not mark task as clean", withType: .Error, forController: self.parent!)
@@ -193,11 +193,11 @@ class TaskTableViewController: UITableViewController {
             return
         }
         
-        Notifications.scheduleNotification(forTask: forTask)
+        Notifications.scheduleNotification(forTask: task)
         
-        let oldRow = tasks.firstIndex(of: forTask)!
+        let oldRow = tasks.firstIndex(of: task)!
         self.sort()
-        let newRow = tasks.firstIndex(of: forTask)!
+        let newRow = tasks.firstIndex(of: task)!
         self.reorderTable(fromRow: oldRow, toRow: newRow)
     }
     

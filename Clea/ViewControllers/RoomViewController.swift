@@ -156,7 +156,7 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
 
 extension RoomViewController: RoomTypeTableViewCellDelegate {
     
-    func didChangeRoomType(roomType: RoomType) {
+    func didChangeRoomType(forRoomType roomType: RoomType) {
         selectedRoomType = roomType
         roomTypeTableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
     }

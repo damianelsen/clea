@@ -48,11 +48,11 @@ class TaskTableViewCell: UITableViewCell {
     
     // MARK: - Private Methods
     
-    private func overdueMessage(forTask: Task) -> String {
+    private func overdueMessage(forTask task: Task) -> String {
         var message = ""
         let now = Calendar.current.startOfDay(for: Date())
-        let days = Int(forTask.intervalType!.noOfDays * forTask.interval)
-        let dueDate = Calendar.current.date(byAdding: .day, value: days, to: forTask.lastCompleted!)!
+        let days = Int(task.intervalType!.noOfDays * task.interval)
+        let dueDate = Calendar.current.date(byAdding: .day, value: days, to: task.lastCompleted!)!
         let dateDiff = Calendar.current.dateComponents([.day], from: now, to: dueDate)
         let dueDays = dateDiff.day!
         
@@ -76,12 +76,12 @@ class TaskTableViewCell: UITableViewCell {
         return message
     }
     
-    private func color(forMessage: String) -> UIColor {
+    private func color(forMessage message: String) -> UIColor {
         var color = UIColor(named: CleaConstants.taskScheduledColorName)
         
-        if forMessage.contains("overdue") || forMessage.contains("today") {
+        if message.contains("overdue") || message.contains("today") {
             color = UIColor(named: CleaConstants.taskOverdueColorName)
-        } else if forMessage.contains("tomorrow") {
+        } else if message.contains("tomorrow") {
             color = UIColor(named: CleaConstants.taskDueColorName)
         }
         

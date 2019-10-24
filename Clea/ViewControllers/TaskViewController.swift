@@ -188,7 +188,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
             let intervalType = selectedInterval == 1 ? String((selectedIntervalType?.name!.dropLast())!) : selectedIntervalType?.name
             detailText = "\(selectedInterval) \(intervalType!)"
         default:
-            detailText = formatDate(from: selectedLastCompleted)
+            detailText = formatDate(fromDate: selectedLastCompleted)
         }
         
         cell.textLabel?.text = cellTextLabels[row]
@@ -226,8 +226,8 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    private func formatDate(from: Date) -> String {
-        switch from {
+    private func formatDate(fromDate date: Date) -> String {
+        switch date {
         case Calendar.current.startOfDay(for: Date()):
             return "Today"
         case Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: -1, to: Date())!):
@@ -238,15 +238,15 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
             dateFormatter.locale = .current
             dateFormatter.dateStyle = .medium
             
-            return dateFormatter.string(from: from)
+            return dateFormatter.string(from: date)
         }
     }
     
-    private func determineVisiblePickerIndexPath(forIndexPath: IndexPath) -> IndexPath {
-        if let pickerIndexPath = visiblePickerIndexPath, pickerIndexPath.row < forIndexPath.row {
-            return forIndexPath
+    private func determineVisiblePickerIndexPath(forIndexPath indexPath: IndexPath) -> IndexPath {
+        if let pickerIndexPath = visiblePickerIndexPath, pickerIndexPath.row < indexPath.row {
+            return indexPath
         } else {
-            return IndexPath(row: forIndexPath.row + 1, section: forIndexPath.section)
+            return IndexPath(row: indexPath.row + 1, section: indexPath.section)
         }
     }
     
@@ -254,7 +254,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
 
 extension TaskViewController: TaskRoomTableViewCellDelegate {
     
-    func didChangeRoom(room: Room) {
+    func didChangeRoom(forRoom room: Room) {
         selectedRoom = room
         taskDetailTableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
     }
@@ -263,7 +263,7 @@ extension TaskViewController: TaskRoomTableViewCellDelegate {
 
 extension TaskViewController: TaskIntervalTableViewCellDelegate {
     
-    func didChangeInterval(interval: Int, intervalType: IntervalType) {
+    func didChangeInterval(forInterval interval: Int, andIntervalType intervalType: IntervalType) {
         selectedInterval = interval
         selectedIntervalType = intervalType
         taskDetailTableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .none)
@@ -273,8 +273,8 @@ extension TaskViewController: TaskIntervalTableViewCellDelegate {
 
 extension TaskViewController: TaskLastCompletedTableViewCellDelegate {
     
-    func didChangeLastCompleted(lastCompleted: Date) {
-        selectedLastCompleted = lastCompleted
+    func didChangeLastCompleted(forDate date: Date) {
+        selectedLastCompleted = date
         taskDetailTableView.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .none)
     }
     

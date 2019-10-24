@@ -6,8 +6,6 @@
 //  Copyright © 2018 Damian Elsen. All rights reserved.
 //
 
-// TODO: - Set aliases for function parameter names?
-
 import UIKit
 import CoreData
 import UserNotifications
@@ -107,13 +105,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    private func createRoomTypes(usingContext: NSManagedObjectContext) {
+    private func createRoomTypes(usingContext context: NSManagedObjectContext) {
         let roomTypes = ["Living Room", "Bedroom", "Bathroom", "Kitchen", "Dining Room", "Office"]
         let roomTypeRequest = NSFetchRequest<RoomType>(entityName: CleaConstants.entityNameRoomType)
         var existingRoomTypes: [RoomType] = []
         
         do {
-            existingRoomTypes = try usingContext.fetch(roomTypeRequest)
+            existingRoomTypes = try context.fetch(roomTypeRequest)
         } catch let error as NSError {
             print("Could not load room types. \(error), \(error.userInfo)")
         }
@@ -121,24 +119,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard existingRoomTypes.count == 0 else { return }
         
         for type in roomTypes {
-            let roomType = RoomType(context: usingContext)
+            let roomType = RoomType(context: context)
             roomType.name = type
         }
         
         do {
-            try usingContext.save()
+            try context.save()
         } catch let error as NSError {
             print("Could not create room types. \(error), \(error.userInfo)")
         }
     }
     
-    private func createIntervalTypes(usingContext: NSManagedObjectContext) {
+    private func createIntervalTypes(usingContext context: NSManagedObjectContext) {
         let intervalTypes: [Interval] = [("Days", 1), ("Weeks", 7), ("Months", 30)]
         let intervalTypeRequest = NSFetchRequest<IntervalType>(entityName: CleaConstants.entityNameIntervalType)
         var existingIntervalTypes: [IntervalType] = []
         
         do {
-            existingIntervalTypes = try usingContext.fetch(intervalTypeRequest)
+            existingIntervalTypes = try context.fetch(intervalTypeRequest)
         } catch let error as NSError {
             print("Could not load interval types. \(error), \(error.userInfo)")
         }
@@ -146,13 +144,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard existingIntervalTypes.count == 0 else { return }
         
         for type in intervalTypes {
-            let intervalType = IntervalType(context: usingContext)
+            let intervalType = IntervalType(context: context)
             intervalType.name = type.name
             intervalType.noOfDays = type.noOfDays
         }
         
         do {
-            try usingContext.save()
+            try context.save()
         } catch let error as NSError {
             print("Could not create interval types. \(error), \(error.userInfo)")
         }

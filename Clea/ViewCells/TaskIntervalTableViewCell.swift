@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol TaskIntervalTableViewCellDelegate: class {
-    func didChangeInterval(interval: Int, intervalType: IntervalType)
+    func didChangeInterval(forInterval: Int, andIntervalType: IntervalType)
 }
 
 class TaskIntervalTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -73,7 +73,7 @@ class TaskIntervalTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
             selectedIntervalType = intervalTypes[row]
         }
         
-        delegate?.didChangeInterval(interval: selectedInterval!, intervalType: selectedIntervalType!)
+        delegate?.didChangeInterval(forInterval: selectedInterval!, andIntervalType: selectedIntervalType!)
     }
     
     // MARK: - UIPickerViewDataSource

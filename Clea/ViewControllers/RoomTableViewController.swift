@@ -110,7 +110,7 @@ class RoomTableViewController: UITableViewController {
             let message = "Deleting this room will also delete all of its tasks. Are you sure?"
             let deleteAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             let yes = UIAlertAction(title: "Yes", style: .destructive, handler: { (action) -> Void in
-                self.delete(index: indexPath)
+                self.delete(forRowAt: indexPath)
             })
             let no = UIAlertAction(title: "No", style: .cancel, handler: nil)
             
@@ -164,14 +164,14 @@ class RoomTableViewController: UITableViewController {
         }
     }
     
-    private func delete(index: IndexPath) {
-        guard let success = DataController.delete(forObject: rooms.remove(at: index.row) as NSManagedObject), success else {
+    private func delete(forRowAt indexPath: IndexPath) {
+        guard let success = DataController.delete(forObject: rooms.remove(at: indexPath.row) as NSManagedObject), success else {
             Toast.show(message: "Room could not be deleted", withType: .Error, forController: self.parent!)
             
             return
         }
         
-        tableView.deleteRows(at: [index], with: .fade)
+        tableView.deleteRows(at: [indexPath], with: .fade)
     }
     
     private func reorderTable(fromRow: Int, toRow: Int) {
