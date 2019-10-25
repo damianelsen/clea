@@ -42,8 +42,6 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         roomTypeTableView.delegate = self
         roomTypeTableView.dataSource = self
-        roomTypeTableView.layer.cornerRadius = 10;
-        roomTypeTableView.layer.masksToBounds = true;
         roomTypeTableView.register(RoomTypeTableViewCell.self, forCellReuseIdentifier: RoomTypeTableViewCell.reuseIdentifier)
     }
     
@@ -109,18 +107,11 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return roomTypePickerIsVisible ? 2 : 1
+        return roomTypePickerIsVisible ? 3 : 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: CleaConstants.cellReuseIdentifierRoomType, for: indexPath)
-            
-            cell.textLabel?.text = "Room Type"
-            cell.detailTextLabel?.text = selectedRoomType?.name
-            
-            return cell
-        } else {
+        if roomTypePickerIsVisible && indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: RoomTypeTableViewCell.reuseIdentifier, for: indexPath) as! RoomTypeTableViewCell
             cell.delegate = self
             
@@ -129,16 +120,37 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             
             return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: CleaConstants.cellReuseIdentifierRoomType, for: indexPath)
+            
+            cell.layer.cornerRadius = 10;
+            cell.layer.masksToBounds = true;
+            
+            switch indexPath.row {
+            case 0:
+                cell.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+                cell.textLabel?.text = "Room Type"
+                cell.detailTextLabel?.text = selectedRoomType?.name
+            default:
+                cell.layer.maskedCorners = [.layerMinXMaxYCorner,.layerMaxXMaxYCorner]
+                cell.textLabel?.text = "Added"
+                cell.detailTextLabel?.textColor = .label
+                cell.detailTextLabel?.text = Shared.formatDate(fromDate: room != nil ? Calendar.current.startOfDay(for: room!.dateCreated!) : Calendar.current.startOfDay(for: Date()))
+            }
+            
+            return cell
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.row == 0 ? 44 : RoomTypeTableViewCell.cellHeight
+        return roomTypePickerIsVisible && indexPath.row == 1 ? TaskRoomTableViewCell.cellHeight : 44
     }
     
     // MARK: - UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.beginUpdates()
+        
         if indexPath.row == 0 {
             roomTypePickerIsVisible = !roomTypePickerIsVisible
             
@@ -150,6 +162,7 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
+        tableView.endUpdates()
     }
     
 }

@@ -57,7 +57,7 @@ class TaskLastCompletedTableViewCell: UITableViewCell {
         self.contentView.addSubview(datePickerView)
     }
     
-    @objc func datePickerChanged(_ sender: UIDatePicker) {
+    @objc private func datePickerChanged(_ sender: UIDatePicker) {
         delegate?.didChangeLastCompleted(forDate: sender.date)
     }
     

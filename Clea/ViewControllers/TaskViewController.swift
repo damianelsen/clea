@@ -19,7 +19,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     var selectedIntervalType: IntervalType?
     var selectedLastCompleted: Date = Calendar.current.startOfDay(for: Date())
     var isSingleRoomView: Bool = false
-    var cellTextLabels: [String] = ["Room", "Due Every", "Last Completed"]
+    var cellTextLabels: [String] = ["Room", "Due Every", "Last Completed", "Added"]
     var visiblePickerIndexPath: IndexPath? = nil
     
     // MARK: - Outlets
@@ -47,8 +47,6 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         taskDetailTableView.delegate = self
         taskDetailTableView.dataSource = self
-        taskDetailTableView.layer.cornerRadius = 10;
-        taskDetailTableView.layer.masksToBounds = true;
         taskDetailTableView.register(TaskRoomTableViewCell.self, forCellReuseIdentifier: TaskRoomTableViewCell.reuseIdentifier)
         taskDetailTableView.register(TaskIntervalTableViewCell.self, forCellReuseIdentifier: TaskIntervalTableViewCell.reuseIdentifier)
         taskDetailTableView.register(TaskLastCompletedTableViewCell.self, forCellReuseIdentifier: TaskLastCompletedTableViewCell.reuseIdentifier)
@@ -146,7 +144,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath == visiblePickerIndexPath ? RoomTypeTableViewCell.cellHeight : 44
+        return indexPath == visiblePickerIndexPath ? TaskRoomTableViewCell.cellHeight : 44
     }
     
     // MARK: - UITableViewDelegate
@@ -154,9 +152,9 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if isSingleRoomView && indexPath.row == 0 {
-            return
-        }
+        if visiblePickerIndexPath == nil && indexPath.row == 3 { return }
+        if visiblePickerIndexPath != nil && indexPath.row == 4 { return }
+        if isSingleRoomView && indexPath.row == 0 { return }
         
         tableView.beginUpdates()
         
@@ -183,12 +181,21 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         switch row {
         case 0:
+            cell.layer.cornerRadius = 10;
+            cell.layer.masksToBounds = true;
+            cell.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
             detailText = selectedRoom != nil ? selectedRoom!.name! : ""
         case 1:
             let intervalType = selectedInterval == 1 ? String((selectedIntervalType?.name!.dropLast())!) : selectedIntervalType?.name
             detailText = "\(selectedInterval) \(intervalType!)"
+        case 2:
+            detailText = Shared.formatDate(fromDate: selectedLastCompleted)
         default:
-            detailText = formatDate(fromDate: selectedLastCompleted)
+            cell.layer.cornerRadius = 10;
+            cell.layer.masksToBounds = true;
+            cell.layer.maskedCorners = [.layerMinXMaxYCorner,.layerMaxXMaxYCorner]
+            cell.detailTextLabel?.textColor = .label
+            detailText = Shared.formatDate(fromDate: task != nil ? Calendar.current.startOfDay(for: task!.dateCreated!) : Calendar.current.startOfDay(for: Date()))
         }
         
         cell.textLabel?.text = cellTextLabels[row]
@@ -224,22 +231,6 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.selectedLastCompleted = selectedLastCompleted
         
         return cell
-    }
-    
-    private func formatDate(fromDate date: Date) -> String {
-        switch date {
-        case Calendar.current.startOfDay(for: Date()):
-            return "Today"
-        case Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: -1, to: Date())!):
-            return "Yesterday"
-        default:
-            let dateFormatter = DateFormatter()
-            
-            dateFormatter.locale = .current
-            dateFormatter.dateStyle = .medium
-            
-            return dateFormatter.string(from: date)
-        }
     }
     
     private func determineVisiblePickerIndexPath(forIndexPath indexPath: IndexPath) -> IndexPath {
