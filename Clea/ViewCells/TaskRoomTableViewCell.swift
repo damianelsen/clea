@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol TaskRoomTableViewCellDelegate: class {
-    func didChangeRoom(room: Room)
+    func didChangeRoom(forRoom: Room)
 }
 
 class TaskRoomTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -24,7 +24,6 @@ class TaskRoomTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     var roomPickerView: UIPickerView!
     var rooms: [Room] = []
     var selectedRoom: Room?
-    var isSingleRoomView: Bool = false
     
     // MARK: - View Lifecycle
     
@@ -68,7 +67,7 @@ class TaskRoomTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if rooms.count > 0 {
             selectedRoom = rooms[row]
-            delegate?.didChangeRoom(room: selectedRoom!)
+            delegate?.didChangeRoom(forRoom: selectedRoom!)
         }
     }
     
@@ -84,7 +83,6 @@ class TaskRoomTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         roomPickerView = UIPickerView(frame: CGRect(x: 15, y: 0, width: 315, height: TaskRoomTableViewCell.cellHeight))
         roomPickerView.delegate = self
         roomPickerView.dataSource = self
-        roomPickerView.isUserInteractionEnabled = !isSingleRoomView
         
         self.contentView.addSubview(roomPickerView)
     }

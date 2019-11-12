@@ -19,7 +19,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     var selectedIntervalType: IntervalType?
     var selectedLastCompleted: Date = Calendar.current.startOfDay(for: Date())
     var isSingleRoomView: Bool = false
-    var cellTextLabels: [String] = ["Room", "Due Every", "Last Completed"]
+    var cellTextLabels: [String] = ["Room", "Due Every", "Last Completed", "Added"]
     var visiblePickerIndexPath: IndexPath? = nil
     
     // MARK: - Outlets
@@ -47,8 +47,6 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         taskDetailTableView.delegate = self
         taskDetailTableView.dataSource = self
-        taskDetailTableView.layer.cornerRadius = 10;
-        taskDetailTableView.layer.masksToBounds = true;
         taskDetailTableView.register(TaskRoomTableViewCell.self, forCellReuseIdentifier: TaskRoomTableViewCell.reuseIdentifier)
         taskDetailTableView.register(TaskIntervalTableViewCell.self, forCellReuseIdentifier: TaskIntervalTableViewCell.reuseIdentifier)
         taskDetailTableView.register(TaskLastCompletedTableViewCell.self, forCellReuseIdentifier: TaskLastCompletedTableViewCell.reuseIdentifier)
@@ -67,7 +65,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             let roomSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
             let rooms = DataController.fetchAllRooms(sortBy: roomSortByName)
-            if rooms.count > 0 {
+            if rooms.count > 0 && selectedRoom == nil {
                 selectedRoom = rooms[0]
             }
             let intervalTypes = DataController.fetchAllIntervalTypes()
@@ -117,7 +115,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         navigationItem.title = name.isEmpty ? "New Task" : name
         
-        saveButton.isEnabled = !name.isEmpty
+        saveButton.isEnabled = !name.isEmpty && selectedRoom != nil
     }
     
     // MARK: - UITableViewDataSource
@@ -146,7 +144,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath == visiblePickerIndexPath ? RoomTypeTableViewCell.cellHeight : 44
+        return indexPath == visiblePickerIndexPath ? TaskRoomTableViewCell.cellHeight : 44
     }
     
     // MARK: - UITableViewDelegate
@@ -154,21 +152,21 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if isSingleRoomView && indexPath.row == 0 {
-            return
-        }
+        if visiblePickerIndexPath == nil && indexPath.row == 3 { return }
+        if visiblePickerIndexPath != nil && indexPath.row == 4 { return }
+        if isSingleRoomView && indexPath.row == 0 { return }
         
         tableView.beginUpdates()
         
         if let pickerIndexPath = visiblePickerIndexPath, pickerIndexPath.row - 1 == indexPath.row {
             visiblePickerIndexPath = nil
-            tableView.deleteRows(at: [pickerIndexPath], with: .fade)
+            tableView.deleteRows(at: [pickerIndexPath], with: .middle)
         } else {
             if let pickerIndexPath = visiblePickerIndexPath {
-               tableView.deleteRows(at: [pickerIndexPath], with: .fade)
+               tableView.deleteRows(at: [pickerIndexPath], with: .middle)
             }
             visiblePickerIndexPath = determineVisiblePickerIndexPath(forIndexPath: indexPath)
-            tableView.insertRows(at: [visiblePickerIndexPath!], with: .fade)
+            tableView.insertRows(at: [visiblePickerIndexPath!], with: .middle)
         }
         
         tableView.endUpdates()
@@ -183,12 +181,23 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         switch row {
         case 0:
-            detailText = selectedRoom!.name!
+            cell.layer.cornerRadius = 10;
+            cell.layer.masksToBounds = true;
+            cell.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+            detailText = selectedRoom != nil ? selectedRoom!.name! : ""
         case 1:
+            cell.layer.cornerRadius = 0;
             let intervalType = selectedInterval == 1 ? String((selectedIntervalType?.name!.dropLast())!) : selectedIntervalType?.name
             detailText = "\(selectedInterval) \(intervalType!)"
+        case 2:
+            cell.layer.cornerRadius = 0;
+            detailText = Shared.formatDate(fromDate: selectedLastCompleted)
         default:
-            detailText = formatDate(from: selectedLastCompleted)
+            cell.layer.cornerRadius = 10;
+            cell.layer.masksToBounds = true;
+            cell.layer.maskedCorners = [.layerMinXMaxYCorner,.layerMaxXMaxYCorner]
+            cell.detailTextLabel?.textColor = .label
+            detailText = Shared.formatDate(fromDate: task != nil ? Calendar.current.startOfDay(for: task!.dateCreated!) : Calendar.current.startOfDay(for: Date()))
         }
         
         cell.textLabel?.text = cellTextLabels[row]
@@ -202,7 +211,6 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         cell.delegate = self
         cell.selectedRoom = selectedRoom
-        cell.isSingleRoomView = isSingleRoomView
         
         return cell
     }
@@ -226,27 +234,11 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    private func formatDate(from: Date) -> String {
-        switch from {
-        case Calendar.current.startOfDay(for: Date()):
-            return "Today"
-        case Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: -1, to: Date())!):
-            return "Yesterday"
-        default:
-            let dateFormatter = DateFormatter()
-            
-            dateFormatter.locale = .current
-            dateFormatter.dateStyle = .medium
-            
-            return dateFormatter.string(from: from)
-        }
-    }
-    
-    private func determineVisiblePickerIndexPath(forIndexPath: IndexPath) -> IndexPath {
-        if let pickerIndexPath = visiblePickerIndexPath, pickerIndexPath.row < forIndexPath.row {
-            return forIndexPath
+    private func determineVisiblePickerIndexPath(forIndexPath indexPath: IndexPath) -> IndexPath {
+        if let pickerIndexPath = visiblePickerIndexPath, pickerIndexPath.row < indexPath.row {
+            return indexPath
         } else {
-            return IndexPath(row: forIndexPath.row + 1, section: forIndexPath.section)
+            return IndexPath(row: indexPath.row + 1, section: indexPath.section)
         }
     }
     
@@ -254,7 +246,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
 
 extension TaskViewController: TaskRoomTableViewCellDelegate {
     
-    func didChangeRoom(room: Room) {
+    func didChangeRoom(forRoom room: Room) {
         selectedRoom = room
         taskDetailTableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
     }
@@ -263,7 +255,7 @@ extension TaskViewController: TaskRoomTableViewCellDelegate {
 
 extension TaskViewController: TaskIntervalTableViewCellDelegate {
     
-    func didChangeInterval(interval: Int, intervalType: IntervalType) {
+    func didChangeInterval(forInterval interval: Int, andIntervalType intervalType: IntervalType) {
         selectedInterval = interval
         selectedIntervalType = intervalType
         taskDetailTableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .none)
@@ -273,8 +265,8 @@ extension TaskViewController: TaskIntervalTableViewCellDelegate {
 
 extension TaskViewController: TaskLastCompletedTableViewCellDelegate {
     
-    func didChangeLastCompleted(lastCompleted: Date) {
-        selectedLastCompleted = lastCompleted
+    func didChangeLastCompleted(forDate date: Date) {
+        selectedLastCompleted = date
         taskDetailTableView.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .none)
     }
     

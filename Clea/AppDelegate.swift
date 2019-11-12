@@ -6,15 +6,13 @@
 //  Copyright © 2018 Damian Elsen. All rights reserved.
 //
 
-// TODO: - Set aliases for function parameter names?
-
 import UIKit
 import CoreData
 import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     // MARK: - Types
     
     typealias Interval = (name: String, noOfDays: Int16)
@@ -22,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Properties
     
     var window: UIWindow?
-
+    
     // MARK: - Application Lifecycle
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -32,35 +30,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
         UIApplication.shared.applicationIconBadgeNumber = Notifications.getBadgeCount()
     }
-
+    
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
-
+    
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
-
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.notificationRefreshTasks), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: CleaConstants.notificationRefreshRooms), object: nil)
     }
-
+    
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
     }
-
+    
     // MARK: - Core Data Stack
-
+    
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
@@ -87,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
         return container
     }()
-
+    
     // MARK: - Private Methods - Static Data Creation
     
     private func createStaticData() {
@@ -107,13 +105,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    private func createRoomTypes(usingContext: NSManagedObjectContext) {
-        let roomTypes = ["Living Room", "Bedroom", "Bathroom", "Kitchen", "Dining Room", "Office"]
+    private func createRoomTypes(usingContext context: NSManagedObjectContext) {
+        let roomTypes = ["Bathroom", "Bedroom", "Dining Room", "Kitchen", "Laundry Room", "Living Room", "Office"]
         let roomTypeRequest = NSFetchRequest<RoomType>(entityName: CleaConstants.entityNameRoomType)
         var existingRoomTypes: [RoomType] = []
         
         do {
-            existingRoomTypes = try usingContext.fetch(roomTypeRequest)
+            existingRoomTypes = try context.fetch(roomTypeRequest)
         } catch let error as NSError {
             print("Could not load room types. \(error), \(error.userInfo)")
         }
@@ -121,24 +119,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard existingRoomTypes.count == 0 else { return }
         
         for type in roomTypes {
-            let roomType = RoomType(context: usingContext)
+            let roomType = RoomType(context: context)
             roomType.name = type
         }
         
         do {
-            try usingContext.save()
+            try context.save()
         } catch let error as NSError {
             print("Could not create room types. \(error), \(error.userInfo)")
         }
     }
     
-    private func createIntervalTypes(usingContext: NSManagedObjectContext) {
+    private func createIntervalTypes(usingContext context: NSManagedObjectContext) {
         let intervalTypes: [Interval] = [("Days", 1), ("Weeks", 7), ("Months", 30)]
         let intervalTypeRequest = NSFetchRequest<IntervalType>(entityName: CleaConstants.entityNameIntervalType)
         var existingIntervalTypes: [IntervalType] = []
         
         do {
-            existingIntervalTypes = try usingContext.fetch(intervalTypeRequest)
+            existingIntervalTypes = try context.fetch(intervalTypeRequest)
         } catch let error as NSError {
             print("Could not load interval types. \(error), \(error.userInfo)")
         }
@@ -146,13 +144,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard existingIntervalTypes.count == 0 else { return }
         
         for type in intervalTypes {
-            let intervalType = IntervalType(context: usingContext)
+            let intervalType = IntervalType(context: context)
             intervalType.name = type.name
             intervalType.noOfDays = type.noOfDays
         }
         
         do {
-            try usingContext.save()
+            try context.save()
         } catch let error as NSError {
             print("Could not create interval types. \(error), \(error.userInfo)")
         }

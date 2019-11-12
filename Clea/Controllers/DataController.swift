@@ -13,13 +13,13 @@ class DataController {
     
     // MARK: - Public Methods
     
-    static func fetchAllRooms(sortBy: NSSortDescriptor?) -> [Room] {
+    static func fetchAllRooms(sortBy sort: NSSortDescriptor?) -> [Room] {
         var rooms: [Room] = []
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return rooms }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         let roomRequest = NSFetchRequest<Room>(entityName: CleaConstants.entityNameRoom)
-        if sortBy != nil {
-            roomRequest.sortDescriptors = [sortBy!]
+        if sort != nil {
+            roomRequest.sortDescriptors = [sort!]
         }
         
         do {
@@ -51,13 +51,13 @@ class DataController {
         return types
     }
     
-    static func fetchAllTasks(sortBy: NSSortDescriptor?) -> [Task] {
+    static func fetchAllTasks(sortBy sort: NSSortDescriptor?) -> [Task] {
         var tasks: [Task] = []
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return tasks }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
         let taskRequest = NSFetchRequest<Task>(entityName: CleaConstants.entityNameTask)
-        if sortBy != nil {
-            taskRequest.sortDescriptors = [sortBy!]
+        if sort != nil {
+            taskRequest.sortDescriptors = [sort!]
         }
         
         do {
@@ -118,10 +118,10 @@ class DataController {
         return true
     }
     
-    static func delete(forObject: NSManagedObject) -> Bool? {
+    static func delete(forObject object: NSManagedObject) -> Bool? {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
         let managedObjectContext = appDelegate.persistentContainer.viewContext
-        managedObjectContext.delete(forObject)
+        managedObjectContext.delete(object)
         
         do {
             try managedObjectContext.save()

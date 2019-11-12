@@ -16,10 +16,10 @@ class Toast {
         case Error
     }
     
-    static func show(message: String, withType: ToastType, forController: UIViewController) {
+    static func show(message: String, withType type: ToastType, forController controller: UIViewController) {
         var imageName: String
         var imageColorName: String
-        switch withType {
+        switch type {
         case .Warning:
             imageName = "exclamationmark.circle.fill"
             imageColorName = CleaConstants.taskDueColorName
@@ -55,7 +55,7 @@ class Toast {
         toastContainer.clipsToBounds = true
         toastContainer.addSubview(toastLabel)
         
-        forController.view.addSubview(toastContainer)
+        controller.view.addSubview(toastContainer)
         
         toastLabel.translatesAutoresizingMaskIntoConstraints = false
         toastContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -66,10 +66,10 @@ class Toast {
         let a4 = NSLayoutConstraint(item: toastLabel, attribute: .top, relatedBy: .equal, toItem: toastContainer, attribute: .top, multiplier: 1, constant: 10)
         toastContainer.addConstraints([a1, a2, a3, a4])
         
-        let c1 = NSLayoutConstraint(item: toastContainer, attribute: .width, relatedBy: .lessThanOrEqual, toItem: forController.view, attribute: .width, multiplier: 1, constant: -90)
-        let c2 = NSLayoutConstraint(item: toastContainer, attribute: .centerX, relatedBy: .equal, toItem: forController.view, attribute: .centerX, multiplier: 1, constant: 1)
-        let c3 = NSLayoutConstraint(item: toastContainer, attribute: .top, relatedBy: .equal, toItem: forController.view, attribute: .top, multiplier: 1, constant: 40)
-        forController.view.addConstraints([c1, c2, c3])
+        let c1 = NSLayoutConstraint(item: toastContainer, attribute: .width, relatedBy: .lessThanOrEqual, toItem: controller.view, attribute: .width, multiplier: 1, constant: -90)
+        let c2 = NSLayoutConstraint(item: toastContainer, attribute: .centerX, relatedBy: .equal, toItem: controller.view, attribute: .centerX, multiplier: 1, constant: 1)
+        let c3 = NSLayoutConstraint(item: toastContainer, attribute: .top, relatedBy: .equal, toItem: controller.view, attribute: .top, multiplier: 1, constant: 40)
+        controller.view.addConstraints([c1, c2, c3])
         
         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseIn, animations: {
             toastContainer.alpha = 1.0

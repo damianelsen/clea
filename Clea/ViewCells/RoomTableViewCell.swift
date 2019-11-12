@@ -45,20 +45,20 @@ class RoomTableViewCell: UITableViewCell {
     
     // MARK: - Private Methods
     
-    private func taskCountMessage(forRoom: Room) -> String {
-        var message = "\(room!.tasks?.count == 0 ? "No" : (room!.tasks?.count.description)!) task"
-        message += (room!.tasks?.count != 1 ? "s" : "")
+    private func taskCountMessage(forRoom room: Room) -> String {
+        var message = "\(room.tasks?.count == 0 ? "No" : (room.tasks?.count.description)!) task"
+        message += (room.tasks?.count != 1 ? "s" : "")
         
         return message
     }
     
-    private func overdueTaskMessage(forRoom: Room) -> String {
+    private func overdueTaskMessage(forRoom room: Room) -> String {
         var message = ""
         let now = Calendar.current.startOfDay(for: Date())
         let overduePredicate = NSPredicate(format: CleaConstants.predicateOverdueTask, now as CVarArg)
-        let overdueTasks = forRoom.tasks?.filtered(using: overduePredicate)
+        let overdueTasks = room.tasks?.filtered(using: overduePredicate)
         let dueTodayPredicate = NSPredicate(format: CleaConstants.predicateDueTodayTask, now as CVarArg)
-        let dueTodayTasks = forRoom.tasks?.filtered(using: dueTodayPredicate)
+        let dueTodayTasks = room.tasks?.filtered(using: dueTodayPredicate)
         
         if overdueTasks!.count > 0 {
             message = "\(overdueTasks!.count.description) overdue"

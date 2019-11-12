@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol RoomTypeTableViewCellDelegate: class {
-    func didChangeRoomType(roomType: RoomType)
+    func didChangeRoomType(forRoomType: RoomType)
 }
 
 class RoomTypeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -65,7 +65,7 @@ class RoomTypeTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedRoomType = roomTypes[row]
-        delegate?.didChangeRoomType(roomType: selectedRoomType!)
+        delegate?.didChangeRoomType(forRoomType: selectedRoomType!)
     }
     
     // MARK: - UIPickerViewDataSource
