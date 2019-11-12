@@ -20,36 +20,26 @@ class Notifications {
         UNUserNotificationCenter.current().requestAuthorization(options: options) { (didAllow, error) in }
     }
     
-    static func scheduleNotification(forTask: Task) {
-        if (notificationsAreAuthorized()) {
-            addNotification(forTask: forTask)
+    static func scheduleNotification(forTask task: Task) {
+        if notificationsAreAuthorized() {
+            addNotification(forTask: task)
             resetBadgeNumbers()
         } else {
-            removeNotification(forTask: forTask)
+            let taskId = task.objectID.uriRepresentation().description
+            removeNotification(forTaskId: taskId)
         }
     }
     
-    static func removeNotification(forTask: Task) {
-        let taskID = forTask.objectID.uriRepresentation().description
-        let notificationIdentifier = "\(CleaConstants.notificationIdentifier) \(taskID)"
+    static func removeNotification(forTaskId taskId: String) {
+        let notificationIdentifier = "\(CleaConstants.notificationIdentifier) \(taskId)"
         
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationIdentifier])
     }
     
     static func getBadgeCount() -> Int {
-        var count = 0
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return count }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let roomRequest = NSFetchRequest<Room>(entityName: CleaConstants.entityNameRoom)
-        var rooms: [Room] = []
-        
-        do {
-            rooms = try managedObjectContext.fetch(roomRequest)
-        } catch let error as NSError {
-            print("Could not load rooms. \(error), \(error.userInfo)")
-        }
-        
+        let rooms = DataController.fetchAllRooms(sortBy: nil)
         let overduePredicate = NSPredicate(format: CleaConstants.predicateOverdueTask, Date() as CVarArg)
+        var count = 0
         
         for room in rooms {
             let overdueTasks = room.tasks?.filtered(using: overduePredicate)
@@ -77,16 +67,16 @@ class Notifications {
         return authorizationStatus == .authorized
     }
     
-    private static func addNotification(forTask: Task) {
-        let taskID = forTask.objectID.uriRepresentation().description
+    private static func addNotification(forTask task: Task) {
+        let taskID = task.objectID.uriRepresentation().description
         let notificationIdentifier = "\(CleaConstants.notificationIdentifier) \(taskID)"
-        let days = Int(forTask.intervalType!.noOfDays * forTask.interval)
-        let dueDate = Calendar.current.date(byAdding: .day, value: days, to: forTask.lastCompleted!)!
+        let days = Int(task.intervalType!.noOfDays * task.interval)
+        let dueDate = Calendar.current.date(byAdding: .day, value: days, to: task.lastCompleted!)!
         let notificationTime = Calendar.current.date(byAdding: .hour, value: 9, to: dueDate)!
         let triggerTime = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: notificationTime)
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerTime, repeats: false)
-        let taskName = forTask.name!
-        let roomName = forTask.ofRoom!.name
+        let taskName = task.name!
+        let roomName = task.ofRoom!.name
         let content = UNMutableNotificationContent()
         
         content.body = "\(taskName) in the \(roomName!) is due today"
@@ -97,18 +87,9 @@ class Notifications {
     }
     
     private static func resetBadgeNumbers() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        let taskRequest = NSFetchRequest<Task>(entityName: CleaConstants.entityNameTask)
-        var tasks: [Task] = []
-        
-        do {
-            tasks = try managedObjectContext.fetch(taskRequest)
-        } catch let error as NSError {
-            print("Could not load tasks. \(error), \(error.userInfo)")
-        }
-        
+        let tasks = DataController.fetchAllTasks(sortBy: nil)
         let notificationCenter = UNUserNotificationCenter.current()
+        
         notificationCenter.getPendingNotificationRequests(completionHandler: { notifications in
             for notification in notifications {
                 let notificationTrigger = notification.trigger as! UNCalendarNotificationTrigger
