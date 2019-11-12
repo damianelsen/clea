@@ -24,7 +24,6 @@ class TaskRoomTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     var roomPickerView: UIPickerView!
     var rooms: [Room] = []
     var selectedRoom: Room?
-    var isSingleRoomView: Bool = false
     
     // MARK: - View Lifecycle
     
@@ -84,7 +83,6 @@ class TaskRoomTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
         roomPickerView = UIPickerView(frame: CGRect(x: 15, y: 0, width: 315, height: TaskRoomTableViewCell.cellHeight))
         roomPickerView.delegate = self
         roomPickerView.dataSource = self
-        roomPickerView.isUserInteractionEnabled = !isSingleRoomView
         
         self.contentView.addSubview(roomPickerView)
     }

@@ -106,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func createRoomTypes(usingContext context: NSManagedObjectContext) {
-        let roomTypes = ["Living Room", "Bedroom", "Bathroom", "Kitchen", "Dining Room", "Office"]
+        let roomTypes = ["Bathroom", "Bedroom", "Dining Room", "Kitchen", "Laundry Room", "Living Room", "Office"]
         let roomTypeRequest = NSFetchRequest<RoomType>(entityName: CleaConstants.entityNameRoomType)
         var existingRoomTypes: [RoomType] = []
         

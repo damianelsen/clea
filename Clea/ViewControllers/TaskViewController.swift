@@ -65,7 +65,7 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             let roomSortByName = NSSortDescriptor(key: CleaConstants.keyNameName, ascending: true)
             let rooms = DataController.fetchAllRooms(sortBy: roomSortByName)
-            if rooms.count > 0 {
+            if rooms.count > 0 && selectedRoom == nil {
                 selectedRoom = rooms[0]
             }
             let intervalTypes = DataController.fetchAllIntervalTypes()
@@ -160,13 +160,13 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if let pickerIndexPath = visiblePickerIndexPath, pickerIndexPath.row - 1 == indexPath.row {
             visiblePickerIndexPath = nil
-            tableView.deleteRows(at: [pickerIndexPath], with: .fade)
+            tableView.deleteRows(at: [pickerIndexPath], with: .middle)
         } else {
             if let pickerIndexPath = visiblePickerIndexPath {
-               tableView.deleteRows(at: [pickerIndexPath], with: .fade)
+               tableView.deleteRows(at: [pickerIndexPath], with: .middle)
             }
             visiblePickerIndexPath = determineVisiblePickerIndexPath(forIndexPath: indexPath)
-            tableView.insertRows(at: [visiblePickerIndexPath!], with: .fade)
+            tableView.insertRows(at: [visiblePickerIndexPath!], with: .middle)
         }
         
         tableView.endUpdates()
@@ -186,9 +186,11 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
             detailText = selectedRoom != nil ? selectedRoom!.name! : ""
         case 1:
+            cell.layer.cornerRadius = 0;
             let intervalType = selectedInterval == 1 ? String((selectedIntervalType?.name!.dropLast())!) : selectedIntervalType?.name
             detailText = "\(selectedInterval) \(intervalType!)"
         case 2:
+            cell.layer.cornerRadius = 0;
             detailText = Shared.formatDate(fromDate: selectedLastCompleted)
         default:
             cell.layer.cornerRadius = 10;
@@ -209,7 +211,6 @@ class TaskViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         cell.delegate = self
         cell.selectedRoom = selectedRoom
-        cell.isSingleRoomView = isSingleRoomView
         
         return cell
     }

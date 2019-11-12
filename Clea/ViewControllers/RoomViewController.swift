@@ -155,9 +155,9 @@ class RoomViewController: UIViewController, UITableViewDelegate, UITableViewData
             roomTypePickerIsVisible = !roomTypePickerIsVisible
             
             if roomTypePickerIsVisible {
-                tableView.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .fade)
+                tableView.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .middle)
             } else {
-                tableView.deleteRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .fade)
+                tableView.deleteRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .middle)
             }
         }
         
