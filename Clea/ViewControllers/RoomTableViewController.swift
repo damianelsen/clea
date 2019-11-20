@@ -107,20 +107,20 @@ class RoomTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let title = "Delete Room?"
-            let message = "Deleting this room will also delete all of its tasks. Are you sure?"
-            let deleteAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            let yes = UIAlertAction(title: "Yes", style: .destructive, handler: { (action) -> Void in
+            let message = "Are you sure you want to delete this room?\nDoing so will also delete all of its tasks."
+            let deleteAlert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+            let yes = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
                 self.delete(forRowAt: indexPath)
             })
-            let no = UIAlertAction(title: "No", style: .cancel, handler: nil)
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
             deleteAlert.addAction(yes)
-            deleteAlert.addAction(no)
+            deleteAlert.addAction(cancel)
             
             self.present(deleteAlert, animated: true, completion: nil)
         }
     }
-    
+
     // MARK: - Private Methods
     
     @objc private func refresh() {
