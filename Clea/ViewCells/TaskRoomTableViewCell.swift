@@ -19,6 +19,7 @@ class TaskRoomTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     
     static var reuseIdentifier: String = "TaskRoomTableViewCellIdentifier"
     static var cellHeight: CGFloat = 216
+    static var cellWidth: CGFloat = 330
     
     weak var delegate: TaskRoomTableViewCellDelegate?
     var roomPickerView: UIPickerView!
@@ -80,7 +81,7 @@ class TaskRoomTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerView
     // MARK: - Private Methods
     
     private func setupUIPickerView() {
-        roomPickerView = UIPickerView(frame: CGRect(x: 15, y: 0, width: 315, height: TaskRoomTableViewCell.cellHeight))
+        roomPickerView = UIPickerView(frame: CGRect(x: 15, y: 0, width: TaskRoomTableViewCell.cellWidth, height: TaskRoomTableViewCell.cellHeight))
         roomPickerView.delegate = self
         roomPickerView.dataSource = self
         

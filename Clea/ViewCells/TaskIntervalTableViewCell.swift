@@ -19,6 +19,7 @@ class TaskIntervalTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
     
     static var reuseIdentifier: String = "TaskIntervalTableViewCellIdentifier"
     static var cellHeight: CGFloat = 216
+    static var cellWidth: CGFloat = 330
     
     weak var delegate: TaskIntervalTableViewCellDelegate?
     var intervalPickerView: UIPickerView!
@@ -85,7 +86,7 @@ class TaskIntervalTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
     // MARK: - Private Methods
     
     private func setupUIPickerView() {
-        intervalPickerView = UIPickerView(frame: CGRect(x: 15, y: 0, width: 315, height: TaskIntervalTableViewCell.cellHeight))
+        intervalPickerView = UIPickerView(frame: CGRect(x: 15, y: 0, width: TaskIntervalTableViewCell.cellWidth, height: TaskIntervalTableViewCell.cellHeight))
         intervalPickerView.delegate = self
         intervalPickerView.dataSource = self
         
