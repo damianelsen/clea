@@ -19,6 +19,7 @@ class TaskLastCompletedTableViewCell: UITableViewCell {
     
     static var reuseIdentifier: String = "TaskLastCompletedTableViewCellIdentifier"
     static var cellHeight: CGFloat = 216
+    static var cellWidth: CGFloat = 330
     
     weak var delegate: TaskLastCompletedTableViewCellDelegate?
     var datePickerView: UIDatePicker!
@@ -49,7 +50,8 @@ class TaskLastCompletedTableViewCell: UITableViewCell {
     // MARK: - Private Methods
     
     private func setupUIDatePicker() {
-        datePickerView = UIDatePicker(frame: CGRect(x: 15, y: 0, width: 315, height: TaskLastCompletedTableViewCell.cellHeight))
+        datePickerView = UIDatePicker(frame: CGRect(x: 15, y: 0, width: TaskLastCompletedTableViewCell.cellWidth, height: TaskLastCompletedTableViewCell.cellHeight))
+        datePickerView.preferredDatePickerStyle = .wheels
         datePickerView.datePickerMode = .date
         datePickerView.maximumDate = Date()
         datePickerView.addTarget(self, action: #selector(datePickerChanged(_:)), for: .valueChanged)

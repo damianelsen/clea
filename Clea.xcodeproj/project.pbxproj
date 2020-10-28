@@ -11,6 +11,8 @@
 		2D32D87A2358EEC200454EB8 /* TaskRoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D32D8792358EEC200454EB8 /* TaskRoomTableViewCell.swift */; };
 		2D32D87C23590BE100454EB8 /* TaskIntervalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D32D87B23590BE100454EB8 /* TaskIntervalTableViewCell.swift */; };
 		2D57306E2329865600E5078A /* CleaConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D57306D2329865600E5078A /* CleaConstants.swift */; };
+		2D610400238AC95600983D74 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2D6103FF238AC95600983D74 /* Settings.bundle */; };
+		2D610404238ADB7600983D74 /* SettingsBundleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D610403238ADB7600983D74 /* SettingsBundleHelper.swift */; };
 		2D71443B2353B7D400944524 /* Clea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2D7144392353B7D400944524 /* Clea.xcdatamodeld */; };
 		2D7CEF37235A4EB8006522D1 /* TaskLastCompletedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7CEF36235A4EB8006522D1 /* TaskLastCompletedTableViewCell.swift */; };
 		2DA7F6872100D72300B7A295 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA7F6862100D72300B7A295 /* AppDelegate.swift */; };
@@ -54,6 +56,8 @@
 		2D32D8792358EEC200454EB8 /* TaskRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRoomTableViewCell.swift; sourceTree = "<group>"; };
 		2D32D87B23590BE100454EB8 /* TaskIntervalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskIntervalTableViewCell.swift; sourceTree = "<group>"; };
 		2D57306D2329865600E5078A /* CleaConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleaConstants.swift; sourceTree = "<group>"; };
+		2D6103FF238AC95600983D74 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		2D610403238ADB7600983D74 /* SettingsBundleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBundleHelper.swift; sourceTree = "<group>"; };
 		2D71443A2353B7D400944524 /* Clea.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Clea.xcdatamodel; sourceTree = "<group>"; };
 		2D7CEF36235A4EB8006522D1 /* TaskLastCompletedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskLastCompletedTableViewCell.swift; sourceTree = "<group>"; };
 		2DA7F6832100D72300B7A295 /* Clea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clea.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +113,8 @@
 		2DA7F67A2100D72300B7A295 = {
 			isa = PBXGroup;
 			children = (
+				2D6103FF238AC95600983D74 /* Settings.bundle */,
+				2D610403238ADB7600983D74 /* SettingsBundleHelper.swift */,
 				2DA7F6852100D72300B7A295 /* Clea */,
 				2DA7F69D2100D72600B7A295 /* CleaTests */,
 				2DA7F6A82100D72600B7A295 /* CleaUITests */,
@@ -260,7 +266,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0940;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Damian Elsen";
 				TargetAttributes = {
 					2DA7F6822100D72300B7A295 = {
@@ -311,6 +317,7 @@
 			files = (
 				2DC84C512353AD98003C5EDA /* TaskTableViewCell.xib in Resources */,
 				2DA7F6912100D72500B7A295 /* Assets.xcassets in Resources */,
+				2D610400238AC95600983D74 /* Settings.bundle in Resources */,
 				2DA7F68C2100D72300B7A295 /* Main.storyboard in Resources */,
 				2DC84C4E2353AD7C003C5EDA /* RoomTableViewCell.xib in Resources */,
 			);
@@ -341,6 +348,7 @@
 				2DC84C5A2353AE3F003C5EDA /* RoomTableViewController.swift in Sources */,
 				2D57306E2329865600E5078A /* CleaConstants.swift in Sources */,
 				2DC84C5F2353AE64003C5EDA /* TaskTableViewController.swift in Sources */,
+				2D610404238ADB7600983D74 /* SettingsBundleHelper.swift in Sources */,
 				2DC84C5B2353AE3F003C5EDA /* RoomViewController.swift in Sources */,
 				2DC84C522353AD98003C5EDA /* TaskTableViewCell.swift in Sources */,
 				2D2C910F2363A7FB0029874A /* SharedFunctions.swift in Sources */,
@@ -426,6 +434,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -487,6 +496,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -521,13 +531,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = R29X5U89C7;
 				INFOPLIST_FILE = Clea/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.damianelsen.Clea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -540,13 +552,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = R29X5U89C7;
 				INFOPLIST_FILE = Clea/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.damianelsen.Clea;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
