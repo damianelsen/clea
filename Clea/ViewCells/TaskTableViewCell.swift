@@ -38,7 +38,7 @@ class TaskTableViewCell: UITableViewCell {
         
         name.text = task!.name
         room.text = task!.ofRoom?.name
-        taskDue.text = overdueMessage(forTask: task!)
+        taskDue.text = Shared.overdueMessage(forTask: task!, withDate: Date())
         
         let messageColor = color(forMessage: taskDue.text!)
         
@@ -47,34 +47,6 @@ class TaskTableViewCell: UITableViewCell {
     }
     
     // MARK: - Private Methods
-    
-    private func overdueMessage(forTask task: Task) -> String {
-        var message = ""
-        let now = Calendar.current.startOfDay(for: Date())
-        let days = Int(task.intervalType!.noOfDays * task.interval)
-        let dueDate = Calendar.current.date(byAdding: .day, value: days, to: task.lastCompleted!)!
-        let dateDiff = Calendar.current.dateComponents([.day], from: now, to: dueDate)
-        let dueDays = dateDiff.day!
-        
-        switch dueDays {
-        case ...(-1):
-            message = "overdue"
-        case 0:
-            message = "today"
-        case 1:
-            message = "tomorrow"
-        case 2...13:
-            message = "in \(dueDays.description) day\(dueDays == 1 ? "" : "s")"
-        case 14...29:
-            let weeks = dueDays / 7
-            message = "in \(weeks.description) weeks"
-        default:
-            let months = dueDays / 30
-            message = "in \(months.description) month\(months == 1 ? "" : "s")"
-        }
-        
-        return message
-    }
     
     private func color(forMessage message: String) -> UIColor {
         var color = UIColor(named: CleaConstants.taskScheduledColorName)

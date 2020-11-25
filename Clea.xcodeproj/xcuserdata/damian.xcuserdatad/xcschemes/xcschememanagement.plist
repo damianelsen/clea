@@ -14,6 +14,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>TaskWidgetExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -28,6 +33,11 @@
 			<true/>
 		</dict>
 		<key>2DA7F6A42100D72600B7A295</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2DF662E6255B800F001274A8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
