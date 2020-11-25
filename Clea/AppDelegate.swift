@@ -6,9 +6,10 @@
 //  Copyright © 2018 Damian Elsen. All rights reserved.
 //
 
-import UIKit
 import CoreData
+import UIKit
 import UserNotifications
+import WidgetKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -37,6 +38,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
         UIApplication.shared.applicationIconBadgeNumber = Notifications.getBadgeCount()
+        
+        DataHandoff.exportMostRecentTasks()
+        
+        WidgetCenter.shared.reloadTimelines(ofKind: CleaConstants.widgetIdentifier)
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
