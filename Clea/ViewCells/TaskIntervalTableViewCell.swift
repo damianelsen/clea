@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-protocol TaskIntervalTableViewCellDelegate: class {
+protocol TaskIntervalTableViewCellDelegate: AnyObject {
     func didChangeInterval(forInterval: Int, andIntervalType: IntervalType)
 }
 
