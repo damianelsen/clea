@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-protocol TaskLastCompletedTableViewCellDelegate: class {
+protocol TaskLastCompletedTableViewCellDelegate: AnyObject {
     func didChangeLastCompleted(forDate date: Date)
 }
 

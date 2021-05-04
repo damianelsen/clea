@@ -51,9 +51,9 @@ struct TaskRow: View {
     let textColor = Color.taskScheduledColor
     
     private func selectTextColor(for message: String) -> Color {
-        if (message.contains("overdue") || message.contains("due today")) {
+        if (message.contains("overdue")) {
             return Color.taskOverdueColor
-        } else if (message.contains("due tomorrow")) {
+        } else if (message.contains("due today")) {
             return Color.taskDueColor
         } else {
             return Color.taskScheduledColor

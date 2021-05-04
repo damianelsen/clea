@@ -51,9 +51,9 @@ class TaskTableViewCell: UITableViewCell {
     private func color(forMessage message: String) -> UIColor {
         var color = UIColor(named: CleaConstants.taskScheduledColorName)
         
-        if message.contains("overdue") || message.contains("today") {
+        if message.contains("overdue") {
             color = UIColor(named: CleaConstants.taskOverdueColorName)
-        } else if message.contains("tomorrow") {
+        } else if message.contains("today") {
             color = UIColor(named: CleaConstants.taskDueColorName)
         }
         
