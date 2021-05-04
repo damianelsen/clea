@@ -10,7 +10,7 @@ import UIKit
 
 class RoomTableViewCell: UITableViewCell {
     
-    // MARK: - Properties
+    // MARK: - Constants
     
     static var nibName: String = "RoomTableViewCell"
     static var reuseIdentifier: String = "RoomTableViewCellIdentifier"

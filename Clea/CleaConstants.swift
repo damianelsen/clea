@@ -48,4 +48,10 @@ class CleaConstants {
     static let notificationRefreshRooms = "com.damianelsen.Clea.notificationKey.refreshRoomList"
     static let notificationRefreshTasks = "com.damianelsen.Clea.notificationKey.refreshTaskList"
     
+    // MARK: - Widgets
+    
+    static let appGroup = "group.com.damianelsen.Clea"
+    static let widgetIdentifier = "com.damianelsen.Clea.TaskWidget"
+    static let tasksDataFilename = "tasks.json"
+
 }
