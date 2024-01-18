@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-protocol RoomTypeTableViewCellDelegate: class {
+protocol RoomTypeTableViewCellDelegate: AnyObject {
     func didChangeRoomType(forRoomType: RoomType)
 }
 

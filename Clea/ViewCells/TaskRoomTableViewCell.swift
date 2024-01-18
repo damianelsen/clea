@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-protocol TaskRoomTableViewCellDelegate: class {
+protocol TaskRoomTableViewCellDelegate: AnyObject {
     func didChangeRoom(forRoom: Room)
 }
 
