@@ -9,10 +9,6 @@
 import SwiftUI
 import WidgetKit
 
-extension Color {
-    static let widgetBackgroundColor = Color("WidgetBackground")
-}
-
 extension FileManager {
     static func sharedContainerURL() -> URL {
         return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: CleaConstants.appGroup)!
@@ -94,5 +90,6 @@ struct TaskWidget: Widget {
         .configurationDisplayName("Upcoming Tasks")
         .description("Your upcoming tasks at a glance.")
         .supportedFamilies([.systemMedium])
+        .contentMarginsDisabled()
     }
 }
