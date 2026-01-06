@@ -16,6 +16,19 @@ extension Color {
     static let taskScheduledColor = Color("TaskScheduledColor")
     static let taskDueColor = Color("TaskDueColor")
     static let taskOverdueColor = Color("TaskOverdueColor")
+    static let widgetBackgroundColor = Color("WidgetBackground")
+}
+
+extension View {
+    func widgetBackground(_ backgroundView: some View) -> some View {
+        if #available(iOSApplicationExtension 17.0, *) {
+            return containerBackground(for: .widget) {
+                backgroundView
+            }
+        } else {
+            return background(backgroundView)
+        }
+    }
 }
 
 struct TaskWidgetView: View {
@@ -31,18 +44,19 @@ struct TaskWidgetView: View {
                 Text("Overdue")
                     .frame(width: 230, height: 34, alignment: .bottomTrailing)
                     .font(.system(size: 12))
-                    .foregroundColor(.taskOverdueColor)
+                    .foregroundColor(entry.overdueCount == 0 ? Color.taskScheduledColor : Color.taskOverdueColor)
                     .padding(.bottom, 2)
                 Text("\(entry.overdueCount)")
                     .frame(width: 24, height: 34, alignment: .trailing)
                     .font(.system(size: 36, weight: .bold))
-                    .foregroundColor(.taskOverdueColor)
+                    .foregroundColor(entry.overdueCount == 0 ? Color.taskScheduledColor : Color.taskOverdueColor)
                     .padding(.bottom, 1).padding(.vertical, 0)
             }
             ForEach(entry.tasks, id: \.id) { task in
                 TaskRow(task: task)
             }
         }
+        .widgetBackground(Color.widgetBackgroundColor)
     }
 }
 
